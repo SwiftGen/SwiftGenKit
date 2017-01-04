@@ -1,6 +1,6 @@
 //
-// SwiftGen
-// Copyright (c) 2015 Olivier Halligon
+// SwiftGenKit
+// Copyright (c) 2017 Olivier Halligon
 // MIT Licence
 //
 
