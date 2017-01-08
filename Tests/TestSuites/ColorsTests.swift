@@ -6,21 +6,31 @@
 
 import XCTest
 import PathKit
-import StencilSwiftKit
 import SwiftGenKit
 
 // MARK: - Tests for TXT files
 
 class ColorsTextFileTests: XCTestCase {
+  static let colors = [
+    ["name": "ArticleBody", "rgba": "339666ff", "red": "33", "blue": "66", "alpha": "ff", "green": "96", "rgb": "339666"],
+    ["name": "ArticleFootnote", "rgba": "ff66ccff", "red": "ff", "blue": "cc", "alpha": "ff", "green": "66", "rgb": "ff66cc"],
+    ["name": "ArticleTitle", "rgba": "33fe66ff", "red": "33", "blue": "66", "alpha": "ff", "green": "fe", "rgb": "33fe66"],
+    ["name": "Cyan-Color", "rgba": "ff66ccff", "red": "ff", "blue": "cc", "alpha": "ff", "green": "66", "rgb": "ff66cc"],
+    ["name": "NamedValue", "rgba": "ffffffcc", "red": "ff", "blue": "ff", "alpha": "cc", "green": "ff", "rgb": "ffffff"],
+    ["name": "NestedNamedValue", "rgba": "ffffffcc", "red": "ff", "blue": "ff", "alpha": "cc", "green": "ff", "rgb": "ffffff"],
+    ["name": "Translucent", "rgba": "ffffffcc", "red": "ff", "blue": "ff", "alpha": "cc", "green": "ff", "rgb": "ffffff"]
+  ]
 
   func testEmpty() {
     let parser = ColorsTextFileParser()
 
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "colors-default.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext())
-
-    let expected = Fixtures.string(for: "Colors-Empty.swift.out")
-    XCTDiffStrings(result, expected)
+    let result = parser.stencilContext()
+    let expected: [String: Any] = [
+      "enumName": "ColorName",
+      "colors": [[String: String]]()
+    ]
+    
+    XCTDiffContexts(result, expected)
   }
 
   func testListWithDefaults() {
@@ -33,61 +43,43 @@ class ColorsTextFileTests: XCTestCase {
       XCTFail("Failed with unexpected error \(error)")
     }
 
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "colors-default.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext())
-
-    let expected = Fixtures.string(for: "Colors-List-Default.swift.out")
-    XCTDiffStrings(result, expected)
-  }
-
-  func testListWithRawValueTemplate() {
-    let parser = ColorsTextFileParser()
-    do {
-      try parser.addColor(named: "Text&Body Color", value: "0x999999")
-      try parser.addColor(named: "ArticleTitle", value: "#996600")
-      try parser.addColor(named: "ArticleBackground", value: "#ffcc0099")
-    } catch {
-      XCTFail("Failed with unexpected error \(error)")
-    }
-
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "colors-rawValue.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext())
-
-    let expected = Fixtures.string(for: "Colors-List-RawValue.swift.out")
-    XCTDiffStrings(result, expected)
+    let result = parser.stencilContext()
+    let expected: [String: Any] = [
+      "enumName": "ColorName",
+      "colors": [
+        ["name": "ArticleBackground", "rgba": "ffcc0099", "red": "ff", "blue": "00", "alpha": "99", "green": "cc", "rgb": "ffcc00"],
+        ["name": "ArticleTitle", "rgba": "996600ff", "red": "99", "blue": "00", "alpha": "ff", "green": "66", "rgb": "996600"],
+        ["name": "Text&Body Color", "rgba": "999999ff", "red": "99", "blue": "99", "alpha": "ff", "green": "99", "rgb": "999999"]
+      ]
+    ]
+    
+    XCTDiffContexts(result, expected)
   }
 
   func testFileWithDefaults() {
     let parser = ColorsTextFileParser()
     try! parser.parseFile(at: Fixtures.path(for: "colors.txt"))
 
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "colors-default.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext())
-
-    let expected = Fixtures.string(for: "Colors-Txt-File-Default.swift.out")
-    XCTDiffStrings(result, expected)
-  }
-
-  func testFileSwift3() {
-    let parser = ColorsTextFileParser()
-    try! parser.parseFile(at: Fixtures.path(for: "colors.txt"))
-
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "colors-swift3.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext())
-
-    let expected = Fixtures.string(for: "Colors-Txt-File-Swift3.swift.out")
-    XCTDiffStrings(result, expected)
+    let result = parser.stencilContext()
+    let expected: [String: Any] = [
+      "enumName": "ColorName",
+      "colors": ColorsTextFileTests.colors
+    ]
+    
+    XCTDiffContexts(result, expected)
   }
 
   func testFileWithCustomName() {
     let parser = ColorsTextFileParser()
     try! parser.parseFile(at: Fixtures.path(for: "colors.txt"))
 
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "colors-default.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext(enumName: "XCTColors"))
-
-    let expected = Fixtures.string(for: "Colors-Txt-File-CustomName.swift.out")
-    XCTDiffStrings(result, expected)
+    let result = parser.stencilContext(enumName: "XCTColors")
+    let expected: [String: Any] = [
+      "enumName": "XCTColors",
+      "colors": ColorsTextFileTests.colors
+    ]
+    
+    XCTDiffContexts(result, expected)
   }
 
   func testFileWithBadSyntax() {
@@ -119,37 +111,50 @@ class ColorsTextFileTests: XCTestCase {
 // MARK: - Tests for CLR Palette files
 
 class ColorsCLRFileTests: XCTestCase {
+  static let colors = [
+    ["name": "ArticleBody", "rgba": "339666ff", "red": "33", "blue": "66", "alpha": "ff", "green": "96", "rgb": "339666"],
+    ["name": "ArticleFootnote", "rgba": "ff66ccff", "red": "ff", "blue": "cc", "alpha": "ff", "green": "66", "rgb": "ff66cc"],
+    ["name": "ArticleTitle", "rgba": "33fe66ff", "red": "33", "blue": "66", "alpha": "ff", "green": "fe", "rgb": "33fe66"],
+    ["name": "Cyan-Color", "rgba": "ff66ccff", "red": "ff", "blue": "cc", "alpha": "ff", "green": "66", "rgb": "ff66cc"],
+    ["name": "Translucent", "rgba": "ffffffcc", "red": "ff", "blue": "ff", "alpha": "cc", "green": "ff", "rgb": "ffffff"]
+  ]
 
   func testEmpty() {
     let parser = ColorsCLRFileParser()
 
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "colors-default.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext())
-
-    let expected = Fixtures.string(for: "Colors-Empty.swift.out")
-    XCTDiffStrings(result, expected)
+    let result = parser.stencilContext()
+    let expected: [String: Any] = [
+      "enumName": "ColorName",
+      "colors": [[String: String]]()
+    ]
+    
+    XCTDiffContexts(result, expected)
   }
 
   func testFileWithDefaults() {
     let parser = ColorsCLRFileParser()
     try! parser.parseFile(at: Fixtures.path(for: "colors.clr"))
 
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "colors-default.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext())
-
-    let expected = Fixtures.string(for: "Colors-File-Default.swift.out")
-    XCTDiffStrings(result, expected)
+    let result = parser.stencilContext()
+    let expected: [String: Any] = [
+      "enumName": "ColorName",
+      "colors": ColorsCLRFileTests.colors
+    ]
+    
+    XCTDiffContexts(result, expected)
   }
 
   func testFileWithCustomName() {
     let parser = ColorsCLRFileParser()
     try! parser.parseFile(at: Fixtures.path(for: "colors.clr"))
 
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "colors-default.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext(enumName: "XCTColors"))
-
-    let expected = Fixtures.string(for: "Colors-File-CustomName.swift.out")
-    XCTDiffStrings(result, expected)
+    let result = parser.stencilContext(enumName: "XCTColors")
+    let expected: [String: Any] = [
+      "enumName": "XCTColors",
+      "colors": ColorsCLRFileTests.colors
+    ]
+    
+    XCTDiffContexts(result, expected)
   }
 
   func testFileWithBadFile() {
@@ -168,14 +173,24 @@ class ColorsCLRFileTests: XCTestCase {
 // MARK: - Tests for XML Android color files
 
 class ColorsXMLFileTests: XCTestCase {
+  static let colors = [
+    ["name": "ArticleBody", "rgba": "339666ff", "red": "33", "blue": "66", "alpha": "ff", "green": "96", "rgb": "339666"],
+    ["name": "ArticleFootnote", "rgba": "ff66ccff", "red": "ff", "blue": "cc", "alpha": "ff", "green": "66", "rgb": "ff66cc"],
+    ["name": "ArticleTitle", "rgba": "33fe66ff", "red": "33", "blue": "66", "alpha": "ff", "green": "fe", "rgb": "33fe66"],
+    ["name": "Cyan-Color", "rgba": "ff66ccff", "red": "ff", "blue": "cc", "alpha": "ff", "green": "66", "rgb": "ff66cc"],
+    ["name": "Translucent", "rgba": "ffffffcc", "red": "ff", "blue": "ff", "alpha": "cc", "green": "ff", "rgb": "ffffff"]
+  ]
+  
   func testEmpty() {
     let parser = ColorsXMLFileParser()
 
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "colors-default.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext())
-
-    let expected = Fixtures.string(for: "Colors-Empty.swift.out")
-    XCTDiffStrings(result, expected)
+    let result = parser.stencilContext()
+    let expected: [String: Any] = [
+      "enumName": "ColorName",
+      "colors": [[String: String]]()
+    ]
+    
+    XCTDiffContexts(result, expected)
   }
 
   func testFileWithDefaults() {
@@ -186,11 +201,13 @@ class ColorsXMLFileTests: XCTestCase {
       XCTFail("Exception while parsing file: \(error)")
     }
 
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "colors-default.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext())
-
-    let expected = Fixtures.string(for: "Colors-File-Default.swift.out")
-    XCTDiffStrings(result, expected)
+    let result = parser.stencilContext()
+    let expected: [String: Any] = [
+      "enumName": "ColorName",
+      "colors": ColorsXMLFileTests.colors
+    ]
+    
+    XCTDiffContexts(result, expected)
   }
 
   func testFileWithCustomName() {
@@ -201,11 +218,13 @@ class ColorsXMLFileTests: XCTestCase {
       XCTFail("Exception while parsing file: \(error)")
     }
 
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "colors-default.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext(enumName: "XCTColors"))
-
-    let expected = Fixtures.string(for: "Colors-File-CustomName.swift.out")
-    XCTDiffStrings(result, expected)
+    let result = parser.stencilContext(enumName: "XCTColors")
+    let expected: [String: Any] = [
+      "enumName": "XCTColors",
+      "colors": ColorsXMLFileTests.colors
+    ]
+    
+    XCTDiffContexts(result, expected)
   }
 
   func testFileWithBadSyntax() {
@@ -236,14 +255,24 @@ class ColorsXMLFileTests: XCTestCase {
 // MARK: - Tests for JSON color files
 
 class ColorsJSONFileTests: XCTestCase {
+  static let colors = [
+    ["name": "ArticleBody", "rgba": "339666ff", "red": "33", "blue": "66", "alpha": "ff", "green": "96", "rgb": "339666"],
+    ["name": "ArticleFootnote", "rgba": "ff66ccff", "red": "ff", "blue": "cc", "alpha": "ff", "green": "66", "rgb": "ff66cc"],
+    ["name": "ArticleTitle", "rgba": "33fe66ff", "red": "33", "blue": "66", "alpha": "ff", "green": "fe", "rgb": "33fe66"],
+    ["name": "Cyan-Color", "rgba": "ff66ccff", "red": "ff", "blue": "cc", "alpha": "ff", "green": "66", "rgb": "ff66cc"],
+    ["name": "Translucent", "rgba": "ffffffcc", "red": "ff", "blue": "ff", "alpha": "cc", "green": "ff", "rgb": "ffffff"]
+  ]
+  
   func testEmpty() {
     let parser = ColorsJSONFileParser()
 
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "colors-default.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext())
-
-    let expected = Fixtures.string(for: "Colors-Empty.swift.out")
-    XCTDiffStrings(result, expected)
+    let result = parser.stencilContext()
+    let expected: [String: Any] = [
+      "enumName": "ColorName",
+      "colors": [[String: String]]()
+    ]
+    
+    XCTDiffContexts(result, expected)
   }
 
   func testFileWithDefaults() {
@@ -254,11 +283,13 @@ class ColorsJSONFileTests: XCTestCase {
       XCTFail("Exception while parsing file: \(error)")
     }
 
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "colors-default.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext())
-
-    let expected = Fixtures.string(for: "Colors-File-Default.swift.out")
-    XCTDiffStrings(result, expected)
+    let result = parser.stencilContext()
+    let expected: [String: Any] = [
+      "enumName": "ColorName",
+      "colors": ColorsJSONFileTests.colors
+    ]
+    
+    XCTDiffContexts(result, expected)
   }
 
   func testFileWithCustomName() {
@@ -269,11 +300,13 @@ class ColorsJSONFileTests: XCTestCase {
       XCTFail("Exception while parsing file: \(error)")
     }
 
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "colors-default.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext(enumName: "XCTColors"))
-
-    let expected = Fixtures.string(for: "Colors-File-CustomName.swift.out")
-    XCTDiffStrings(result, expected)
+    let result = parser.stencilContext(enumName: "XCTColors")
+    let expected: [String: Any] = [
+      "enumName": "XCTColors",
+      "colors": ColorsJSONFileTests.colors
+    ]
+    
+    XCTDiffContexts(result, expected)
   }
 
   func testFileWithBadSyntax() {

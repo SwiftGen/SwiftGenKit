@@ -78,7 +78,7 @@ class Fixtures {
     return rsrc + dir
   }
 
-  static func path(for name: String, subDirectory: String? = nil) -> Path {
+  static func path(for name: String, subDirectory: String = "fixtures") -> Path {
     guard let path = testBundle.path(forResource: name, ofType: "", inDirectory: subDirectory) else {
       fatalError("Unable to find fixture \"\(name)\"")
     }
@@ -86,7 +86,7 @@ class Fixtures {
   }
 
   static func string(for name: String, encoding: String.Encoding = .utf8) -> String {
-    let subDir: String? = name.hasSuffix(".stencil") ? "templates" : nil
+    let subDir: String = name.hasSuffix(".stencil") ? "templates" : "fixtures"
     do {
       return try path(for: name, subDirectory: subDir).read(encoding)
     } catch let e {

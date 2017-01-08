@@ -11,6 +11,7 @@
 		DD5F341B1E21993A00AEB5DA /* TestsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F341A1E21993A00AEB5DA /* TestsHelper.swift */; };
 		DD5F34391E21B72900AEB5DA /* FontsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34341E21B72900AEB5DA /* FontsTests.swift */; };
 		DD5F34C71E21B76500AEB5DA /* fixtures in Resources */ = {isa = PBXBuildFile; fileRef = DD5F34C51E21B76500AEB5DA /* fixtures */; };
+		DD5F34C91E21CD9000AEB5DA /* ColorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34331E21B72900AEB5DA /* ColorsTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -266,6 +267,7 @@
 			files = (
 				DD5F34391E21B72900AEB5DA /* FontsTests.swift in Sources */,
 				DD5F341B1E21993A00AEB5DA /* TestsHelper.swift in Sources */,
+				DD5F34C91E21CD9000AEB5DA /* ColorsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
