@@ -4,7 +4,7 @@
 // MIT Licence
 //
 
-import Stencil
+import Foundation
 
 private func uppercaseFirst(_ string: String) -> String {
   guard let first = string.characters.first else {
