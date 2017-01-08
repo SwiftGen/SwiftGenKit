@@ -27,7 +27,7 @@ class ColorsXMLFileTests: XCTestCase {
     }
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "colors-xml-defaults.plist")
+    let expected = Fixtures.context(for: "colors-defaults.plist")
     
     XCTDiffContexts(result, expected)
   }
@@ -41,7 +41,7 @@ class ColorsXMLFileTests: XCTestCase {
     }
 
     let result = parser.stencilContext(enumName: "XCTColors")
-    let expected = Fixtures.context(for: "colors-xml-customname.plist")
+    let expected = Fixtures.context(for: "colors-customname.plist")
     
     XCTDiffContexts(result, expected)
   }

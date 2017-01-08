@@ -23,7 +23,7 @@ class ColorsCLRFileTests: XCTestCase {
     try! parser.parseFile(at: Fixtures.path(for: "colors.clr"))
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "colors-clr-defaults.plist")
+    let expected = Fixtures.context(for: "colors-defaults.plist")
     
     XCTDiffContexts(result, expected)
   }
@@ -33,7 +33,7 @@ class ColorsCLRFileTests: XCTestCase {
     try! parser.parseFile(at: Fixtures.path(for: "colors.clr"))
 
     let result = parser.stencilContext(enumName: "XCTColors")
-    let expected = Fixtures.context(for: "colors-clr-customname.plist")
+    let expected = Fixtures.context(for: "colors-customname.plist")
     
     XCTDiffContexts(result, expected)
   }

@@ -27,7 +27,7 @@ class ColorsJSONFileTests: XCTestCase {
     }
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "colors-json-defaults.plist")
+    let expected = Fixtures.context(for: "colors-defaults.plist")
     
     XCTDiffContexts(result, expected)
   }
@@ -41,7 +41,7 @@ class ColorsJSONFileTests: XCTestCase {
     }
 
     let result = parser.stencilContext(enumName: "XCTColors")
-    let expected = Fixtures.context(for: "colors-json-customname.plist")
+    let expected = Fixtures.context(for: "colors-customname.plist")
     
     XCTDiffContexts(result, expected)
   }
