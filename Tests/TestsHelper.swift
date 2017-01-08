@@ -37,8 +37,7 @@ func diff(_ result: [String: Any], _ expected: [String: Any], path: String = "")
 func compare(_ lhs: Any, _ rhs: Any, key: String, path: String) -> String? {
   let keyPath = (path == "") ? key : "\(path).\(key)"
   
-  if type(of: lhs) != type(of: rhs) ||
-    (lhs as? Int) != (rhs as? Int) ||
+  if (lhs as? Int) != (rhs as? Int) ||
     (lhs as? Float) != (rhs as? Float) ||
     (lhs as? String) != (rhs as? String) {
     return "\(msgColor)Values do not match for '\(keyPath)':\(reset)\n>>>>>> result\n\(lhs)\n======\n\(rhs)\n<<<<<< expected"

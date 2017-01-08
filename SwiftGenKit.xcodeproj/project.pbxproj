@@ -15,6 +15,7 @@
 		DD5F34CF1E21D2CB00AEB5DA /* ColorsJSONFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34CB1E21D2CB00AEB5DA /* ColorsJSONFileTests.swift */; };
 		DD5F34D01E21D2CB00AEB5DA /* ColorsTextFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34CC1E21D2CB00AEB5DA /* ColorsTextFileTests.swift */; };
 		DD5F34D11E21D2CB00AEB5DA /* ColorsXMLFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34CD1E21D2CB00AEB5DA /* ColorsXMLFileTests.swift */; };
+		DD5F34D21E21D35F00AEB5DA /* ImagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34351E21B72900AEB5DA /* ImagesTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -276,6 +277,7 @@
 			files = (
 				DD5F34CE1E21D2CB00AEB5DA /* ColorsCLRFileTests.swift in Sources */,
 				DD5F34D01E21D2CB00AEB5DA /* ColorsTextFileTests.swift in Sources */,
+				DD5F34D21E21D35F00AEB5DA /* ImagesTests.swift in Sources */,
 				DD5F34391E21B72900AEB5DA /* FontsTests.swift in Sources */,
 				DD5F34D11E21D2CB00AEB5DA /* ColorsXMLFileTests.swift in Sources */,
 				DD5F341B1E21993A00AEB5DA /* TestsHelper.swift in Sources */,

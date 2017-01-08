@@ -5,7 +5,6 @@
 //
 
 import XCTest
-import StencilSwiftKit
 import SwiftGenKit
 import PathKit
 
@@ -16,80 +15,47 @@ import PathKit
  */
 
 class ImagesTests: XCTestCase {
+  static let catalogs: [[String: Any]] = [["name": "Images", "assets": [["items": [["name": "Banana", "value": "Exotic/Banana"], ["name": "Mango", "value": "Exotic/Mango"]], "name": "Exotic"], ["name": "Lemon", "value": "Lemon"], ["items": [["name": "Apricot", "value": "Round/Apricot"], ["name": "Orange", "value": "Round/Orange"], ["items": [["name": "Apple", "value": "Round/Apple"], ["items": [["name": "Cherry", "value": "Round/Double/Cherry"]], "name": "Double"], ["name": "Tomato", "value": "Round/Tomato"]], "name": "Red"]], "name": "Round"]]]]
+  static let images = ["Exotic/Banana", "Exotic/Mango", "Lemon", "Round/Apple", "Round/Apricot", "Round/Double/Cherry", "Round/Orange", "Round/Tomato"]
 
   func testEmpty() {
     let parser = AssetsCatalogParser()
 
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "images-default.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext())
-
-    let expected = Fixtures.string(for: "Images-Empty.swift.out")
-    XCTDiffStrings(result, expected)
+    let result = parser.stencilContext()
+    let expected: [String: Any] = [
+      "enumName": "Asset",
+      "catalogs": [[String: Any]](),
+      "images": [String]()
+    ]
+    
+    XCTDiffContexts(result, expected)
   }
 
   func testFileWithDefaults() {
     let parser = AssetsCatalogParser()
     parser.parseCatalog(at: Fixtures.path(for: "Images.xcassets"))
 
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "images-default.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext())
-
-    let expected = Fixtures.string(for: "Images-File-Default.swift.out")
-    XCTDiffStrings(result, expected)
-  }
-
-  func testFileWithSwift3() {
-    let parser = AssetsCatalogParser()
-    parser.parseCatalog(at: Fixtures.path(for: "Images.xcassets"))
-
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "images-swift3.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext())
-
-    let expected = Fixtures.string(for: "Images-File-Swift3.swift.out")
-    XCTDiffStrings(result, expected)
-  }
-
-  func testFileWithAllValuesTemplate() {
-    let parser = AssetsCatalogParser()
-    parser.parseCatalog(at: Fixtures.path(for: "Images.xcassets"))
-
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "images-allvalues.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext())
-
-    let expected = Fixtures.string(for: "Images-File-AllValues.swift.out")
-    XCTDiffStrings(result, expected)
+    let result = parser.stencilContext()
+    let expected: [String: Any] = [
+      "enumName": "Asset",
+      "catalogs": ImagesTests.catalogs,
+      "images": ImagesTests.images
+    ]
+    
+    XCTDiffContexts(result, expected)
   }
 
   func testFileWithCustomName() {
     let parser = AssetsCatalogParser()
     parser.parseCatalog(at: Fixtures.path(for: "Images.xcassets"))
 
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "images-default.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext(enumName: "XCTImages"))
-
-    let expected = Fixtures.string(for: "Images-File-CustomName.swift.out")
-    XCTDiffStrings(result, expected)
-  }
-
-  func testFileWithDotSyntax() {
-    let parser = AssetsCatalogParser()
-    parser.parseCatalog(at: Fixtures.path(for: "Images.xcassets"))
-
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "images-dot-syntax.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext())
-
-    let expected = Fixtures.string(for: "Images-File-Dot-Syntax.swift.out")
-    XCTDiffStrings(result, expected)
-  }
-
-  func testFileWithDotSyntaxSwift3() {
-    let parser = AssetsCatalogParser()
-    parser.parseCatalog(at: Fixtures.path(for: "Images.xcassets"))
-
-    let template = SwiftTemplate(templateString: Fixtures.string(for: "images-dot-syntax-swift3.stencil"), environment: stencilSwiftEnvironment())
-    let result = try! template.render(parser.stencilContext())
-
-    let expected = Fixtures.string(for: "Images-File-Dot-Syntax-Swift3.swift.out")
-    XCTDiffStrings(result, expected)
+    let result = parser.stencilContext(enumName: "XCTImages")
+    let expected: [String: Any] = [
+      "enumName": "XCTImages",
+      "catalogs": ImagesTests.catalogs,
+      "images": ImagesTests.images
+    ]
+    
+    XCTDiffContexts(result, expected)
   }
 }
