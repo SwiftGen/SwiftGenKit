@@ -17,9 +17,10 @@ func diff(_ result: [String: Any], _ expected: [String: Any], path: String = "")
   
   // check keys
   if Set(result.keys) != Set(expected.keys) {
-    let lhs = result.keys.joined(separator: ", ")
-    let rhs = expected.keys.joined(separator: ", ")
-    return "\(msgColor)Mismatch, keys do not match:\(reset)\n>>>>>> result\n\(lhs)\n======\n\(rhs)\n<<<<<< expected"
+    let lhs = result.keys.map{" - \($0): \(result[$0]!)"}.joined(separator: "\n")
+    let rhs = expected.keys.map{" - \($0): \(result[$0]!)"}.joined(separator: "\n")
+    let path = (path != "") ? " at '\(path)'" : ""
+    return "\(msgColor)Keys do not match\(path):\(reset)\n>>>>>> result\n\(lhs)\n======\n\(rhs)\n<<<<<< expected"
   }
   
   // check values
@@ -37,15 +38,10 @@ func diff(_ result: [String: Any], _ expected: [String: Any], path: String = "")
 func compare(_ lhs: Any, _ rhs: Any, key: String, path: String) -> String? {
   let keyPath = (path == "") ? key : "\(path).\(key)"
   
-  if (lhs as? Int) != (rhs as? Int) ||
-    (lhs as? Float) != (rhs as? Float) ||
-    (lhs as? String) != (rhs as? String) {
-    return "\(msgColor)Values do not match for '\(keyPath)':\(reset)\n>>>>>> result\n\(lhs)\n======\n\(rhs)\n<<<<<< expected"
-  } else if let lhs = lhs as? [Any], let rhs = rhs as? [Any] {
-    if lhs.count != rhs.count {
-      return "\(msgColor)Values do not match for '\(keyPath)':\(reset)\n>>>>>> result\n\(lhs)\n======\n\(rhs)\n<<<<<< expected"
-    }
-    
+  if let lhs = lhs as? Int, let rhs = rhs as? Int, lhs == rhs { return nil }
+  else if let lhs = lhs as? Float, let rhs = rhs as? Float, lhs == rhs { return nil }
+  else if let lhs = lhs as? String, let rhs = rhs as? String, lhs == rhs { return nil }
+  else if let lhs = lhs as? [Any], let rhs = rhs as? [Any], lhs.count == rhs.count {
     for (lhs, rhs) in zip(lhs, rhs) {
       if let error = compare(lhs, rhs, key: key, path: path) {
         return error
@@ -53,6 +49,8 @@ func compare(_ lhs: Any, _ rhs: Any, key: String, path: String) -> String? {
     }
   } else if let lhs = lhs as? [String: Any], let rhs = rhs as? [String: Any] {
     return diff(lhs, rhs, path: "\(keyPath)")
+  } else {
+    return "\(msgColor)Values do not match for '\(keyPath)':\(reset)\n>>>>>> result\n\(lhs)\n======\n\(rhs)\n<<<<<< expected"
   }
   
   return nil
