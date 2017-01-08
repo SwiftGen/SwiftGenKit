@@ -15,18 +15,11 @@ import PathKit
  */
 
 class ImagesTests: XCTestCase {
-  static let catalogs: [[String: Any]] = [["name": "Images", "assets": [["items": [["name": "Banana", "value": "Exotic/Banana"], ["name": "Mango", "value": "Exotic/Mango"]], "name": "Exotic"], ["name": "Lemon", "value": "Lemon"], ["items": [["name": "Apricot", "value": "Round/Apricot"], ["name": "Orange", "value": "Round/Orange"], ["items": [["name": "Apple", "value": "Round/Apple"], ["items": [["name": "Cherry", "value": "Round/Double/Cherry"]], "name": "Double"], ["name": "Tomato", "value": "Round/Tomato"]], "name": "Red"]], "name": "Round"]]]]
-  static let images = ["Exotic/Banana", "Exotic/Mango", "Lemon", "Round/Apple", "Round/Apricot", "Round/Double/Cherry", "Round/Orange", "Round/Tomato"]
-
   func testEmpty() {
     let parser = AssetsCatalogParser()
 
     let result = parser.stencilContext()
-    let expected: [String: Any] = [
-      "enumName": "Asset",
-      "catalogs": [[String: Any]](),
-      "images": [String]()
-    ]
+    let expected = Fixtures.context(for: "images-empty.plist")
     
     XCTDiffContexts(result, expected)
   }
@@ -36,11 +29,7 @@ class ImagesTests: XCTestCase {
     parser.parseCatalog(at: Fixtures.path(for: "Images.xcassets"))
 
     let result = parser.stencilContext()
-    let expected: [String: Any] = [
-      "enumName": "Asset",
-      "catalogs": ImagesTests.catalogs,
-      "images": ImagesTests.images
-    ]
+    let expected = Fixtures.context(for: "images-defaults.plist")
     
     XCTDiffContexts(result, expected)
   }
@@ -50,11 +39,7 @@ class ImagesTests: XCTestCase {
     parser.parseCatalog(at: Fixtures.path(for: "Images.xcassets"))
 
     let result = parser.stencilContext(enumName: "XCTImages")
-    let expected: [String: Any] = [
-      "enumName": "XCTImages",
-      "catalogs": ImagesTests.catalogs,
-      "images": ImagesTests.images
-    ]
+    let expected = Fixtures.context(for: "images-customname.plist")
     
     XCTDiffContexts(result, expected)
   }

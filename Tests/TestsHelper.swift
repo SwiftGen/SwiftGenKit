@@ -90,4 +90,14 @@ class Fixtures {
       fatalError("Unable to load fixture content: \(e)")
     }
   }
+  
+  static func context(for name: String) -> [String: Any] {
+    let path = self.path(for: name, subDirectory: "expected")
+    
+    guard let data = NSDictionary(contentsOfFile: path.description) as? [String: Any] else {
+      fatalError("Unable to load fixture content")
+    }
+    
+    return data
+  }
 }

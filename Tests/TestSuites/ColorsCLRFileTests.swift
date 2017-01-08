@@ -9,22 +9,11 @@ import PathKit
 import SwiftGenKit
 
 class ColorsCLRFileTests: XCTestCase {
-  static let colors = [
-    ["name": "ArticleBody", "rgba": "339666ff", "red": "33", "blue": "66", "alpha": "ff", "green": "96", "rgb": "339666"],
-    ["name": "ArticleFootnote", "rgba": "ff66ccff", "red": "ff", "blue": "cc", "alpha": "ff", "green": "66", "rgb": "ff66cc"],
-    ["name": "ArticleTitle", "rgba": "33fe66ff", "red": "33", "blue": "66", "alpha": "ff", "green": "fe", "rgb": "33fe66"],
-    ["name": "Cyan-Color", "rgba": "ff66ccff", "red": "ff", "blue": "cc", "alpha": "ff", "green": "66", "rgb": "ff66cc"],
-    ["name": "Translucent", "rgba": "ffffffcc", "red": "ff", "blue": "ff", "alpha": "cc", "green": "ff", "rgb": "ffffff"]
-  ]
-
   func testEmpty() {
     let parser = ColorsCLRFileParser()
 
     let result = parser.stencilContext()
-    let expected: [String: Any] = [
-      "enumName": "ColorName",
-      "colors": [[String: String]]()
-    ]
+    let expected = Fixtures.context(for: "colors-empty.plist")
     
     XCTDiffContexts(result, expected)
   }
@@ -34,10 +23,7 @@ class ColorsCLRFileTests: XCTestCase {
     try! parser.parseFile(at: Fixtures.path(for: "colors.clr"))
 
     let result = parser.stencilContext()
-    let expected: [String: Any] = [
-      "enumName": "ColorName",
-      "colors": ColorsCLRFileTests.colors
-    ]
+    let expected = Fixtures.context(for: "colors-clr-defaults.plist")
     
     XCTDiffContexts(result, expected)
   }
@@ -47,10 +33,7 @@ class ColorsCLRFileTests: XCTestCase {
     try! parser.parseFile(at: Fixtures.path(for: "colors.clr"))
 
     let result = parser.stencilContext(enumName: "XCTColors")
-    let expected: [String: Any] = [
-      "enumName": "XCTColors",
-      "colors": ColorsCLRFileTests.colors
-    ]
+    let expected = Fixtures.context(for: "colors-clr-customname.plist")
     
     XCTDiffContexts(result, expected)
   }
