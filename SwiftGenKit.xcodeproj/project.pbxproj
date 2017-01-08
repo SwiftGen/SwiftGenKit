@@ -9,11 +9,7 @@
 /* Begin PBXBuildFile section */
 		82EF0CC0752D216C67279A16 /* Pods_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BF798509C76E5A9ACE03491 /* Pods_Tests.framework */; };
 		DD5F341B1E21993A00AEB5DA /* TestsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F341A1E21993A00AEB5DA /* TestsHelper.swift */; };
-		DD5F34381E21B72900AEB5DA /* ColorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34331E21B72900AEB5DA /* ColorsTests.swift */; };
 		DD5F34391E21B72900AEB5DA /* FontsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34341E21B72900AEB5DA /* FontsTests.swift */; };
-		DD5F343A1E21B72900AEB5DA /* ImagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34351E21B72900AEB5DA /* ImagesTests.swift */; };
-		DD5F343B1E21B72900AEB5DA /* StoryboardsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34361E21B72900AEB5DA /* StoryboardsTests.swift */; };
-		DD5F343C1E21B72900AEB5DA /* StringsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34371E21B72900AEB5DA /* StringsTests.swift */; };
 		DD5F34C71E21B76500AEB5DA /* fixtures in Resources */ = {isa = PBXBuildFile; fileRef = DD5F34C51E21B76500AEB5DA /* fixtures */; };
 /* End PBXBuildFile section */
 
@@ -269,11 +265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD5F34391E21B72900AEB5DA /* FontsTests.swift in Sources */,
-				DD5F343B1E21B72900AEB5DA /* StoryboardsTests.swift in Sources */,
-				DD5F343C1E21B72900AEB5DA /* StringsTests.swift in Sources */,
-				DD5F343A1E21B72900AEB5DA /* ImagesTests.swift in Sources */,
 				DD5F341B1E21993A00AEB5DA /* TestsHelper.swift in Sources */,
-				DD5F34381E21B72900AEB5DA /* ColorsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

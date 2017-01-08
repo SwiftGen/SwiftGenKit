@@ -13,41 +13,53 @@ private let (msgColor, reset) = (colorCode("fg250,0,0"), colorCode(""))
 private let okCode = (num: colorCode("fg127,127,127"), code: colorCode(""))
 private let koCode = (num: colorCode("fg127,127,127") + colorCode("bg127,0,0"), code: colorCode("fg250,250,250") + colorCode("bg127,0,0"))
 
-func diff(_ result: String, _ expected: String) -> String? {
-  guard result != expected else { return nil }
-  var firstDiff: Int? = nil
-  let nl = CharacterSet.newlines
-  let lhsLines = result.components(separatedBy: nl)
-  let rhsLines = expected.components(separatedBy: nl)
-
-  for (idx, pair) in zip(lhsLines, rhsLines).enumerated() {
-    if pair.0 != pair.1 {
-      firstDiff = idx
-      break
+func diff(_ result: [String: Any], _ expected: [String: Any], path: String = "") -> String? {
+  
+  // check keys
+  if Set(result.keys) != Set(expected.keys) {
+    let lhs = result.keys.joined(separator: ", ")
+    let rhs = expected.keys.joined(separator: ", ")
+    return "\(msgColor)Mismatch, keys do not match:\(reset)\n>>>>>> result\n\(lhs)\n======\n\(rhs)\n<<<<<< expected"
+  }
+  
+  // check values
+  for (key, lhs) in result {
+    guard let rhs = expected[key] else { continue }
+    
+    if let error = compare(lhs, rhs, key: key, path: path) {
+      return error
     }
   }
-  if let badLineIdx = firstDiff {
-    let slice = { (lines: [String], context: Int) -> ArraySlice<String> in
-      let start = max(0, badLineIdx-context)
-      let end = min(badLineIdx+context, lines.count-1)
-      return lines[start...end]
-    }
-    let addLineNumbers = { (slice: ArraySlice) -> [String] in
-      slice.enumerated().map { (idx: Int, line: String) in
-        let num = idx + slice.startIndex
-        let lineNum = "\(num+1)".padding(toLength: 3, withPad: " ", startingAt: 0) + "|"
-        let clr = num == badLineIdx ? koCode : okCode
-        return "\(clr.num)\(lineNum)\(reset)\(clr.code)\(line)\(reset)"
-      }
-    }
-    let lhsNum = addLineNumbers(slice(lhsLines, 4)).joined(separator: "\n")
-    let rhsNum = addLineNumbers(slice(rhsLines, 4)).joined(separator: "\n")
-    return "\(msgColor)Mismatch at line \(badLineIdx)\(reset)\n>>>>>> result\n\(lhsNum)\n======\n\(rhsNum)\n<<<<<< expected"
-  }
+  
   return nil
 }
 
-func XCTDiffStrings(_ result: String, _ expected: String, file: StaticString = #file, line: UInt = #line) {
+func compare(_ lhs: Any, _ rhs: Any, key: String, path: String) -> String? {
+  let keyPath = (path == "") ? key : "\(path).\(key)"
+  
+  if type(of: lhs) != type(of: rhs) ||
+    (lhs as? Int) != (rhs as? Int) ||
+    (lhs as? Float) != (rhs as? Float) ||
+    (lhs as? String) != (rhs as? String) {
+    return "\(msgColor)Values do not match for '\(keyPath)':\(reset)\n>>>>>> result\n\(lhs)\n======\n\(rhs)\n<<<<<< expected"
+  } else if let lhs = lhs as? [Any], let rhs = rhs as? [Any] {
+    if lhs.count != rhs.count {
+      return "\(msgColor)Values do not match for '\(keyPath)':\(reset)\n>>>>>> result\n\(lhs)\n======\n\(rhs)\n<<<<<< expected"
+    }
+    
+    for (lhs, rhs) in zip(lhs, rhs) {
+      if let error = compare(lhs, rhs, key: key, path: path) {
+        return error
+      }
+    }
+  } else if let lhs = lhs as? [String: Any], let rhs = rhs as? [String: Any] {
+    return diff(lhs, rhs, path: "\(keyPath)")
+  }
+  
+  return nil
+}
+
+func XCTDiffContexts(_ result: [String: Any], _ expected: [String: Any], file: StaticString = #file, line: UInt = #line) {
   guard let error = diff(result, expected) else { return }
   XCTFail(error, file: file, line: line)
 }
