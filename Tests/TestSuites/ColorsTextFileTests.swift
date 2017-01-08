@@ -29,7 +29,7 @@ class ColorsTextFileTests: XCTestCase {
     }
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "colors-list-defaults.plist")
+    let expected = Fixtures.context(for: "colors-entries.plist")
     
     XCTDiffContexts(result, expected)
   }
