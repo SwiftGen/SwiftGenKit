@@ -13,7 +13,7 @@ class ColorsJSONFileTests: XCTestCase {
     let parser = ColorsJSONFileParser()
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "colors-empty.plist")
+    let expected = Fixtures.context(for: "empty.plist", sub: .colors)
     
     XCTDiffContexts(result, expected)
   }
@@ -21,13 +21,13 @@ class ColorsJSONFileTests: XCTestCase {
   func testFileWithDefaults() {
     let parser = ColorsJSONFileParser()
     do {
-      try parser.parseFile(at: Fixtures.path(for: "colors.json"))
+      try parser.parseFile(at: Fixtures.path(for: "colors.json", sub: .colors))
     } catch {
       XCTFail("Exception while parsing file: \(error)")
     }
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "colors-defaults.plist")
+    let expected = Fixtures.context(for: "defaults.plist", sub: .colors)
     
     XCTDiffContexts(result, expected)
   }
@@ -35,13 +35,13 @@ class ColorsJSONFileTests: XCTestCase {
   func testFileWithCustomName() {
     let parser = ColorsJSONFileParser()
     do {
-      try parser.parseFile(at: Fixtures.path(for: "colors.json"))
+      try parser.parseFile(at: Fixtures.path(for: "colors.json", sub: .colors))
     } catch {
       XCTFail("Exception while parsing file: \(error)")
     }
 
     let result = parser.stencilContext(enumName: "XCTColors")
-    let expected = Fixtures.context(for: "colors-customname.plist")
+    let expected = Fixtures.context(for: "customname.plist", sub: .colors)
     
     XCTDiffContexts(result, expected)
   }
@@ -49,7 +49,7 @@ class ColorsJSONFileTests: XCTestCase {
   func testFileWithBadSyntax() {
     let parser = ColorsJSONFileParser()
     do {
-      try parser.parseFile(at: Fixtures.path(for: "colors-bad-syntax.json"))
+      try parser.parseFile(at: Fixtures.path(for: "bad-syntax.json", sub: .colors))
       XCTFail("Code did parse file successfully while it was expected to fail for bad syntax")
     } catch ColorsParserError.invalidFile {
       // That's the expected exception we want to happen
@@ -61,7 +61,7 @@ class ColorsJSONFileTests: XCTestCase {
   func testFileWithBadValue() {
     let parser = ColorsJSONFileParser()
     do {
-      try parser.parseFile(at: Fixtures.path(for: "colors-bad-value.json"))
+      try parser.parseFile(at: Fixtures.path(for: "bad-value.json", sub: .colors))
       XCTFail("Code did parse file successfully while it was expected to fail for bad value")
     } catch ColorsParserError.invalidHexColor(string: "this isn't a color", key: "ArticleTitle"?) {
       // That's the expected exception we want to happen

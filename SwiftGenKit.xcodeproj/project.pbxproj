@@ -10,8 +10,8 @@
 		82EF0CC0752D216C67279A16 /* Pods_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BF798509C76E5A9ACE03491 /* Pods_Tests.framework */; };
 		DD5F341B1E21993A00AEB5DA /* TestsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F341A1E21993A00AEB5DA /* TestsHelper.swift */; };
 		DD5F34391E21B72900AEB5DA /* FontsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34341E21B72900AEB5DA /* FontsTests.swift */; };
-		DD5F34C71E21B76500AEB5DA /* fixtures in Resources */ = {isa = PBXBuildFile; fileRef = DD5F34C51E21B76500AEB5DA /* fixtures */; };
-		DD5F34D61E2293B400AEB5DA /* expected in Resources */ = {isa = PBXBuildFile; fileRef = DD5F34D51E2293B400AEB5DA /* expected */; };
+		DD5F34C71E21B76500AEB5DA /* Fixtures in Resources */ = {isa = PBXBuildFile; fileRef = DD5F34C51E21B76500AEB5DA /* Fixtures */; };
+		DD5F34D61E2293B400AEB5DA /* Contexts in Resources */ = {isa = PBXBuildFile; fileRef = DD5F34D51E2293B400AEB5DA /* Contexts */; };
 		DD5F34D71E22B20300AEB5DA /* ImagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34351E21B72900AEB5DA /* ImagesTests.swift */; };
 		DD5F34D81E22B30F00AEB5DA /* ColorsCLRFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34CA1E21D2CB00AEB5DA /* ColorsCLRFileTests.swift */; };
 		DD5F34D91E22B3A300AEB5DA /* ColorsJSONFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34CB1E21D2CB00AEB5DA /* ColorsJSONFileTests.swift */; };
@@ -64,12 +64,12 @@
 		DD5F34341E21B72900AEB5DA /* FontsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontsTests.swift; sourceTree = "<group>"; };
 		DD5F34351E21B72900AEB5DA /* ImagesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesTests.swift; sourceTree = "<group>"; };
 		DD5F34371E21B72900AEB5DA /* StringsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringsTests.swift; sourceTree = "<group>"; };
-		DD5F34C51E21B76500AEB5DA /* fixtures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fixtures; sourceTree = "<group>"; };
+		DD5F34C51E21B76500AEB5DA /* Fixtures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fixtures; sourceTree = "<group>"; };
 		DD5F34CA1E21D2CB00AEB5DA /* ColorsCLRFileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsCLRFileTests.swift; sourceTree = "<group>"; };
 		DD5F34CB1E21D2CB00AEB5DA /* ColorsJSONFileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsJSONFileTests.swift; sourceTree = "<group>"; };
 		DD5F34CC1E21D2CB00AEB5DA /* ColorsTextFileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsTextFileTests.swift; sourceTree = "<group>"; };
 		DD5F34CD1E21D2CB00AEB5DA /* ColorsXMLFileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsXMLFileTests.swift; sourceTree = "<group>"; };
-		DD5F34D51E2293B400AEB5DA /* expected */ = {isa = PBXFileReference; lastKnownFileType = folder; path = expected; sourceTree = "<group>"; };
+		DD5F34D51E2293B400AEB5DA /* Contexts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Contexts; sourceTree = "<group>"; };
 		DD5F34DE1E22CA5400AEB5DA /* StoryboardsiOSTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardsiOSTests.swift; sourceTree = "<group>"; };
 		DD5F34DF1E22CA5400AEB5DA /* StoryboardsOSXTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardsOSXTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -153,8 +153,8 @@
 		DD5F34411E21B75400AEB5DA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				DD5F34D51E2293B400AEB5DA /* expected */,
-				DD5F34C51E21B76500AEB5DA /* fixtures */,
+				DD5F34D51E2293B400AEB5DA /* Contexts */,
+				DD5F34C51E21B76500AEB5DA /* Fixtures */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -224,8 +224,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD5F34D61E2293B400AEB5DA /* expected in Resources */,
-				DD5F34C71E21B76500AEB5DA /* fixtures in Resources */,
+				DD5F34D61E2293B400AEB5DA /* Contexts in Resources */,
+				DD5F34C71E21B76500AEB5DA /* Fixtures in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

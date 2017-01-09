@@ -19,7 +19,7 @@ class StoryboardsOSXTests: XCTestCase {
     let parser = StoryboardParser()
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "storyboards-osx-empty.plist")
+    let expected = Fixtures.context(for: "empty.plist", sub: .storyboardsMacOS)
     
     XCTDiffContexts(result, expected)
   }
@@ -27,13 +27,13 @@ class StoryboardsOSXTests: XCTestCase {
   func testOSXMessageStoryboardWithDefaults() {
     let parser = StoryboardParser()
     do {
-      try parser.addStoryboard(at: Fixtures.path(for: "Message-osx.storyboard", subDirectory: StoryboardsDir.macOS))
+      try parser.addStoryboard(at: Fixtures.path(for: "Message.storyboard", sub: .storyboardsMacOS))
     } catch {
       print("Error: \(error.localizedDescription)")
     }
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "storyboards-osx-messages.plist")
+    let expected = Fixtures.context(for: "messages.plist", sub: .storyboardsMacOS)
     
     XCTDiffContexts(result, expected)
   }
@@ -41,13 +41,13 @@ class StoryboardsOSXTests: XCTestCase {
   func testOSXAnonymousStoryboardWithDefaults() {
     let parser = StoryboardParser()
     do {
-      try parser.addStoryboard(at: Fixtures.path(for: "Anonymous-osx.storyboard", subDirectory: StoryboardsDir.macOS))
+      try parser.addStoryboard(at: Fixtures.path(for: "Anonymous.storyboard", sub: .storyboardsMacOS))
     } catch {
       print("Error: \(error.localizedDescription)")
     }
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "storyboards-osx-anonymous.plist")
+    let expected = Fixtures.context(for: "anonymous.plist", sub: .storyboardsMacOS)
     
     XCTDiffContexts(result, expected)
   }
@@ -55,13 +55,13 @@ class StoryboardsOSXTests: XCTestCase {
   func testOSXAllStoryboardsWithDefaults() {
     let parser = StoryboardParser()
     do {
-      try parser.parseDirectory(at: Fixtures.directory(subDirectory: StoryboardsDir.macOS))
+      try parser.parseDirectory(at: Fixtures.directory(sub: .storyboardsMacOS))
     } catch {
       print("Error: \(error.localizedDescription)")
     }
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "storyboards-osx-all.plist")
+    let expected = Fixtures.context(for: "all.plist", sub: .storyboardsMacOS)
     
     XCTDiffContexts(result, expected)
   }

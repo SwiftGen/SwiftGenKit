@@ -19,27 +19,27 @@ class ImagesTests: XCTestCase {
     let parser = AssetsCatalogParser()
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "images-empty.plist")
+    let expected = Fixtures.context(for: "empty.plist", sub: .images)
     
     XCTDiffContexts(result, expected)
   }
 
   func testFileWithDefaults() {
     let parser = AssetsCatalogParser()
-    parser.parseCatalog(at: Fixtures.path(for: "Images.xcassets"))
+    parser.parseCatalog(at: Fixtures.path(for: "Images.xcassets", sub: .images))
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "images-defaults.plist")
+    let expected = Fixtures.context(for: "defaults.plist", sub: .images)
     
     XCTDiffContexts(result, expected)
   }
 
   func testFileWithCustomName() {
     let parser = AssetsCatalogParser()
-    parser.parseCatalog(at: Fixtures.path(for: "Images.xcassets"))
+    parser.parseCatalog(at: Fixtures.path(for: "Images.xcassets", sub: .images))
 
     let result = parser.stencilContext(enumName: "XCTImages")
-    let expected = Fixtures.context(for: "images-customname.plist")
+    let expected = Fixtures.context(for: "customname.plist", sub: .images)
     
     XCTDiffContexts(result, expected)
   }

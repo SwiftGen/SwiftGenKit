@@ -63,37 +63,41 @@ func XCTDiffContexts(_ result: [String: Any], _ expected: [String: Any], file: S
 }
 
 class Fixtures {
+  enum Directory: String {
+    case colors = "Colors"
+    case fonts = "Fonts"
+    case images = "Images"
+    case storyboardsiOS = "Storyboards-iOS"
+    case storyboardsMacOS = "Storyboards-macOS"
+    case strings = "Strings"
+  }
+  
   private static let testBundle = Bundle(for: Fixtures.self)
   private init() {}
 
-  static func directory(subDirectory subDir: String? = nil) -> Path {
+  static func directory(sub: Directory? = nil) -> Path {
     guard let rsrcURL = testBundle.resourceURL else {
       fatalError("Unable to find resource directory URL")
     }
-    let rsrc = Path(rsrcURL.path)
+    let rsrc = Path(rsrcURL.path) + "Fixtures"
 
-    guard let dir = subDir else { return rsrc }
-    return rsrc + dir
+    guard let dir = sub else { return rsrc }
+    return rsrc + dir.rawValue
+  }
+  
+  static func path(for name: String, sub: Directory) -> Path {
+    return path(for: name, subDirectory: "Fixtures/\(sub.rawValue)")
   }
 
-  static func path(for name: String, subDirectory: String = "fixtures") -> Path {
+  private static func path(for name: String, subDirectory: String? = nil) -> Path {
     guard let path = testBundle.path(forResource: name, ofType: "", inDirectory: subDirectory) else {
       fatalError("Unable to find fixture \"\(name)\"")
     }
     return Path(path)
   }
-
-  static func string(for name: String, encoding: String.Encoding = .utf8) -> String {
-    let subDir: String = name.hasSuffix(".stencil") ? "templates" : "fixtures"
-    do {
-      return try path(for: name, subDirectory: subDir).read(encoding)
-    } catch let e {
-      fatalError("Unable to load fixture content: \(e)")
-    }
-  }
   
-  static func context(for name: String) -> [String: Any] {
-    let path = self.path(for: name, subDirectory: "expected")
+  static func context(for name: String, sub: Directory) -> [String: Any] {
+    let path = self.path(for: name, subDirectory: "Contexts/\(sub.rawValue)")
     
     guard let data = NSDictionary(contentsOfFile: path.description) as? [String: Any] else {
       fatalError("Unable to load fixture content")
@@ -101,9 +105,4 @@ class Fixtures {
     
     return data
   }
-}
-
-enum StoryboardsDir {
-  static let iOS = "fixtures/Storyboards-iOS"
-  static let macOS = "fixtures/Storyboards-OSX"
 }
