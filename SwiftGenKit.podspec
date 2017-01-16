@@ -5,7 +5,10 @@ Pod::Spec.new do |s|
   s.summary      = "The SwiftGen framework responsible for parsing assets and turn them in a dictionary representation suitable for Stencil templates"
 
   s.description  = <<-DESC
-                   TODO
+                   This pod contains asset parsers for
+                   [SwiftGen](https://github.com/SwiftGen/SwiftGen), as well as
+                   methods for converting the data into contexts for
+                   [Stencil](https://github.com/kylef/Stencil).
                    DESC
 
   s.homepage     = "https://github.com/SwiftGen/SwiftGenKit"
