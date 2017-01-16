@@ -40,8 +40,10 @@ extension StringsFileParser {
 
       if entry.types.count > 0 {
         let params: [String: Any] = [
-          "count": entry.types.count,
           "types": entry.types.map { $0.rawValue },
+          
+          // NOTE: These are deprecated variables
+          "count": entry.types.count,
           "declarations": entry.types.indices.map { "let p\($0)" },
           "names": entry.types.indices.map { "p\($0)" },
           "typednames": entry.types.enumerated().map { "p\($0): \($1.rawValue)" }
