@@ -22,8 +22,10 @@ extension AssetsCatalogParser {
 
     return [
       "enumName": enumName,
-      "images": images,
-      "catalogs": structured
+      "catalogs": structured,
+      
+      // NOTE: This is a deprecated variable
+      "images": images
     ]
   }
 
