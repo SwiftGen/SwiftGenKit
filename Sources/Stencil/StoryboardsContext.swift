@@ -49,6 +49,8 @@ extension StoryboardParser {
         } else {
           initial = [
             "baseType": uppercaseFirst(initialScene.tag),
+            
+            // NOTE: This is a deprecated variable
             "isBaseViewController": initialScene.tag == "viewController"
           ]
         }
@@ -69,6 +71,8 @@ extension StoryboardParser {
               return [
                 "identifier": scene.storyboardID,
                 "baseType": uppercaseFirst(scene.tag),
+                
+                // NOTE: This is a deprecated variable
                 "isBaseViewController": scene.tag == "viewController"
               ]
             }
