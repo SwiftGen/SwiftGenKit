@@ -36,11 +36,29 @@ private enum AssetCatalog {
   static let filename = "filename"
   static let providesNamespace = "provides-namespace"
   static let root = "com.apple.actool.catalog-contents"
+  
+  enum Extension {
+    static let appIconSet = "appiconset"
+    static let dataSet = "dataset"
+    static let gameCenterDashboardImage = "gcdashboardimage"
+    static let gameCenterLeaderboard = "gcleaderboard"
+    static let gameCenterLeaderboardSet = "gcleaderboardset"
+    static let iconSet = "iconset"
+    static let imageSet = "imageset"
+    static let imageStack = "imagestack"
+    static let launchImage = "launchimage"
+    static let spriteAtlas = "spriteatlas"
+    static let stickerPack = "stickerpack"
+    
+    static let unsupported = [
+      appIconSet, dataSet, gameCenterDashboardImage, gameCenterLeaderboard,
+      gameCenterLeaderboardSet, iconSet, imageSet, imageStack, launchImage,
+      spriteAtlas, stickerPack
+    ]
+  }
 }
 
 extension AssetsCatalogParser {
-  static let imageSetExtension = "imageset"
-
   /**
    This method recursively parses a tree of nodes (similar to a directory structure)
    resulting from the `actool` utility.
@@ -82,12 +100,12 @@ extension AssetsCatalogParser {
       guard let filename = item[AssetCatalog.filename] as? String else { continue }
       let path = Path(filename)
 
-      if path.extension == AssetsCatalogParser.imageSetExtension {
+      if path.extension == AssetCatalog.Extension.imageSet {
         // this is a simple imageset
         let imageName = path.lastComponentWithoutExtension
 
         result += [.image(name: imageName, value: "\(prefix)\(imageName)")]
-      } else {
+      } else if path.extension == nil || !AssetCatalog.Extension.unsupported.contains(path.extension ?? "") {
         // this is a group/folder
         let children = item[AssetCatalog.children] as? [[String: Any]] ?? []
 
