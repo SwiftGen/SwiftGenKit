@@ -40,6 +40,16 @@ private enum AssetCatalog {
   enum Extension {
     static let imageSet = "imageset"
 	
+	/**
+	 * This is a list of supported asset catalog item types, for now we just
+	 * support `image set`s. If you want to add support for new types, just add
+	 * it to this whitelist, and add the necessary code to the
+	 * `process(items:withPrefix:)` method.
+	 *
+	 * Note: The `actool` utility that we use for parsing hase some issues. Check
+	 * this issue for more information:
+	 * https://github.com/SwiftGen/SwiftGen/issues/228
+	 */
     static let supported = [imageSet]
   }
 }
