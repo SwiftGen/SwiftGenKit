@@ -2,7 +2,7 @@ PODS:
   - PathKit (0.7.0)
   - Stencil (0.7.1):
     - PathKit (~> 0.7.0)
-  - SwiftGenKit (0.0.1):
+  - SwiftGenKit (1.0.0):
     - PathKit (~> 0.7.0)
 
 DEPENDENCIES:
@@ -23,8 +23,8 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   PathKit: f8260c3e41bf4d552f3603853e32a5b325a176d4
   Stencil: 4177c0cabcdc40dd9be9b7f701d710d0a121023a
-  SwiftGenKit: b76d69d0695c266d2aaed1295d11bb1a56bb454c
+  SwiftGenKit: 26ad63367ff9ea8bcccc58944233e4959bb8ff5a
 
 PODFILE CHECKSUM: 3047308663ec978cac608ea6da7bbe7c2ea1e7c3
 
-COCOAPODS: 1.2.0.beta.3
+COCOAPODS: 1.2.0
