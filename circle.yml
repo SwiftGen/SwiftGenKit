@@ -2,6 +2,10 @@ machine:
   xcode:
     version: 8.2
 
+checkout:
+  post:
+    - git submodule update --init
+
 dependencies:
   pre:
     - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
