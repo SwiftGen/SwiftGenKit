@@ -26,4 +26,4 @@ task :lint do |task|
   plain("pod lib lint SwiftGenKit.podspec --quick", task)
 end
 
-task :default => :test
+task :default => "xcode:test"
