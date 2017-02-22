@@ -38,41 +38,42 @@ extension StringsFileParser {
       Array(0..<keyPath.count).forEach { _ in keyStructure.removeFirst() }
       let keytail = keyStructure.joined(separator: ".")
 
+      var result: [String: Any] = [
+        "key": entry.key.newlineEscaped,
+        "translation": entry.translation.newlineEscaped,
+        "keytail": keytail
+      ]
+      
       if entry.types.count > 0 {
-        let params: [String: Any] = [
+        result["parameters"] = entry.types.map { $0.rawValue }
+        
+        // NOTE: params is deprecated
+        result["params"] = [
           "types": entry.types.map { $0.rawValue },
-
-          // NOTE: These are deprecated variables
           "count": entry.types.count,
           "declarations": entry.types.indices.map { "let p\($0)" },
           "names": entry.types.indices.map { "p\($0)" },
           "typednames": entry.types.enumerated().map { "p\($0): \($1.rawValue)" }
         ]
-        return ["key": entry.key.newlineEscaped,
-                "translation": entry.translation.newlineEscaped,
-                "params": params,
-                "keytail": keytail
-        ]
-      } else {
-        return ["key": entry.key.newlineEscaped,
-                "translation": entry.translation.newlineEscaped,
-                "keytail": keytail
-        ]
       }
+      
+      return result
     }
 
     let strings = entries
-        .sorted { $0.key.caseInsensitiveCompare($1.key) == .orderedAscending }
-        .map { entryToStringMapper($0, []) }
+      .sorted { $0.key.caseInsensitiveCompare($1.key) == .orderedAscending }
+      .map { entryToStringMapper($0, []) }
     let structuredStrings = structure(
-        entries: entries,
-        usingMapper: entryToStringMapper
+      entries: entries,
+      usingMapper: entryToStringMapper
     )
 
     return [
       "enumName": enumName,
       "tableName": tableName,
       "strings": strings,
+      
+      // NOTE: These are deprecated variables
       "structuredStrings": structuredStrings
     ]
   }
