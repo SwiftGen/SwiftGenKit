@@ -67,13 +67,18 @@ extension StringsFileParser {
       entries: entries,
       usingMapper: entryToStringMapper
     )
+    let tables: [[String: Any]] = [[
+      "name": tableName,
+      "strings": structuredStrings
+    ]]
 
     return [
       "enumName": enumName,
       "tableName": tableName,
-      "strings": strings,
+      "tables": tables,
       
       // NOTE: These are deprecated variables
+      "strings": strings,
       "structuredStrings": structuredStrings
     ]
   }
