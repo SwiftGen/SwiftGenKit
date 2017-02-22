@@ -14,8 +14,8 @@ import SwiftGenKit
  */
 
 
-class StoryboardsOSXTests: XCTestCase {
-  func testOSXEmpty() {
+class StoryboardsMacOSTests: XCTestCase {
+  func testEmpty() {
     let parser = StoryboardParser()
 
     let result = parser.stencilContext()
@@ -24,7 +24,7 @@ class StoryboardsOSXTests: XCTestCase {
     XCTDiffContexts(result, expected)
   }
 
-  func testOSXMessageStoryboardWithDefaults() {
+  func testMessageStoryboardWithDefaults() {
     let parser = StoryboardParser()
     do {
       try parser.addStoryboard(at: Fixtures.path(for: "Message.storyboard", sub: .storyboardsMacOS))
@@ -38,7 +38,7 @@ class StoryboardsOSXTests: XCTestCase {
     XCTDiffContexts(result, expected)
   }
 
-  func testOSXAnonymousStoryboardWithDefaults() {
+  func testAnonymousStoryboardWithDefaults() {
     let parser = StoryboardParser()
     do {
       try parser.addStoryboard(at: Fixtures.path(for: "Anonymous.storyboard", sub: .storyboardsMacOS))
@@ -52,7 +52,7 @@ class StoryboardsOSXTests: XCTestCase {
     XCTDiffContexts(result, expected)
   }
 
-  func testOSXAllStoryboardsWithDefaults() {
+  func testAllStoryboardsWithDefaults() {
     let parser = StoryboardParser()
     do {
       try parser.parseDirectory(at: Fixtures.directory(sub: .storyboardsMacOS))
