@@ -8,3 +8,7 @@ end
 target 'Tests' do
   common_pods()
 end
+
+target 'Generate Contexts' do
+  common_pods()
+end
