@@ -9,6 +9,15 @@ def xcpretty(cmd, task)
   end
 end
 
+def plain(cmd, task)
+  name = task.name.gsub(/:/,"_")
+  if ENV['CI']
+    sh "set -o pipefail && #{cmd} | tee \"#{ENV['CIRCLE_ARTIFACTS']}/#{name}_raw.log\""
+  else
+    sh cmd
+  end
+end
+
 namespace :xcode do
   desc 'Build using Xcode'
   task :build do |task|
@@ -21,9 +30,16 @@ namespace :xcode do
   end
 end
 
-desc 'Lint the Pod'
-task :lint do |task|
-  plain("pod lib lint SwiftGenKit.podspec --quick", task)
+namespace :lint do
+  desc 'Lint the Pod'
+  task :pod do |task|
+    plain("pod lib lint SwiftGenKit.podspec --quick", task)
+  end
+  
+  desc 'Lint the code'
+  task :code do |task|
+    plain("PROJECT_DIR=. ./Scripts/swiftlint-code.sh", task)
+  end
 end
 
 task :default => "xcode:test"
