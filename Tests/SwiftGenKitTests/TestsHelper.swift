@@ -71,8 +71,13 @@ func compare(_ lhs: Any, _ rhs: Any, key: String, path: String) -> String? {
   return nil
 }
 
-func XCTDiffContexts(_ result: [String: Any], _ expected: [String: Any],
-                     file: StaticString = #file, line: UInt = #line) {
+func XCTDiffContexts(_ result: [String: Any],
+                     expected name: String,
+                     sub directory: Fixtures.Directory,
+                     file: StaticString = #file,
+                     line: UInt = #line) {
+  let expected = Fixtures.context(for: name, sub: directory)
+
   guard let error = diff(result, expected) else { return }
   XCTFail(error, file: file, line: line)
 }

@@ -13,9 +13,7 @@ class ColorsJSONFileTests: XCTestCase {
     let parser = ColorsJSONFileParser()
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "empty.plist", sub: .colors)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "empty.plist", sub: .colors)
   }
 
   func testFileWithDefaults() throws {
@@ -23,9 +21,7 @@ class ColorsJSONFileTests: XCTestCase {
     try parser.parseFile(at: Fixtures.path(for: "colors.json", sub: .colors))
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "defaults.plist", sub: .colors)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "defaults.plist", sub: .colors)
   }
 
   func testFileWithCustomName() throws {
@@ -33,9 +29,7 @@ class ColorsJSONFileTests: XCTestCase {
     try parser.parseFile(at: Fixtures.path(for: "colors.json", sub: .colors))
 
     let result = parser.stencilContext(enumName: "XCTColors")
-    let expected = Fixtures.context(for: "customname.plist", sub: .colors)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "customname.plist", sub: .colors)
   }
 
   func testFileWithBadSyntax() {

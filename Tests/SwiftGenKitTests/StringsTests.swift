@@ -19,9 +19,7 @@ class StringsTests: XCTestCase {
     let parser = StringsFileParser()
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "empty.plist", sub: .strings)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "empty.plist", sub: .strings)
   }
 
   func testEntriesWithDefaults() {
@@ -33,9 +31,7 @@ class StringsTests: XCTestCase {
                                             types: .Object, .Int))
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "entries.plist", sub: .strings)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "entries.plist", sub: .strings)
   }
 
   func testFileWithDefaults() throws {
@@ -43,9 +39,7 @@ class StringsTests: XCTestCase {
     try parser.parseFile(at: Fixtures.path(for: "Localizable.strings", sub: .strings))
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "defaults.plist", sub: .strings)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "defaults.plist", sub: .strings)
   }
 
   func testMultiline() throws {
@@ -53,9 +47,7 @@ class StringsTests: XCTestCase {
     try parser.parseFile(at: Fixtures.path(for: "LocMultiline.strings", sub: .strings))
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "multiline.plist", sub: .strings)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "multiline.plist", sub: .strings)
   }
 
   func testUTF8FileWithDefaults() throws {
@@ -63,9 +55,7 @@ class StringsTests: XCTestCase {
     try parser.parseFile(at: Fixtures.path(for: "LocUTF8.strings", sub: .strings))
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "utf8.plist", sub: .strings)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "utf8.plist", sub: .strings)
   }
 
   func testFileWithCustomName() throws {
@@ -73,9 +63,7 @@ class StringsTests: XCTestCase {
     try parser.parseFile(at: Fixtures.path(for: "Localizable.strings", sub: .strings))
 
     let result = parser.stencilContext(enumName: "XCTLoc")
-    let expected = Fixtures.context(for: "customname.plist", sub: .strings)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "customname.plist", sub: .strings)
   }
 
   func testFileWithStructuredOnly() throws {
@@ -83,9 +71,7 @@ class StringsTests: XCTestCase {
     try parser.parseFile(at: Fixtures.path(for: "LocStructuredOnly.strings", sub: .strings))
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "structuredonly.plist", sub: .strings)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "structuredonly.plist", sub: .strings)
   }
 
   ////////////////////////////////////////////////////////////////////////

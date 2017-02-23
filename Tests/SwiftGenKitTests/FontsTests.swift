@@ -15,9 +15,7 @@ class FontsTests: XCTestCase {
     let parser = FontsFileParser()
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "empty.plist", sub: .fonts)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "empty.plist", sub: .fonts)
   }
 
   func testDefaults() {
@@ -25,9 +23,7 @@ class FontsTests: XCTestCase {
     parser.parseFile(at: Fixtures.directory(sub: .fonts))
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "defaults.plist", sub: .fonts)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "defaults.plist", sub: .fonts)
   }
 
   func testCustomName() {
@@ -35,8 +31,6 @@ class FontsTests: XCTestCase {
     parser.parseFile(at: Fixtures.directory(sub: .fonts))
 
     let result = parser.stencilContext(enumName: "CustomFamily")
-    let expected = Fixtures.context(for: "customname.plist", sub: .fonts)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "customname.plist", sub: .fonts)
   }
 }
