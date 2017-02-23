@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -104,8 +104,8 @@
 		17E001094F65D072A6D5E4A0C7F419BD /* Variable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Variable.swift; path = Sources/Variable.swift; sourceTree = "<group>"; };
 		206DA29D6C35E14C93D2BF773A66C54C /* Environment.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Environment.swift; path = Sources/Environment.swift; sourceTree = "<group>"; };
 		2155A4AD28DF68375EC10C46F7EDC8AF /* Parser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Parser.swift; path = Sources/Parser.swift; sourceTree = "<group>"; };
-		265F975B73073835FB84065AFE716801 /* SwiftGenKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwiftGenKit.framework; path = SwiftGenKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		279273F061523D66B55D27131FEB6148 /* Stencil.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Stencil.framework; path = Stencil.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		265F975B73073835FB84065AFE716801 /* SwiftGenKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftGenKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		279273F061523D66B55D27131FEB6148 /* Stencil.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Stencil.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		27AB13C581DBF4D4B41876C69872B183 /* Extension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Extension.swift; path = Sources/Extension.swift; sourceTree = "<group>"; };
 		2802FBB7965EA4284282522D369C6ECC /* Loader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Loader.swift; path = Sources/Loader.swift; sourceTree = "<group>"; };
 		2C8AAD97E22D7F6B08B73B0AE02BFA6D /* Pods-Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Tests-resources.sh"; sourceTree = "<group>"; };
@@ -116,14 +116,14 @@
 		3D9976A9FB02F6316003996E10007AEE /* FilterTag.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FilterTag.swift; path = Sources/FilterTag.swift; sourceTree = "<group>"; };
 		4073060E93266F46D895562DC8E1B5BB /* SwiftGenKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftGenKit-prefix.pch"; sourceTree = "<group>"; };
 		4309AA7478DD6B254C478AE5335748BA /* Pods-Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Tests-acknowledgements.plist"; sourceTree = "<group>"; };
-		4F35C03EE539651D8168B79F18A1DF5B /* Pods-Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-Tests.modulemap"; sourceTree = "<group>"; };
+		4F35C03EE539651D8168B79F18A1DF5B /* Pods-Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Tests.modulemap"; sourceTree = "<group>"; };
 		52E08CA96B2F20724148FF5361AD7206 /* Pods-Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Tests-umbrella.h"; sourceTree = "<group>"; };
 		54477499963F9BB5465900CFB5D3EABD /* ColorsContext.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ColorsContext.swift; sourceTree = "<group>"; };
 		5B85A6D36EC20031BC5814F8D8D514E8 /* PathKit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PathKit.swift; path = Sources/PathKit.swift; sourceTree = "<group>"; };
 		5E95D3A9D0AA426730ABADF589227018 /* SwiftGenKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftGenKit-dummy.m"; sourceTree = "<group>"; };
 		60889E57CE4B4802D50272BE5861F810 /* StringsContext.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StringsContext.swift; sourceTree = "<group>"; };
 		61B5D27F549BC27FA003F01438250995 /* StoryboardsContext.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StoryboardsContext.swift; sourceTree = "<group>"; };
-		650CAC0D1F80EFE1AEB678D05530141B /* PathKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = PathKit.framework; path = PathKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		650CAC0D1F80EFE1AEB678D05530141B /* PathKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PathKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6581541EB16C55BF3C9668C7AB304D9C /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69F59D1438D9D791C86016D62F2078B9 /* Template.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Template.swift; path = Sources/Template.swift; sourceTree = "<group>"; };
 		6D099D9232A07F0FE8E90ADF80821C6B /* FontsFileParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FontsFileParser.swift; sourceTree = "<group>"; };
@@ -136,9 +136,9 @@
 		8CA49A25561E541E61395E8C64512F22 /* PathKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "PathKit-dummy.m"; sourceTree = "<group>"; };
 		8CCB7B571DD30214319D05B2A2D01268 /* ForTag.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ForTag.swift; path = Sources/ForTag.swift; sourceTree = "<group>"; };
 		8FFA7DA1538F3CB30DA2B5074B573E52 /* Tokenizer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Tokenizer.swift; path = Sources/Tokenizer.swift; sourceTree = "<group>"; };
-		919EAEDB009B1AA70C305AC91847AC41 /* PathKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = PathKit.modulemap; sourceTree = "<group>"; };
+		919EAEDB009B1AA70C305AC91847AC41 /* PathKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = PathKit.modulemap; sourceTree = "<group>"; };
 		93A3BA06E90B797B9126411EF449E61E /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A5E20637D178539A5F5705320E6AAD3F /* Include.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Include.swift; path = Sources/Include.swift; sourceTree = "<group>"; };
 		AF964CF5CB6052CB65EB873ADC4C5908 /* ColorsFileParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ColorsFileParser.swift; sourceTree = "<group>"; };
 		B0A2858DB038304C5239C4738D8E3643 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -154,13 +154,13 @@
 		D12438B80ED47AD60857542BE0113ED7 /* Expression.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Expression.swift; path = Sources/Expression.swift; sourceTree = "<group>"; };
 		D3AE389C53E9B01E985C9E18B23C4655 /* StoryboardParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StoryboardParser.swift; sourceTree = "<group>"; };
 		D5846CC8D36C9B97B51ACC82399D6A12 /* PathKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PathKit-prefix.pch"; sourceTree = "<group>"; };
-		D6C2D28B3980163C3F38852C8437E5C2 /* Stencil.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = Stencil.modulemap; sourceTree = "<group>"; };
+		D6C2D28B3980163C3F38852C8437E5C2 /* Stencil.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = Stencil.modulemap; sourceTree = "<group>"; };
 		D887BD539929925B9535E5136F861F20 /* IfTag.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IfTag.swift; path = Sources/IfTag.swift; sourceTree = "<group>"; };
 		E3462B237C0B07B0193729BBED188874 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		E54EE79893AE60BDD4725EE82D2CD3CD /* SwiftGenKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = SwiftGenKit.modulemap; sourceTree = "<group>"; };
+		E54EE79893AE60BDD4725EE82D2CD3CD /* SwiftGenKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = SwiftGenKit.modulemap; sourceTree = "<group>"; };
 		EC112BC570440F79F5D325EE264243AD /* SwiftGenKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftGenKit-umbrella.h"; sourceTree = "<group>"; };
 		F5217ABF3BDB5EC6A276AF9B64AA38C5 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
-		FC50E6B59E54BE94B0C05E2FCD93D230 /* Pods_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Tests.framework; path = "Pods-Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC50E6B59E54BE94B0C05E2FCD93D230 /* Pods_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,7 +219,6 @@
 				D3AE389C53E9B01E985C9E18B23C4655 /* StoryboardParser.swift */,
 				35F5C044723C7653D18C10BF6AAEF8D4 /* StringsFileParser.swift */,
 			);
-			name = Parsers;
 			path = Parsers;
 			sourceTree = "<group>";
 		};
@@ -312,7 +311,10 @@
 				AD44D9685C1729342C47B82F98F06B95 /* Products */,
 				000722C3134BAC39CFC2600254B1E03E /* Targets Support Files */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
+			usesTabs = 0;
 		};
 		8FFDBAF3675CBB79B3E2A5703E16F958 /* Frameworks */ = {
 			isa = PBXGroup;
@@ -358,7 +360,6 @@
 				17E001094F65D072A6D5E4A0C7F419BD /* Variable.swift */,
 				472C634E13CB5E53C65AA1985F35C13D /* Support Files */,
 			);
-			name = Stencil;
 			path = Stencil;
 			sourceTree = "<group>";
 		};
@@ -368,7 +369,6 @@
 				5B85A6D36EC20031BC5814F8D8D514E8 /* PathKit.swift */,
 				693A6FD601295700FF3115312779D86A /* Support Files */,
 			);
-			name = PathKit;
 			path = PathKit;
 			sourceTree = "<group>";
 		};
@@ -379,7 +379,6 @@
 				E007FD1113D89B52054CBEF4E7D84853 /* Stencil */,
 				F358D0378A0787E39C037B62585E469F /* Utils */,
 			);
-			name = Sources;
 			path = Sources;
 			sourceTree = "<group>";
 		};
@@ -400,7 +399,6 @@
 				61B5D27F549BC27FA003F01438250995 /* StoryboardsContext.swift */,
 				60889E57CE4B4802D50272BE5861F810 /* StringsContext.swift */,
 			);
-			name = Stencil;
 			path = Stencil;
 			sourceTree = "<group>";
 		};
@@ -409,7 +407,6 @@
 			children = (
 				7A47779BD13411D93D59545E2E320338 /* Command.swift */,
 			);
-			name = Utils;
 			path = Utils;
 			sourceTree = "<group>";
 		};

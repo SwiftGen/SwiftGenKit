@@ -13,14 +13,13 @@ import SwiftGenKit
  * See Project -> Target "UnitTests" -> Build Rules -> « Files "*.storyboard" using PBXCp »
  */
 
-
 class StoryboardsMacOSTests: XCTestCase {
   func testEmpty() {
     let parser = StoryboardParser()
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "empty.plist", sub: .storyboardsMacOS)
-    
+
     XCTDiffContexts(result, expected)
   }
 
@@ -34,7 +33,7 @@ class StoryboardsMacOSTests: XCTestCase {
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "messages.plist", sub: .storyboardsMacOS)
-    
+
     XCTDiffContexts(result, expected)
   }
 
@@ -48,7 +47,7 @@ class StoryboardsMacOSTests: XCTestCase {
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "anonymous.plist", sub: .storyboardsMacOS)
-    
+
     XCTDiffContexts(result, expected)
   }
 
@@ -62,7 +61,7 @@ class StoryboardsMacOSTests: XCTestCase {
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "all.plist", sub: .storyboardsMacOS)
-    
+
     XCTDiffContexts(result, expected)
   }
 }

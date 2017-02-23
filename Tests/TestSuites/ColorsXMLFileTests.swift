@@ -14,35 +14,27 @@ class ColorsXMLFileTests: XCTestCase {
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "empty.plist", sub: .colors)
-    
+
     XCTDiffContexts(result, expected)
   }
 
-  func testFileWithDefaults() {
+  func testFileWithDefaults() throws {
     let parser = ColorsXMLFileParser()
-    do {
-      try parser.parseFile(at: Fixtures.path(for: "colors.xml", sub: .colors))
-    } catch {
-      XCTFail("Exception while parsing file: \(error)")
-    }
+    try parser.parseFile(at: Fixtures.path(for: "colors.xml", sub: .colors))
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "defaults.plist", sub: .colors)
-    
+
     XCTDiffContexts(result, expected)
   }
 
-  func testFileWithCustomName() {
+  func testFileWithCustomName() throws {
     let parser = ColorsXMLFileParser()
-    do {
-      try parser.parseFile(at: Fixtures.path(for: "colors.xml", sub: .colors))
-    } catch {
-      XCTFail("Exception while parsing file: \(error)")
-    }
+    try parser.parseFile(at: Fixtures.path(for: "colors.xml", sub: .colors))
 
     let result = parser.stencilContext(enumName: "XCTColors")
     let expected = Fixtures.context(for: "customname.plist", sub: .colors)
-    
+
     XCTDiffContexts(result, expected)
   }
 

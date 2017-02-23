@@ -20,7 +20,7 @@ class StoryboardsiOSTests: XCTestCase {
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "empty.plist", sub: .storyboardsiOS)
-    
+
     XCTDiffContexts(result, expected)
   }
 
@@ -34,7 +34,7 @@ class StoryboardsiOSTests: XCTestCase {
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "messages.plist", sub: .storyboardsiOS)
-    
+
     XCTDiffContexts(result, expected)
   }
 
@@ -48,7 +48,7 @@ class StoryboardsiOSTests: XCTestCase {
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "anonymous.plist", sub: .storyboardsiOS)
-    
+
     XCTDiffContexts(result, expected)
   }
 
@@ -62,7 +62,7 @@ class StoryboardsiOSTests: XCTestCase {
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "all.plist", sub: .storyboardsiOS)
-    
+
     XCTDiffContexts(result, expected)
   }
 
@@ -76,7 +76,7 @@ class StoryboardsiOSTests: XCTestCase {
 
     let result = parser.stencilContext(sceneEnumName: "XCTStoryboardsScene", segueEnumName: "XCTStoryboardsSegue")
     let expected = Fixtures.context(for: "customname.plist", sub: .storyboardsiOS)
-    
+
     XCTDiffContexts(result, expected)
   }
 }

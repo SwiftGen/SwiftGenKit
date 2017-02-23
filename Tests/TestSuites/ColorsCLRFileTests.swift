@@ -14,27 +14,27 @@ class ColorsCLRFileTests: XCTestCase {
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "empty.plist", sub: .colors)
-    
+
     XCTDiffContexts(result, expected)
   }
 
-  func testFileWithDefaults() {
+  func testFileWithDefaults() throws {
     let parser = ColorsCLRFileParser()
-    try! parser.parseFile(at: Fixtures.path(for: "colors.clr", sub: .colors))
+    try parser.parseFile(at: Fixtures.path(for: "colors.clr", sub: .colors))
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "defaults.plist", sub: .colors)
-    
+
     XCTDiffContexts(result, expected)
   }
 
-  func testFileWithCustomName() {
+  func testFileWithCustomName() throws {
     let parser = ColorsCLRFileParser()
-    try! parser.parseFile(at: Fixtures.path(for: "colors.clr", sub: .colors))
+    try parser.parseFile(at: Fixtures.path(for: "colors.clr", sub: .colors))
 
     let result = parser.stencilContext(enumName: "XCTColors")
     let expected = Fixtures.context(for: "customname.plist", sub: .colors)
-    
+
     XCTDiffContexts(result, expected)
   }
 

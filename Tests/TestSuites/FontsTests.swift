@@ -13,10 +13,10 @@ import AppKit.NSFont
 class FontsTests: XCTestCase {
   func testEmpty() {
     let parser = FontsFileParser()
-    
+
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "empty.plist", sub: .fonts)
-    
+
     XCTDiffContexts(result, expected)
   }
 
@@ -26,7 +26,7 @@ class FontsTests: XCTestCase {
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "defaults.plist", sub: .fonts)
-    
+
     XCTDiffContexts(result, expected)
   }
 
@@ -36,7 +36,7 @@ class FontsTests: XCTestCase {
 
     let result = parser.stencilContext(enumName: "CustomFamily")
     let expected = Fixtures.context(for: "customname.plist", sub: .fonts)
-    
+
     XCTDiffContexts(result, expected)
   }
 }
