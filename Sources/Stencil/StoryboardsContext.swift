@@ -90,13 +90,17 @@ extension StoryboardParser {
       return sbMap
     }
     return [
-      "sceneEnumName": sceneEnumName,
-      "segueEnumName": segueEnumName,
       "storyboards": storyboardsMap,
       "modules": modules.sorted(),
+      "param": [
+        "sceneEnumName": sceneEnumName,
+        "segueEnumName": segueEnumName
+      ],
 
       // NOTE: This is a deprecated variable
-      "extraImports": modules.sorted()
+      "extraImports": modules.sorted(),
+      "sceneEnumName": sceneEnumName,
+      "segueEnumName": segueEnumName
     ]
   }
 }

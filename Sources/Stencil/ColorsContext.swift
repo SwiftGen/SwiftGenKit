@@ -35,6 +35,13 @@ extension ColorsFileParser {
         "alpha": comps[3]
       ]
     }).sorted { $0["name"] ?? "" < $1["name"] ?? "" }
-    return ["enumName": enumName, "colors": colorMap]
+    
+    return [
+      "colors": colorMap,
+      "param": ["enumName": enumName],
+      
+      // NOTE: This is a deprecated variable
+      "enumName": enumName
+    ]
   }
 }

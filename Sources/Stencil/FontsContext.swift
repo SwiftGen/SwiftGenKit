@@ -33,6 +33,12 @@ extension FontsFileParser {
       ]
     }.sorted { $0["name"] as? String ?? "" < $1["name"] as? String ?? "" }
 
-    return ["enumName": enumName, "families": families]
+    return [
+      "families": families,
+      "param": ["enumName": enumName],
+      
+      // NOTE: This is a deprecated variable
+      "enumName": enumName
+    ]
   }
 }

@@ -73,13 +73,14 @@ extension StringsFileParser {
     ]]
 
     return [
-      "enumName": enumName,
-      "tableName": tableName,
       "tables": tables,
+      "param": ["enumName": enumName],
       
       // NOTE: These are deprecated variables
+      "enumName": enumName,
       "strings": strings,
-      "structuredStrings": structuredStrings
+      "structuredStrings": structuredStrings,
+      "tableName": tableName
     ]
   }
 
