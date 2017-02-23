@@ -14,7 +14,12 @@ _None_
 
 ### New Features
 
-_None_
+* More variables have been deprecated, while new variables have been added.  
+  [David Jennes](https://github.com/djbe)
+  [#13](https://github.com/SwiftGen/SwiftGenKit/issues/13)
+  * For each string, the `params` variable and it's subvariables (such as `names`, `count`, ...) have been replaced by `parameters`, which is an array of types.
+  * The `strings`, `structuredStrings` and `tableName` have been replaced by `tables`, which is an array of string tables, each with a `name` and a `strings` property.
+  * `enumName`, `sceneEnumName` and `segueEnumName` have been replaced by `param.enumName`, `param.sceneEnumName` and `param.segueEnumName` respectively. Templates should provide a default value for these in case the variables are empty.
 
 ### Internal Changes
 
@@ -34,7 +39,7 @@ _None_
 
 * Asset catalog parser: ignore unsupported types (such as appiconset).  
   [David Jennes](https://github.com/djbe)
-  [#7](https://github.com/SwiftGen/StencilSwiftKit/issues/7)
+  [#7](https://github.com/SwiftGen/SwiftGenKit/issues/7)
 
 ### New Features
 
