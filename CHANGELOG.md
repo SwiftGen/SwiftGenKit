@@ -26,6 +26,9 @@ _None_
 * Switch from Travis CI to Circle CI, clean up the Rakefile in the process.  
   [David Jennes](https://github.com/djbe)
   [#10](https://github.com/SwiftGen/SwiftGenKit/issues/10)
+* We can now re-generate the contexts used for testing by using the "Generate Contexts" Xcode scheme.  
+  [David Jennes](https://github.com/djbe)
+  [#14](https://github.com/SwiftGen/SwiftGenKit/issues/14)
 
 ## 1.0.1
 
