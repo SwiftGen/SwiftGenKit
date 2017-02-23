@@ -78,7 +78,7 @@ func XCTDiffContexts(_ result: [String: Any],
                      line: UInt = #line) {
   #if GENERATE_CONTEXTS
     let target = Path(#file).parent().parent() + "Resources/Contexts" + directory.rawValue + name
-    guard (result as NSDictionary).write(to: URL(fileURLWithPath: target.description), atomically: true) else {
+    guard (result as NSDictionary).write(to: target.url, atomically: true) else {
       fatalError("Unable to write context file \(target)")
     }
   #else
@@ -125,7 +125,7 @@ class Fixtures {
   static func context(for name: String, sub: Directory) -> [String: Any] {
     let path = self.path(for: name, subDirectory: "Contexts/\(sub.rawValue)")
 
-    guard let data = NSDictionary(contentsOfFile: path.description) as? [String: Any] else {
+    guard let data = NSDictionary(contentsOf: path.url) as? [String: Any] else {
       fatalError("Unable to load fixture content")
     }
 

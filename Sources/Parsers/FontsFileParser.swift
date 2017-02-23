@@ -59,26 +59,17 @@ public final class FontsFileParser {
   public init() {}
 
   public func parseFile(at path: Path) {
-    // PathKit does not support support enumeration with options yet
-    // see: https://github.com/kylef/PathKit/pull/25
-    let url = URL(fileURLWithPath: path.description)
+    for file in path.iterateChildren(options: [.skipsHiddenFiles, .skipsPackageDescendants]) {
+      var value: AnyObject? = nil
+      guard let _ = try? (file.url as NSURL).getResourceValue(&value, forKey: URLResourceKey.typeIdentifierKey),
+        let uti = value as? String else {
+          print("Unable to determine the Universal Type Identifier for file \(file)")
+          continue
+      }
+      guard UTTypeConformsTo(uti as CFString, "public.font" as CFString) else { continue }
+      let fonts = CTFont.parseFonts(at: file.url)
 
-    if let dirEnum = FileManager.default.enumerator(at: url,
-      includingPropertiesForKeys: [],
-      options: [.skipsHiddenFiles, .skipsPackageDescendants],
-      errorHandler: nil) {
-        var value: AnyObject? = nil
-        while let file = dirEnum.nextObject() as? URL {
-          guard let _ = try? (file as NSURL).getResourceValue(&value, forKey: URLResourceKey.typeIdentifierKey),
-          let uti = value as? String else {
-            print("Unable to determine the Universal Type Identifier for file \(file)")
-            continue
-          }
-          guard UTTypeConformsTo(uti as CFString, "public.font" as CFString) else { continue }
-          let fonts = CTFont.parseFonts(at: file)
-
-          fonts.forEach { addFont($0) }
-        }
+      fonts.forEach { addFont($0) }
     }
   }
 
