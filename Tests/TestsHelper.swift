@@ -54,11 +54,14 @@ func compare(_ lhs: Any, _ rhs: Any, key: String, path: String) -> String? {
   } else if let lhs = lhs as? [String: Any], let rhs = rhs as? [String: Any] {
     return diff(lhs, rhs, path: "\(keyPath)")
   } else {
-    return "\(msgColor)Values do not match for '\(keyPath)':\(reset)\n" +
-      ">>>>>> result\n\(lhs)\n" +
-      "======\n" +
-      "\(rhs)\n" +
+    return [
+      "\(msgColor)Values do not match for '\(keyPath)':\(reset)",
+      ">>>>>> result",
+      "\(lhs)",
+      "======",
+      "\(rhs)",
       "<<<<<< expected"
+    ].joined(separator: "\n")
   }
 
   return nil
