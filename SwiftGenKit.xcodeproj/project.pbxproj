@@ -8,18 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		82EF0CC0752D216C67279A16 /* Pods_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BF798509C76E5A9ACE03491 /* Pods_Tests.framework */; };
-		DD5F341B1E21993A00AEB5DA /* TestsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F341A1E21993A00AEB5DA /* TestsHelper.swift */; };
-		DD5F34391E21B72900AEB5DA /* FontsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34341E21B72900AEB5DA /* FontsTests.swift */; };
-		DD5F34C71E21B76500AEB5DA /* Fixtures in Resources */ = {isa = PBXBuildFile; fileRef = DD5F34C51E21B76500AEB5DA /* Fixtures */; };
-		DD5F34D61E2293B400AEB5DA /* Contexts in Resources */ = {isa = PBXBuildFile; fileRef = DD5F34D51E2293B400AEB5DA /* Contexts */; };
-		DD5F34D71E22B20300AEB5DA /* ImagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34351E21B72900AEB5DA /* ImagesTests.swift */; };
-		DD5F34D81E22B30F00AEB5DA /* ColorsCLRFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34CA1E21D2CB00AEB5DA /* ColorsCLRFileTests.swift */; };
-		DD5F34D91E22B3A300AEB5DA /* ColorsJSONFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34CB1E21D2CB00AEB5DA /* ColorsJSONFileTests.swift */; };
-		DD5F34DA1E22B41500AEB5DA /* ColorsTextFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34CC1E21D2CB00AEB5DA /* ColorsTextFileTests.swift */; };
-		DD5F34DB1E22B4BF00AEB5DA /* ColorsXMLFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34CD1E21D2CB00AEB5DA /* ColorsXMLFileTests.swift */; };
-		DD5F34DC1E22BA8A00AEB5DA /* StringsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34371E21B72900AEB5DA /* StringsTests.swift */; };
-		DD5F34E01E22CA5400AEB5DA /* StoryboardsiOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34DE1E22CA5400AEB5DA /* StoryboardsiOSTests.swift */; };
-		DD5F34E11E22CA5400AEB5DA /* StoryboardsMacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5F34DF1E22CA5400AEB5DA /* StoryboardsMacOSTests.swift */; };
+		DDF573231E6103DC0033C01B /* ColorsCLRFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF573171E6103DC0033C01B /* ColorsCLRFileTests.swift */; };
+		DDF573241E6103DC0033C01B /* ColorsJSONFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF573181E6103DC0033C01B /* ColorsJSONFileTests.swift */; };
+		DDF573251E6103DC0033C01B /* ColorsTextFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF573191E6103DC0033C01B /* ColorsTextFileTests.swift */; };
+		DDF573261E6103DC0033C01B /* ColorsXMLFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF5731A1E6103DC0033C01B /* ColorsXMLFileTests.swift */; };
+		DDF573271E6103DC0033C01B /* FontsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF5731B1E6103DC0033C01B /* FontsTests.swift */; };
+		DDF573281E6103DC0033C01B /* ImagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF5731C1E6103DC0033C01B /* ImagesTests.swift */; };
+		DDF5732A1E6103DC0033C01B /* StoryboardsiOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF5731F1E6103DC0033C01B /* StoryboardsiOSTests.swift */; };
+		DDF5732B1E6103DC0033C01B /* StoryboardsMacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF573201E6103DC0033C01B /* StoryboardsMacOSTests.swift */; };
+		DDF5732C1E6103DC0033C01B /* StringsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF573211E6103DC0033C01B /* StringsTests.swift */; };
+		DDF5732D1E6103DC0033C01B /* TestsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF573221E6103DC0033C01B /* TestsHelper.swift */; };
+		DDF573301E6103F90033C01B /* Contexts in Resources */ = {isa = PBXBuildFile; fileRef = DDF5732E1E6103F90033C01B /* Contexts */; };
+		DDF573311E6103F90033C01B /* Fixtures in Resources */ = {isa = PBXBuildFile; fileRef = DDF5732F1E6103F90033C01B /* Fixtures */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,18 +27,19 @@
 		47888DD528DEC4C84FD8F15B /* Pods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tests/Pods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		4B3D39DBCD15D8F6BB891D92 /* Pods-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tests/Pods-Tests.release.xcconfig"; sourceTree = "<group>"; };
 		8BF798509C76E5A9ACE03491 /* Pods_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD5F341A1E21993A00AEB5DA /* TestsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestsHelper.swift; sourceTree = "<group>"; };
-		DD5F34341E21B72900AEB5DA /* FontsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontsTests.swift; sourceTree = "<group>"; };
-		DD5F34351E21B72900AEB5DA /* ImagesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesTests.swift; sourceTree = "<group>"; };
-		DD5F34371E21B72900AEB5DA /* StringsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringsTests.swift; sourceTree = "<group>"; };
-		DD5F34C51E21B76500AEB5DA /* Fixtures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fixtures; sourceTree = "<group>"; };
-		DD5F34CA1E21D2CB00AEB5DA /* ColorsCLRFileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsCLRFileTests.swift; sourceTree = "<group>"; };
-		DD5F34CB1E21D2CB00AEB5DA /* ColorsJSONFileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsJSONFileTests.swift; sourceTree = "<group>"; };
-		DD5F34CC1E21D2CB00AEB5DA /* ColorsTextFileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsTextFileTests.swift; sourceTree = "<group>"; };
-		DD5F34CD1E21D2CB00AEB5DA /* ColorsXMLFileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsXMLFileTests.swift; sourceTree = "<group>"; };
-		DD5F34D51E2293B400AEB5DA /* Contexts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Contexts; sourceTree = "<group>"; };
-		DD5F34DE1E22CA5400AEB5DA /* StoryboardsiOSTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardsiOSTests.swift; sourceTree = "<group>"; };
-		DD5F34DF1E22CA5400AEB5DA /* StoryboardsMacOSTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardsMacOSTests.swift; sourceTree = "<group>"; };
+		DDF573171E6103DC0033C01B /* ColorsCLRFileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsCLRFileTests.swift; sourceTree = "<group>"; };
+		DDF573181E6103DC0033C01B /* ColorsJSONFileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsJSONFileTests.swift; sourceTree = "<group>"; };
+		DDF573191E6103DC0033C01B /* ColorsTextFileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsTextFileTests.swift; sourceTree = "<group>"; };
+		DDF5731A1E6103DC0033C01B /* ColorsXMLFileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsXMLFileTests.swift; sourceTree = "<group>"; };
+		DDF5731B1E6103DC0033C01B /* FontsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontsTests.swift; sourceTree = "<group>"; };
+		DDF5731C1E6103DC0033C01B /* ImagesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesTests.swift; sourceTree = "<group>"; };
+		DDF5731E1E6103DC0033C01B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DDF5731F1E6103DC0033C01B /* StoryboardsiOSTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardsiOSTests.swift; sourceTree = "<group>"; };
+		DDF573201E6103DC0033C01B /* StoryboardsMacOSTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardsMacOSTests.swift; sourceTree = "<group>"; };
+		DDF573211E6103DC0033C01B /* StringsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringsTests.swift; sourceTree = "<group>"; };
+		DDF573221E6103DC0033C01B /* TestsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestsHelper.swift; sourceTree = "<group>"; };
+		DDF5732E1E6103F90033C01B /* Contexts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Contexts; path = Tests/Resources/Contexts; sourceTree = SOURCE_ROOT; };
+		DDF5732F1E6103F90033C01B /* Fixtures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fixtures; path = Tests/Resources/Fixtures; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,34 +95,35 @@
 		DD5F34111E21657700AEB5DA /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				DD5F34411E21B75400AEB5DA /* Resources */,
-				DD5F34321E21B72900AEB5DA /* TestSuites */,
-				DD5F341A1E21993A00AEB5DA /* TestsHelper.swift */,
+				DDF573161E6103DC0033C01B /* SwiftGenKitTests */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
 		};
-		DD5F34321E21B72900AEB5DA /* TestSuites */ = {
+		DDF573161E6103DC0033C01B /* SwiftGenKitTests */ = {
 			isa = PBXGroup;
 			children = (
-				DD5F34CA1E21D2CB00AEB5DA /* ColorsCLRFileTests.swift */,
-				DD5F34CB1E21D2CB00AEB5DA /* ColorsJSONFileTests.swift */,
-				DD5F34CC1E21D2CB00AEB5DA /* ColorsTextFileTests.swift */,
-				DD5F34CD1E21D2CB00AEB5DA /* ColorsXMLFileTests.swift */,
-				DD5F34341E21B72900AEB5DA /* FontsTests.swift */,
-				DD5F34351E21B72900AEB5DA /* ImagesTests.swift */,
-				DD5F34371E21B72900AEB5DA /* StringsTests.swift */,
-				DD5F34DE1E22CA5400AEB5DA /* StoryboardsiOSTests.swift */,
-				DD5F34DF1E22CA5400AEB5DA /* StoryboardsMacOSTests.swift */,
+				DDF573171E6103DC0033C01B /* ColorsCLRFileTests.swift */,
+				DDF573181E6103DC0033C01B /* ColorsJSONFileTests.swift */,
+				DDF573191E6103DC0033C01B /* ColorsTextFileTests.swift */,
+				DDF5731A1E6103DC0033C01B /* ColorsXMLFileTests.swift */,
+				DDF5731B1E6103DC0033C01B /* FontsTests.swift */,
+				DDF5731C1E6103DC0033C01B /* ImagesTests.swift */,
+				DDF5731D1E6103DC0033C01B /* Resources */,
+				DDF5731F1E6103DC0033C01B /* StoryboardsiOSTests.swift */,
+				DDF573201E6103DC0033C01B /* StoryboardsMacOSTests.swift */,
+				DDF573211E6103DC0033C01B /* StringsTests.swift */,
+				DDF573221E6103DC0033C01B /* TestsHelper.swift */,
 			);
-			path = TestSuites;
+			path = SwiftGenKitTests;
 			sourceTree = "<group>";
 		};
-		DD5F34411E21B75400AEB5DA /* Resources */ = {
+		DDF5731D1E6103DC0033C01B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				DD5F34D51E2293B400AEB5DA /* Contexts */,
-				DD5F34C51E21B76500AEB5DA /* Fixtures */,
+				DDF5732E1E6103F90033C01B /* Contexts */,
+				DDF5732F1E6103F90033C01B /* Fixtures */,
+				DDF5731E1E6103DC0033C01B /* Info.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -188,8 +190,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD5F34D61E2293B400AEB5DA /* Contexts in Resources */,
-				DD5F34C71E21B76500AEB5DA /* Fixtures in Resources */,
+				DDF573311E6103F90033C01B /* Fixtures in Resources */,
+				DDF573301E6103F90033C01B /* Contexts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,16 +250,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD5F34D71E22B20300AEB5DA /* ImagesTests.swift in Sources */,
-				DD5F34D81E22B30F00AEB5DA /* ColorsCLRFileTests.swift in Sources */,
-				DD5F34DC1E22BA8A00AEB5DA /* StringsTests.swift in Sources */,
-				DD5F34391E21B72900AEB5DA /* FontsTests.swift in Sources */,
-				DD5F341B1E21993A00AEB5DA /* TestsHelper.swift in Sources */,
-				DD5F34DB1E22B4BF00AEB5DA /* ColorsXMLFileTests.swift in Sources */,
-				DD5F34DA1E22B41500AEB5DA /* ColorsTextFileTests.swift in Sources */,
-				DD5F34E01E22CA5400AEB5DA /* StoryboardsiOSTests.swift in Sources */,
-				DD5F34D91E22B3A300AEB5DA /* ColorsJSONFileTests.swift in Sources */,
-				DD5F34E11E22CA5400AEB5DA /* StoryboardsMacOSTests.swift in Sources */,
+				DDF5732B1E6103DC0033C01B /* StoryboardsMacOSTests.swift in Sources */,
+				DDF5732D1E6103DC0033C01B /* TestsHelper.swift in Sources */,
+				DDF573231E6103DC0033C01B /* ColorsCLRFileTests.swift in Sources */,
+				DDF573261E6103DC0033C01B /* ColorsXMLFileTests.swift in Sources */,
+				DDF573251E6103DC0033C01B /* ColorsTextFileTests.swift in Sources */,
+				DDF573281E6103DC0033C01B /* ImagesTests.swift in Sources */,
+				DDF5732C1E6103DC0033C01B /* StringsTests.swift in Sources */,
+				DDF573241E6103DC0033C01B /* ColorsJSONFileTests.swift in Sources */,
+				DDF5732A1E6103DC0033C01B /* StoryboardsiOSTests.swift in Sources */,
+				DDF573271E6103DC0033C01B /* FontsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,7 +356,7 @@
 			baseConfigurationReference = 47888DD528DEC4C84FD8F15B /* Pods-Tests.debug.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/SwiftGenKitTests/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.alisoftware.SwiftGenKitTests;
@@ -368,7 +370,7 @@
 			baseConfigurationReference = 4B3D39DBCD15D8F6BB891D92 /* Pods-Tests.release.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/SwiftGenKitTests/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.alisoftware.SwiftGenKitTests;

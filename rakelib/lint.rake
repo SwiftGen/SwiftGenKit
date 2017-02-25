@@ -19,7 +19,6 @@ namespace :lint do
   
   desc 'Lint the tests'
   task :tests => :install do |task|
-    plain(%Q(swiftlint lint --no-cache --strict --path Tests/TestsHelper.swift), task)
-    plain(%Q(swiftlint lint --no-cache --strict --path Tests/TestSuites), task)
+    plain(%Q(swiftlint lint --no-cache --strict --path "Tests/#{POD_NAME}Tests"), task)
   end
 end
