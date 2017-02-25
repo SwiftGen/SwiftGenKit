@@ -14,12 +14,12 @@ namespace :lint do
   
   desc 'Lint the code'
   task :code => :install do |task|
-    plain("swiftlint lint --no-cache --strict --path Sources", task)
+    plain(%Q(swiftlint lint --no-cache --strict --path Sources), task)
   end
   
   desc 'Lint the tests'
   task :tests => :install do |task|
-    plain("swiftlint lint --no-cache --strict --path Tests/TestsHelper.swift", task)
-    plain("swiftlint lint --no-cache --strict --path Tests/TestSuites", task)
+    plain(%Q(swiftlint lint --no-cache --strict --path Tests/TestsHelper.swift), task)
+    plain(%Q(swiftlint lint --no-cache --strict --path Tests/TestSuites), task)
   end
 end

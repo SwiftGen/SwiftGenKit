@@ -1,3 +1,11 @@
-TARGET_NAME = 'SwiftGenKit'
+#!/usr/bin/rake
 
-task :default => "xcode:test"
+## [ Constants ] ##############################################################
+
+WORKSPACE = 'SwiftGenKit'
+TARGET_NAME = 'Tests'
+CONFIGURATION = 'Debug'
+POD_NAME = 'SwiftGenKit'
+
+
+task :default => 'xcode:test'
