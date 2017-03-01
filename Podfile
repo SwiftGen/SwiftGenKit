@@ -1,4 +1,4 @@
-platform :osx, '10.12'
+platform :osx, '10.9'
 use_frameworks!
 
 def common_pods

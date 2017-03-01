@@ -41,10 +41,14 @@ func diff(_ result: [String: Any], _ expected: [String: Any], path: String = "")
 func compare(_ lhs: Any, _ rhs: Any, key: String, path: String) -> String? {
   let keyPath = (path == "") ? key : "\(path).\(key)"
 
-  if let lhs = lhs as? Bool, let rhs = rhs as? Bool, lhs == rhs { return nil
-  } else if let lhs = lhs as? Int, let rhs = rhs as? Int, lhs == rhs { return nil
-  } else if let lhs = lhs as? Float, let rhs = rhs as? Float, lhs == rhs { return nil
-  } else if let lhs = lhs as? String, let rhs = rhs as? String, lhs == rhs { return nil
+  if let lhs = lhs as? Bool, let rhs = rhs as? Bool, lhs == rhs {
+    return nil
+  } else if let lhs = lhs as? Int, let rhs = rhs as? Int, lhs == rhs {
+    return nil
+  } else if let lhs = lhs as? Float, let rhs = rhs as? Float, lhs == rhs {
+    return nil
+  } else if let lhs = lhs as? String, let rhs = rhs as? String, lhs == rhs {
+    return nil
   } else if let lhs = lhs as? [Any], let rhs = rhs as? [Any], lhs.count == rhs.count {
     for (lhs, rhs) in zip(lhs, rhs) {
       if let error = compare(lhs, rhs, key: key, path: path) {
