@@ -3,7 +3,7 @@
 ## [ Constants ] ##############################################################
 
 WORKSPACE = 'SwiftGenKit'
-TARGET_NAME = 'Tests'
+SCHEME_NAME = 'Tests'
 CONFIGURATION = 'Debug'
 POD_NAME = 'SwiftGenKit'
 
