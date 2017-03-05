@@ -1,23 +1,11 @@
-def xcpretty(cmd)
-  if `which xcpretty` && $?.success?
-    sh "set -o pipefail && #{cmd} | xcpretty -c"
-  else
-    sh cmd
-  end
-end
+#!/usr/bin/rake
 
-task :build_for_testing do
-  xcpretty "xcodebuild -workspace SwiftGenKit.xcworkspace -scheme Tests build-for-testing"
-end
+## [ Constants ] ##############################################################
 
-desc 'Run Unit Tests'
-task :test => :build_for_testing do
-  xcpretty "xcodebuild -workspace SwiftGenKit.xcworkspace -scheme Tests test-without-building"
-end
+WORKSPACE = 'SwiftGenKit'
+SCHEME_NAME = 'Tests'
+CONFIGURATION = 'Debug'
+POD_NAME = 'SwiftGenKit'
 
-desc 'Lint the Pod'
-task :lint do
-  sh "pod lib lint SwiftGenKit.podspec --quick"
-end
 
-task :default => :test
+task :default => 'xcode:test'

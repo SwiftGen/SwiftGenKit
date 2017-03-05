@@ -20,71 +20,74 @@ class StringsTests: XCTestCase {
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "empty.plist", sub: .strings)
-    
+
     XCTDiffContexts(result, expected)
   }
 
   func testEntriesWithDefaults() {
     let parser = StringsFileParser()
-    parser.addEntry(StringsFileParser.Entry(key: "Title", translation: "My awesome title"))
-    parser.addEntry(StringsFileParser.Entry(key: "Greetings", translation: "Hello, my name is %@ and I'm %d", types: .Object, .Int))
+    parser.addEntry(StringsFileParser.Entry(key: "Title",
+                                            translation: "My awesome title"))
+    parser.addEntry(StringsFileParser.Entry(key: "Greetings",
+                                            translation: "Hello, my name is %@ and I'm %d",
+                                            types: .Object, .Int))
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "entries.plist", sub: .strings)
-    
+
     XCTDiffContexts(result, expected)
   }
 
-  func testFileWithDefaults() {
+  func testFileWithDefaults() throws {
     let parser = StringsFileParser()
-    try! parser.parseFile(at: Fixtures.path(for: "Localizable.strings", sub: .strings))
+    try parser.parseFile(at: Fixtures.path(for: "Localizable.strings", sub: .strings))
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "defaults.plist", sub: .strings)
-    
+
     XCTDiffContexts(result, expected)
   }
 
-  func testMultiline() {
+  func testMultiline() throws {
     let parser = StringsFileParser()
-    try! parser.parseFile(at: Fixtures.path(for: "LocMultiline.strings", sub: .strings))
+    try parser.parseFile(at: Fixtures.path(for: "LocMultiline.strings", sub: .strings))
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "multiline.plist", sub: .strings)
-    
+
     XCTDiffContexts(result, expected)
   }
 
-  func testUTF8FileWithDefaults() {
+  func testUTF8FileWithDefaults() throws {
     let parser = StringsFileParser()
-    try! parser.parseFile(at: Fixtures.path(for: "LocUTF8.strings", sub: .strings))
+    try parser.parseFile(at: Fixtures.path(for: "LocUTF8.strings", sub: .strings))
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "utf8.plist", sub: .strings)
-    
+
     XCTDiffContexts(result, expected)
   }
 
-  func testFileWithCustomName() {
+  func testFileWithCustomName() throws {
     let parser = StringsFileParser()
-    try! parser.parseFile(at: Fixtures.path(for: "Localizable.strings", sub: .strings))
+    try parser.parseFile(at: Fixtures.path(for: "Localizable.strings", sub: .strings))
 
     let result = parser.stencilContext(enumName: "XCTLoc")
     let expected = Fixtures.context(for: "customname.plist", sub: .strings)
-    
+
     XCTDiffContexts(result, expected)
   }
 
-  func testFileWithStructuredOnly() {
+  func testFileWithStructuredOnly() throws {
     let parser = StringsFileParser()
-    try! parser.parseFile(at: Fixtures.path(for: "LocStructuredOnly.strings", sub: .strings))
+    try parser.parseFile(at: Fixtures.path(for: "LocStructuredOnly.strings", sub: .strings))
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "structuredonly.plist", sub: .strings)
-    
+
     XCTDiffContexts(result, expected)
   }
-  
+
   ////////////////////////////////////////////////////////////////////////
 
   func testParseStringPlaceholder() {
@@ -123,7 +126,8 @@ class StringsTests: XCTestCase {
   }
 
   func testParseComplexFormatPlaceholders() {
-    let placeholders = StringsFileParser.PlaceholderType.placeholders(fromFormat: "%2$1.3d - %4$-.7f - %3$@ - %% - %5$+3c - %%")
+    let format = "%2$1.3d - %4$-.7f - %3$@ - %% - %5$+3c - %%"
+    let placeholders = StringsFileParser.PlaceholderType.placeholders(fromFormat: format)
     // positions 2, 4, 3, 5 set to Int, Float, Object, Char, and position 1 not matched, defaulting to Unknown
     XCTAssertEqual(placeholders, [.Unknown, .Int, .Object, .Float, .Char])
   }

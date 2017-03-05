@@ -13,56 +13,70 @@ import SwiftGenKit
  * See Project -> Target "UnitTests" -> Build Rules -> « Files "*.storyboard" using PBXCp »
  */
 
+class StoryboardsiOSTests: XCTestCase {
 
-class StoryboardsMacOSTests: XCTestCase {
   func testEmpty() {
     let parser = StoryboardParser()
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "empty.plist", sub: .storyboardsMacOS)
-    
+    let expected = Fixtures.context(for: "empty.plist", sub: .storyboardsiOS)
+
     XCTDiffContexts(result, expected)
   }
 
   func testMessageStoryboardWithDefaults() {
     let parser = StoryboardParser()
     do {
-      try parser.addStoryboard(at: Fixtures.path(for: "Message.storyboard", sub: .storyboardsMacOS))
+      try parser.addStoryboard(at: Fixtures.path(for: "Message.storyboard", sub: .storyboardsiOS))
     } catch {
       print("Error: \(error.localizedDescription)")
     }
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "messages.plist", sub: .storyboardsMacOS)
-    
+    let expected = Fixtures.context(for: "messages.plist", sub: .storyboardsiOS)
+
     XCTDiffContexts(result, expected)
   }
 
   func testAnonymousStoryboardWithDefaults() {
     let parser = StoryboardParser()
     do {
-      try parser.addStoryboard(at: Fixtures.path(for: "Anonymous.storyboard", sub: .storyboardsMacOS))
+      try parser.addStoryboard(at: Fixtures.path(for: "Anonymous.storyboard", sub: .storyboardsiOS))
     } catch {
       print("Error: \(error.localizedDescription)")
     }
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "anonymous.plist", sub: .storyboardsMacOS)
-    
+    let expected = Fixtures.context(for: "anonymous.plist", sub: .storyboardsiOS)
+
     XCTDiffContexts(result, expected)
   }
 
   func testAllStoryboardsWithDefaults() {
     let parser = StoryboardParser()
     do {
-      try parser.parseDirectory(at: Fixtures.directory(sub: .storyboardsMacOS))
+      try parser.parseDirectory(at: Fixtures.directory(sub: .storyboardsiOS))
     } catch {
       print("Error: \(error.localizedDescription)")
     }
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "all.plist", sub: .storyboardsMacOS)
-    
+    let expected = Fixtures.context(for: "all.plist", sub: .storyboardsiOS)
+
+    XCTDiffContexts(result, expected)
+  }
+
+  func testAllStoryboardsWithCustomName() {
+    let parser = StoryboardParser()
+    do {
+      try parser.parseDirectory(at: Fixtures.directory(sub: .storyboardsiOS))
+    } catch {
+      print("Error: \(error.localizedDescription)")
+    }
+
+    let result = parser.stencilContext(sceneEnumName: "XCTStoryboardsScene", segueEnumName: "XCTStoryboardsSegue")
+    let expected = Fixtures.context(for: "customname.plist", sub: .storyboardsiOS)
+
     XCTDiffContexts(result, expected)
   }
 }

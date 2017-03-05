@@ -20,7 +20,7 @@ class ImagesTests: XCTestCase {
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "empty.plist", sub: .images)
-    
+
     XCTDiffContexts(result, expected)
   }
 
@@ -30,7 +30,7 @@ class ImagesTests: XCTestCase {
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "defaults.plist", sub: .images)
-    
+
     XCTDiffContexts(result, expected)
   }
 
@@ -40,7 +40,7 @@ class ImagesTests: XCTestCase {
 
     let result = parser.stencilContext(enumName: "XCTImages")
     let expected = Fixtures.context(for: "customname.plist", sub: .images)
-    
+
     XCTDiffContexts(result, expected)
   }
 }

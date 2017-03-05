@@ -1,0 +1,20 @@
+machine:
+  xcode:
+    version: 8.2
+
+checkout:
+  post:
+    - git submodule update --init --recursive
+
+dependencies:
+  post:
+    - rake lint:install
+    - curl -sS https://cocoapods-specs.circleci.com/fetch-cocoapods-repo-from-s3.sh | bash
+
+test:
+  override:
+    - rake lint:code
+    - rake lint:tests
+    - rake xcode:test
+  post:
+    - rake pod:lint

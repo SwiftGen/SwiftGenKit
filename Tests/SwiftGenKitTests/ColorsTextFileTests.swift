@@ -14,43 +14,40 @@ class ColorsTextFileTests: XCTestCase {
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "empty.plist", sub: .colors)
-    
+
     XCTDiffContexts(result, expected)
   }
 
-  func testListWithDefaults() {
+  func testListWithDefaults() throws {
     let parser = ColorsTextFileParser()
-    do {
-      try parser.addColor(named: "Text&Body Color", value: "0x999999")
-      try parser.addColor(named: "ArticleTitle", value: "#996600")
-      try parser.addColor(named: "ArticleBackground", value: "#ffcc0099")
-    } catch {
-      XCTFail("Failed with unexpected error \(error)")
-    }
+
+    try parser.addColor(named: "Text&Body Color", value: "0x999999")
+    try parser.addColor(named: "ArticleTitle", value: "#996600")
+    try parser.addColor(named: "ArticleBackground", value: "#ffcc0099")
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "entries.plist", sub: .colors)
-    
+
     XCTDiffContexts(result, expected)
   }
 
-  func testFileWithDefaults() {
+  func testFileWithDefaults() throws {
     let parser = ColorsTextFileParser()
-    try! parser.parseFile(at: Fixtures.path(for: "colors.txt", sub: .colors))
+    try parser.parseFile(at: Fixtures.path(for: "colors.txt", sub: .colors))
 
     let result = parser.stencilContext()
     let expected = Fixtures.context(for: "text-defaults.plist", sub: .colors)
-    
+
     XCTDiffContexts(result, expected)
   }
 
-  func testFileWithCustomName() {
+  func testFileWithCustomName() throws {
     let parser = ColorsTextFileParser()
-    try! parser.parseFile(at: Fixtures.path(for: "colors.txt", sub: .colors))
+    try parser.parseFile(at: Fixtures.path(for: "colors.txt", sub: .colors))
 
     let result = parser.stencilContext(enumName: "XCTColors")
     let expected = Fixtures.context(for: "text-customname.plist", sub: .colors)
-    
+
     XCTDiffContexts(result, expected)
   }
 
