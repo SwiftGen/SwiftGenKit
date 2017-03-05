@@ -36,7 +36,7 @@ extension FontsFileParser {
     return [
       "families": families,
       "param": ["enumName": enumName],
-      
+
       // NOTE: This is a deprecated variable
       "enumName": enumName
     ]

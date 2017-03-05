@@ -23,7 +23,7 @@ extension AssetsCatalogParser {
     return [
       "catalogs": structured,
       "param": ["enumName": enumName],
-      
+
       // NOTE: This is a deprecated variable
       "enumName": enumName,
       "images": images

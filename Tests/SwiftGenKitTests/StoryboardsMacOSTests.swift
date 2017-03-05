@@ -64,7 +64,7 @@ class StoryboardsMacOSTests: XCTestCase {
 
     XCTDiffContexts(result, expected)
   }
-  
+
   func testAllStoryboardsWithCustomName() {
     let parser = StoryboardParser()
     do {
@@ -72,10 +72,10 @@ class StoryboardsMacOSTests: XCTestCase {
     } catch {
       print("Error: \(error.localizedDescription)")
     }
-    
+
     let result = parser.stencilContext(sceneEnumName: "XCTStoryboardsScene", segueEnumName: "XCTStoryboardsSegue")
     let expected = Fixtures.context(for: "customname.plist", sub: .storyboardsMacOS)
-    
+
     XCTDiffContexts(result, expected)
   }
 }
