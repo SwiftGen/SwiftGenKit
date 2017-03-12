@@ -36,6 +36,7 @@ private func uppercaseFirst(_ string: String) -> String {
        - `class`: `String` (absent if generic UIStoryboardSegue)
 */
 extension StoryboardParser {
+  // swiftlint:disable function_body_length
   public func stencilContext(sceneEnumName: String = "StoryboardScene",
                              segueEnumName: String = "StoryboardSegue",
                              cellEnumName: String = "StoryboardCells") -> [String: Any] {
@@ -68,8 +69,7 @@ extension StoryboardParser {
                 "customClass": customClass,
                 "customModule": scene.customModule ?? ""
               ]
-            }
-            else if scene.tag == "viewController" {
+            } else if scene.tag == "viewController" {
               return [
                 "identifier": scene.storyboardID,
                 "baseType": uppercaseFirst(scene.tag),
@@ -89,7 +89,7 @@ extension StoryboardParser {
             ["identifier": segue.identifier, "customClass": segue.customClass ?? ""]
         }
       }
-      
+
       // All Segues
       if let cells = storyboardsCells[storyboardName] {
         sbMap["cells"] = cells
@@ -98,10 +98,10 @@ extension StoryboardParser {
             ["identifier": cell.identifier, "customClass": cell.customClass ?? ""]
         }
       }
-      
+
       return sbMap
     }
-    
+
     return [
       "sceneEnumName": sceneEnumName,
       "segueEnumName": segueEnumName,
@@ -113,4 +113,5 @@ extension StoryboardParser {
       "extraImports": modules.sorted()
     ]
   }
+  // swiftlint:enable function_body_length
 }

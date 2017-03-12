@@ -33,7 +33,7 @@ public final class StoryboardParser {
     let customClass: String?
     let customModule: String?
   }
-  
+
   var initialScenes = [String: InitialScene]()
   var storyboardsScenes = [String: Set<Scene>]()
   var storyboardsSegues = [String: Set<Segue>]()
@@ -52,7 +52,8 @@ public final class StoryboardParser {
     var readyForFirstObject = false
     var readyForConnections = false
     var readyForTableView = false
-    
+
+    // swiftlint:disable cyclomatic_complexity
     @objc func parser(_ parser: XMLParser, didStartElement elementName: String,
                       namespaceURI: String?, qualifiedName qName: String?,
                       attributes attributeDict: [String: String]) {
@@ -100,6 +101,7 @@ public final class StoryboardParser {
         break
       }
     }
+    // swiftlint:enable cyclomatic_complexity
 
     @objc func parser(_ parser: XMLParser, didEndElement elementName: String,
                       namespaceURI: String?, qualifiedName qName: String?) {
@@ -130,7 +132,7 @@ public final class StoryboardParser {
     storyboardsScenes[storyboardName] = delegate.scenes
     storyboardsSegues[storyboardName] = delegate.segues
     storyboardsCells[storyboardName] = delegate.cells
-    
+
     modules.formUnion(collectModules(initial: delegate.initialScene, scenes: delegate.scenes, segues: delegate.segues))
   }
 
@@ -193,6 +195,8 @@ func == (lhs: StoryboardParser.Cell, rhs: StoryboardParser.Cell) -> Bool {
 
 extension StoryboardParser.Cell: Hashable {
   var hashValue: Int {
+    // swiftlint:disable line_length
     return identifier.hashValue ^ (customModule?.hashValue ?? 0) ^ (customClass?.hashValue ?? 0) ^ (customClass?.hashValue ?? 0)
+    // swiftlint:enable line_length
   }
 }
