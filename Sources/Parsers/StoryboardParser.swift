@@ -28,9 +28,16 @@ public final class StoryboardParser {
     let customModule: String?
   }
 
+  struct Cell {
+    let identifier: String
+    let customClass: String?
+    let customModule: String?
+  }
+
   var initialScenes = [String: InitialScene]()
   var storyboardsScenes = [String: Set<Scene>]()
   var storyboardsSegues = [String: Set<Segue>]()
+  var storyboardsCells = [String: Set<Cell>]()
   var modules = Set<String>()
 
   public init() {}
@@ -40,10 +47,13 @@ public final class StoryboardParser {
     var initialScene: InitialScene?
     var scenes = Set<Scene>()
     var segues = Set<Segue>()
+    var cells = Set<Cell>()
     var inScene = false
     var readyForFirstObject = false
     var readyForConnections = false
+    var readyForTableView = false
 
+    // swiftlint:disable cyclomatic_complexity
     @objc func parser(_ parser: XMLParser, didStartElement elementName: String,
                       namespaceURI: String?, qualifiedName qName: String?,
                       attributes attributeDict: [String: String]) {
@@ -71,6 +81,14 @@ public final class StoryboardParser {
                               customModule: customModule))
         }
         readyForFirstObject = false
+      case "tableView":
+        readyForTableView = true
+      case "tableViewCell" where readyForTableView:
+        if let reuseIdentifier = attributeDict["reuseIdentifier"] {
+          let customClass = attributeDict["customClass"]
+          let customModule = attributeDict["customModule"]
+          cells.insert(Cell(identifier: reuseIdentifier, customClass: customClass, customModule: customModule))
+        }
       case "connections":
         readyForConnections = true
       case "segue" where readyForConnections:
@@ -83,6 +101,7 @@ public final class StoryboardParser {
         break
       }
     }
+    // swiftlint:enable cyclomatic_complexity
 
     @objc func parser(_ parser: XMLParser, didEndElement elementName: String,
                       namespaceURI: String?, qualifiedName qName: String?) {
@@ -91,6 +110,8 @@ public final class StoryboardParser {
         inScene = false
       case "objects" where inScene:
         readyForFirstObject = false
+      case "tableView":
+        readyForTableView = false
       case "connections":
         readyForConnections = false
       default:
@@ -110,6 +131,7 @@ public final class StoryboardParser {
     initialScenes[storyboardName] = delegate.initialScene
     storyboardsScenes[storyboardName] = delegate.scenes
     storyboardsSegues[storyboardName] = delegate.segues
+    storyboardsCells[storyboardName] = delegate.cells
 
     modules.formUnion(collectModules(initial: delegate.initialScene, scenes: delegate.scenes, segues: delegate.segues))
   }
@@ -161,5 +183,20 @@ func == (lhs: StoryboardParser.Segue, rhs: StoryboardParser.Segue) -> Bool {
 extension StoryboardParser.Segue: Hashable {
   var hashValue: Int {
     return identifier.hashValue ^ (customModule?.hashValue ?? 0) ^ (customClass?.hashValue ?? 0)
+  }
+}
+
+extension StoryboardParser.Cell: Equatable { }
+func == (lhs: StoryboardParser.Cell, rhs: StoryboardParser.Cell) -> Bool {
+  return lhs.identifier == rhs.identifier &&
+    lhs.customClass == rhs.customClass &&
+    lhs.customModule == rhs.customModule
+}
+
+extension StoryboardParser.Cell: Hashable {
+  var hashValue: Int {
+    // swiftlint:disable line_length
+    return identifier.hashValue ^ (customModule?.hashValue ?? 0) ^ (customClass?.hashValue ?? 0) ^ (customClass?.hashValue ?? 0)
+    // swiftlint:enable line_length
   }
 }

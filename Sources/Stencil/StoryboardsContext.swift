@@ -36,8 +36,10 @@ private func uppercaseFirst(_ string: String) -> String {
        - `class`: `String` (absent if generic UIStoryboardSegue)
 */
 extension StoryboardParser {
+  // swiftlint:disable function_body_length
   public func stencilContext(sceneEnumName: String = "StoryboardScene",
-                             segueEnumName: String = "StoryboardSegue") -> [String: Any] {
+                             segueEnumName: String = "StoryboardSegue",
+                             cellEnumName: String = "StoryboardCells") -> [String: Any] {
     let storyboards = Set(storyboardsScenes.keys).union(storyboardsSegues.keys).sorted(by: <)
     let storyboardsMap = storyboards.map { (storyboardName: String) -> [String:Any] in
       var sbMap: [String:Any] = ["name": storyboardName]
@@ -60,7 +62,7 @@ extension StoryboardParser {
       if let scenes = storyboardsScenes[storyboardName] {
         sbMap["scenes"] = scenes
           .sorted(by: {$0.storyboardID < $1.storyboardID})
-          .map { (scene: Scene) -> [String:Any] in
+          .map { (scene: Scene) -> [String: Any] in
             if let customClass = scene.customClass {
               return [
                 "identifier": scene.storyboardID,
@@ -81,17 +83,29 @@ extension StoryboardParser {
       }
       // All Segues
       if let segues = storyboardsSegues[storyboardName] {
-		sbMap["segues"] = segues
-			.sorted(by: {$0.identifier < $1.identifier})
-			.map { (segue: Segue) -> [String:String] in
-				["identifier": segue.identifier, "customClass": segue.customClass ?? ""]
-		}
+        sbMap["segues"] = segues
+          .sorted(by: {$0.identifier < $1.identifier})
+          .map { (segue: Segue) -> [String: String] in
+            ["identifier": segue.identifier, "customClass": segue.customClass ?? ""]
+        }
       }
+
+      // All Segues
+      if let cells = storyboardsCells[storyboardName] {
+        sbMap["cells"] = cells
+          .sorted(by: {$0.identifier < $1.identifier})
+          .map { (cell: Cell) -> [String: String] in
+            ["identifier": cell.identifier, "customClass": cell.customClass ?? ""]
+        }
+      }
+
       return sbMap
     }
+
     return [
       "sceneEnumName": sceneEnumName,
       "segueEnumName": segueEnumName,
+      "cellEnumName": cellEnumName,
       "storyboards": storyboardsMap,
       "modules": modules.sorted(),
 
@@ -99,4 +113,5 @@ extension StoryboardParser {
       "extraImports": modules.sorted()
     ]
   }
+  // swiftlint:enable function_body_length
 }
