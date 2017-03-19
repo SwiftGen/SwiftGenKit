@@ -34,5 +34,4 @@ protocol Element {
   var identifier: String { get }
   var storyboardId: String { get }
   var type: ElementType { get }
-  var dictionary: [String:Any] { get }
 }

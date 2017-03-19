@@ -30,14 +30,6 @@ public final class StoryboardParser {
   var segueDestinationIds = Set<String>()
   var modules = Set<String>()
 
-  public var storyboardFilesDict: [String:Any] {
-    var dict = [String: Any]()
-    for (key, value) in storyboardFiles {
-      dict[key] = value.map { $0.dictionary }
-    }
-    return dict
-  }
-
   public struct Scene: Element {
     let identifier: String
     let storyboardId: String
@@ -45,21 +37,6 @@ public final class StoryboardParser {
     let isInitial: Bool
     let reuseIdentifiers: Set<StoryboardParser.Cell>
     let segues: Set<StoryboardParser.Segue>
-    var dictionary: [String: Any] {
-      return [
-        "identifier": identifier,
-        "storyboardId": storyboardId,
-        "tag": type.tag,
-        "customClass": type.customClass ?? "",
-        "customModule": type.customModule ?? "",
-        "class": type.klass,
-        "module": type.module,
-        "type": type.type,
-        "isInitial": isInitial,
-        "reuseIdentifiers": reuseIdentifiers.map { $0.dictionary },
-        "segues": segues.map { $0.dictionary }
-      ]
-    }
   }
 
   public struct Segue: Element {
@@ -71,19 +48,6 @@ public final class StoryboardParser {
     let popoverPresentationAnchorView: String?
     let unwindAction: String?
     let relationship: String?
-    var dictionary: [String:Any] {
-      return [
-        "identifier": identifier,
-        "storyboardId": storyboardId,
-        "customClass": type.customClass ?? "",
-        "customModule": type.customModule ?? "",
-        "class": type.klass,
-        "module": type.module,
-        "type": type.type,
-        "destinationId": destinationId,
-        "kind": kind.rawValue
-      ]
-    }
   }
 
   public struct Cell: Element {
@@ -95,11 +59,8 @@ public final class StoryboardParser {
     }
     var dictionary: [String:Any] {
       return [
-        "identifier": identifier,
         "storyboardId": storyboardId,
         "tag": type.tag,
-        "customClass": type.customClass ?? "",
-        "customModule": type.customModule ?? "",
         "class": type.klass,
         "module": type.module,
         "type": type.type

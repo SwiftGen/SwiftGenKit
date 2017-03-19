@@ -85,6 +85,8 @@ class Fixtures {
     case storyboardsiOS = "Storyboards-iOS"
     case storyboardsMacOS = "Storyboards-macOS"
     case strings = "Strings"
+    case storyboardsNewiOS = "Storyboards-new-iOS"
+    case storyboardsNewMacOS = "Storyboards-new-macOS"
   }
 
   private static let testBundle = Bundle(for: Fixtures.self)

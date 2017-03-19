@@ -38,7 +38,8 @@ private func uppercaseFirst(_ string: String) -> String {
 extension StoryboardParser {
   // swiftlint:disable function_body_length
   public func stencilContext(sceneEnumName: String = "StoryboardScene",
-                             segueEnumName: String = "StoryboardSegue") -> [String: Any] {
+                             segueEnumName: String = "StoryboardSegue",
+                             newFormat: Bool = false) -> [String: Any] {
     let storyboards = Set(storyboardFiles.keys).sorted(by: <)
     let storyboardsMap = storyboards.map { (storyboardName: String) -> [String:Any] in
 
@@ -61,14 +62,9 @@ extension StoryboardParser {
           return dict
       }
 
-      let dict = NSDictionary(dictionary: segueDestinationClasseDict)
-      let success = dict.write(toFile: "/Users/carlos/Desktop/DeSwiftGenKit/salida.plist", atomically: true)
-      print("success: \(success)")
-
       var sbMap: [String:Any] = ["name": storyboardName]
       // All Storyboards
       if let storyboard = storyboardFiles[storyboardName] {
-
         // Initial Scene
         if let initialScene = storyboard.first(where: { $0.isInitial == true }) {
           let initial: [String:Any]
@@ -84,50 +80,106 @@ extension StoryboardParser {
           sbMap["initialScene"] = initial
         }
 
-        // All Scenes
-        sbMap["scenes"] = storyboard
-          .filter { $0.storyboardId != "" }
-          .sorted(by: {$0.storyboardId < $1.storyboardId})
-          .map { (scene: Scene) -> [String:Any] in
-            if let customClass = scene.type.customClass {
+        if newFormat {
+          // All Scenes
+          sbMap["scenes"] = storyboard
+            .filter { $0.storyboardId != "" }
+            .sorted(by: {$0.storyboardId < $1.storyboardId})
+            .map { (scene: Scene) -> [String:Any] in
+
+              let segues: [[String:String]] = scene.segues
+                .reduce([[String: String]]()) {
+                  var array = $0
+                  array.append([
+                    "storyboardId": $1.storyboardId,
+                    "class": $1.type.klass,
+                    "module": $1.type.module,
+                    "type": $1.type.type,
+                    "destinationType": segueDestinationClasseDict[$1.destinationId] ?? "",
+                    "kind": $1.kind.rawValue
+                  ])
+                  return array
+                }
+
               return [
                 "identifier": scene.storyboardId,
-                "customClass": customClass,
-                "customModule": scene.type.customModule ?? ""
-              ]
-            } else if scene.type.tag == "viewController" {
-              return [
-                "identifier": scene.storyboardId,
-                "baseType": uppercaseFirst(scene.type.tag),
+                "class": scene.type.klass,
+                "module": scene.type.module,
+                "type": scene.type.type,
+                "isInitial": scene.isInitial,
+                "reuseIdentifiers": scene.reuseIdentifiers.map { $0.dictionary },
+                "segues": segues,
 
                 // NOTE: This is a deprecated variable
                 "isBaseViewController": scene.type.tag == "viewController"
-              ]
-            }
-            return ["identifier": scene.storyboardId, "baseType": uppercaseFirst(scene.type.tag)]
-        }
 
-        // All Segues
-        let allSegues = storyboard
-          .map { (scene: Scene) -> Set<Segue> in scene.segues }
-          .reduce(Set<Segue>()) { $0.union($1) }
-          .filter { $0.storyboardId != "" }
-          .reduce(Set<Segue>()) { (previous: Set<Segue>, next: Segue) -> Set<Segue> in
-            let notInPrevious = previous
-              .filter { $0.storyboardId == next.storyboardId }
-              .isEmpty
-            if notInPrevious {
-              var previousSet = previous
-              previousSet.insert(next)
-              return previousSet
-            }
-            return previous
+              ]
+
+//              if let customClass = scene.type.customClass {
+//                return [
+//                  "identifier": scene.storyboardId,
+//                  "customClass": customClass,
+//                  "customModule": scene.type.customModule ?? ""
+//                ]
+//              } else if scene.type.tag == "viewController" {
+//                return [
+//                  "identifier": scene.storyboardId,
+//                  "baseType": uppercaseFirst(scene.type.tag),
+//
+//                  // NOTE: This is a deprecated variable
+//                  "isBaseViewController": scene.type.tag == "viewController"
+//                ]
+//              }
+//              return ["identifier": scene.storyboardId, "baseType": uppercaseFirst(scene.type.tag)]
           }
 
-        sbMap["segues"] = allSegues
-          .sorted(by: {$0.storyboardId < $1.storyboardId})
-          .map { (segue: Segue) -> [String:String] in
-            ["identifier": segue.storyboardId, "customClass": segue.type.customClass ?? ""]
+        } else {
+
+          // All Scenes
+          sbMap["scenes"] = storyboard
+            .filter { $0.storyboardId != "" }
+            .sorted(by: {$0.storyboardId < $1.storyboardId})
+            .map { (scene: Scene) -> [String:Any] in
+              if let customClass = scene.type.customClass {
+                return [
+                  "identifier": scene.storyboardId,
+                  "customClass": customClass,
+                  "customModule": scene.type.customModule ?? ""
+                ]
+              } else if scene.type.tag == "viewController" {
+                return [
+                  "identifier": scene.storyboardId,
+                  "baseType": uppercaseFirst(scene.type.tag),
+
+                  // NOTE: This is a deprecated variable
+                  "isBaseViewController": scene.type.tag == "viewController"
+                ]
+              }
+              return ["identifier": scene.storyboardId, "baseType": uppercaseFirst(scene.type.tag)]
+          }
+
+          // All Segues
+          let allSegues = storyboard
+            .map { (scene: Scene) -> Set<Segue> in scene.segues }
+            .reduce(Set<Segue>()) { $0.union($1) }
+            .filter { $0.storyboardId != "" }
+            .reduce(Set<Segue>()) { (previous: Set<Segue>, next: Segue) -> Set<Segue> in
+              let notInPrevious = previous
+                .filter { $0.storyboardId == next.storyboardId }
+                .isEmpty
+              if notInPrevious {
+                var previousSet = previous
+                previousSet.insert(next)
+                return previousSet
+              }
+              return previous
+          }
+
+          sbMap["segues"] = allSegues
+            .sorted(by: {$0.storyboardId < $1.storyboardId})
+            .map { (segue: Segue) -> [String:String] in
+              ["identifier": segue.storyboardId, "customClass": segue.type.customClass ?? ""]
+          }
         }
       }
 
