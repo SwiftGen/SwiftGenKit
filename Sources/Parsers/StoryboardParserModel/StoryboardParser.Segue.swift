@@ -96,15 +96,15 @@ extension StoryboardParser.Segue {
 
     switch kind {
     case .popoverPresentation:
-      guard let view = popoverPresentationAnchorView else {
+      if popoverPresentationAnchorView == nil {
         throw StoryboardParserError.popoverPresentationSegueWithoutAnchorView
       }
     case .unwind:
-      guard let action = unwindAction else {
+      if unwindAction == nil {
         throw StoryboardParserError.unwindSegueWithoutUnwindAction
       }
     case .relationship:
-      guard let relationship = relationship else {
+      if relationship == nil {
         throw StoryboardParserError.relationshipSegueWithoutRelationship
       }
     default:
