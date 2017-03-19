@@ -7,90 +7,214 @@
 import Foundation
 import PathKit
 
+public enum StoryboardParserError: Error, CustomStringConvertible {
+  case popoverPresentationSegueWithoutAnchorView
+  case unwindSegueWithoutUnwindAction
+  case relationshipSegueWithoutRelationship
+
+  public var description: String {
+    switch self {
+    case .popoverPresentationSegueWithoutAnchorView:
+      return "Invalid storyboard file: A popoverPresentation type segue without "
+    case .unwindSegueWithoutUnwindAction:
+      return "Invalid strings file"
+    case .relationshipSegueWithoutRelationship:
+      return "Invalid strings file"
+    }
+  }
+}
+
+// swiftlint:disable type_body_length
 public final class StoryboardParser {
-  struct InitialScene {
-    let objectID: String
-    let tag: String
-    let customClass: String?
-    let customModule: String?
-  }
-
-  struct Scene {
-    let storyboardID: String
-    let tag: String
-    let customClass: String?
-    let customModule: String?
-  }
-
-  struct Segue {
-    let identifier: String
-    let customClass: String?
-    let customModule: String?
-  }
-
-  var initialScenes = [String: InitialScene]()
-  var storyboardsScenes = [String: Set<Scene>]()
-  var storyboardsSegues = [String: Set<Segue>]()
+  var storyboardFiles = [String: Set<Scene>]()
+  var segueDestinationIds = Set<String>()
   var modules = Set<String>()
+
+  public struct Scene: Element {
+    let identifier: String
+    let storyboardId: String
+    let type: StoryboardParser.SceneElement
+    let isInitial: Bool
+    let reuseIdentifiers: Set<StoryboardParser.Cell>
+    let segues: Set<StoryboardParser.Segue>
+  }
+
+  public struct Segue: Element {
+    let identifier: String
+    let storyboardId: String
+    let type: StoryboardParser.SegueElement
+    let destinationId: String
+    let kind: SegueKind
+    let popoverPresentationAnchorView: String?
+    let unwindAction: String?
+    let relationship: String?
+  }
+
+  public struct Cell: Element {
+    let identifier: String
+    let storyboardId: String
+    let type: StoryboardParser.CellElement
+    var cellType: StoryboardParser.CellType {
+      return StoryboardParser.CellType(rawValue: type.tag)!
+    }
+    var dictionary: [String:Any] {
+      return [
+        "storyboardId": storyboardId,
+        "tag": type.tag,
+        "class": type.klass,
+        "module": type.module,
+        "type": type.type
+      ]
+    }
+  }
 
   public init() {}
 
   private class ParserDelegate: NSObject, XMLParserDelegate {
-    var initialViewControllerObjectID: String?
-    var initialScene: InitialScene?
+    private var initialViewControllerObjectID: String?
+    private var storyboardPlatform: StoryboardParser.Platform = .iOS
     var scenes = Set<Scene>()
-    var segues = Set<Segue>()
-    var inScene = false
-    var readyForFirstObject = false
-    var readyForConnections = false
+    var segueDestinationIds = Set<String>()
+    var modules = Set<String>()
+    private var inScene = false
+    private var readyForFirstObject = false
+    private var readyForConnections = false
+    private var readyForTableView = false
+    private var readyForCollectionView = false
+    private var sceneIdentifier: String?
+    private var sceneTag: String?
+    private var sceneStoryboardID: String?
+    private var sceneClass: String?
+    private var sceneModule: String?
+    private var sceneIsInitial = false
+    private var sceneCells = Set<Cell>()
+    private var sceneSegues = Set<Segue>()
+    private func resetScene() {
+      sceneIdentifier = nil
+      sceneTag = nil
+      sceneStoryboardID = nil
+      sceneClass = nil
+      sceneModule = nil
+      sceneIsInitial = false
+      sceneCells = Set<Cell>()
+      sceneSegues = Set<Segue>()
+    }
 
+    // swiftlint:disable cyclomatic_complexity
+    // swiftlint:disable function_body_length
     @objc func parser(_ parser: XMLParser, didStartElement elementName: String,
                       namespaceURI: String?, qualifiedName qName: String?,
                       attributes attributeDict: [String: String]) {
+      // swiftlint:enable function_body_length
 
       switch elementName {
       case "document":
         initialViewControllerObjectID = attributeDict["initialViewController"]
+        storyboardPlatform = Platform(rawValue: attributeDict["targetRuntime"]!)!
       case "scene":
         inScene = true
       case "objects" where inScene:
         readyForFirstObject = true
       case let tag where (readyForFirstObject && tag != "viewControllerPlaceholder"):
-        let customClass = attributeDict["customClass"]
-        let customModule = attributeDict["customModule"]
-        if let objectID = attributeDict["id"], objectID == initialViewControllerObjectID {
-          initialScene = InitialScene(objectID: objectID,
-                                      tag: tag,
-                                      customClass: customClass,
-                                      customModule: customModule)
+        if
+          let objectID = attributeDict["id"]
+        {
+          sceneIdentifier = objectID
+          sceneTag = tag
+          sceneStoryboardID = attributeDict["storyboardIdentifier"]
+          sceneClass = attributeDict["customClass"]
+          sceneModule = attributeDict["customModule"]
+          if let module = sceneModule {
+            modules.insert(module)
+          }
+          sceneIsInitial = initialViewControllerObjectID != nil && sceneIdentifier == initialViewControllerObjectID
+          readyForFirstObject = false
         }
-        if let storyboardID = attributeDict["storyboardIdentifier"] {
-          scenes.insert(Scene(storyboardID: storyboardID,
-                              tag: tag,
-                              customClass: customClass,
-                              customModule: customModule))
+      case "tableView" where inScene:
+        readyForTableView = true
+      case "tableViewCell" where readyForTableView:
+        if let reuseIdentifier = attributeDict["reuseIdentifier"] {
+          sceneCells.insert(
+            Cell(identifier: attributeDict["id"]!,
+                 reuseIdentifier: reuseIdentifier,
+                 platform: storyboardPlatform,
+                 customClass: attributeDict["customClass"],
+                 customModule: attributeDict["customModule"],
+                 cellType: .tableViewCell)
+          )
+          if let module = attributeDict["customModule"] {
+            modules.insert(module)
+          }
         }
-        readyForFirstObject = false
-      case "connections":
+      case "collectionView" where inScene:
+        readyForCollectionView = true
+      case "collectionViewCell" where readyForCollectionView:
+        if let reuseIdentifier = attributeDict["reuseIdentifier"] {
+          sceneCells.insert(
+            Cell(identifier: attributeDict["id"]!,
+                 reuseIdentifier: reuseIdentifier,
+                 platform: storyboardPlatform,
+                 customClass: attributeDict["customClass"],
+                 customModule: attributeDict["customModule"],
+                 cellType: .collectionViewCell)
+          )
+          if let module = attributeDict["customModule"] {
+            modules.insert(module)
+          }
+        }
+      case "connections" where inScene:
         readyForConnections = true
       case "segue" where readyForConnections:
-        if let segueID = attributeDict["identifier"] {
-          let customClass = attributeDict["customClass"]
-          let customModule = attributeDict["customModule"]
-          segues.insert(Segue(identifier: segueID, customClass: customClass, customModule: customModule))
+        if attributeDict["identifier"] != nil {
+          if let segue = Segue(platform: storyboardPlatform, attributes: attributeDict) {
+            sceneSegues.insert(segue)
+            if segue.kind != .unwind {
+              segueDestinationIds.insert(segue.destinationId)
+            }
+            if let module = attributeDict["customModule"] {
+              modules.insert(module)
+            }
+          }
         }
       default:
         break
       }
+
     }
+    // swiftlint:enable cyclomatic_complexity
 
     @objc func parser(_ parser: XMLParser, didEndElement elementName: String,
                       namespaceURI: String?, qualifiedName qName: String?) {
       switch elementName {
       case "scene":
         inScene = false
+        defer {
+          resetScene()
+        }
+        guard
+          let sceneId = sceneIdentifier,
+          let tag = sceneTag
+          else {
+            break
+        }
+
+        scenes.insert(
+          Scene(identifier: sceneId,
+                storyboardId: sceneStoryboardID,
+                platform: storyboardPlatform,
+                tag: tag,
+                customClass: sceneClass,
+                customModule: sceneModule,
+                isInitial: sceneIsInitial,
+                reuseIdentifiers: sceneCells,
+                segues: sceneSegues)
+        )
       case "objects" where inScene:
         readyForFirstObject = false
+      case "tableView":
+        readyForTableView = false
+      case "collectionView":
+        readyForCollectionView = false
       case "connections":
         readyForConnections = false
       default:
@@ -107,11 +231,9 @@ public final class StoryboardParser {
     parser.parse()
 
     let storyboardName = path.lastComponentWithoutExtension
-    initialScenes[storyboardName] = delegate.initialScene
-    storyboardsScenes[storyboardName] = delegate.scenes
-    storyboardsSegues[storyboardName] = delegate.segues
-
-    modules.formUnion(collectModules(initial: delegate.initialScene, scenes: delegate.scenes, segues: delegate.segues))
+    storyboardFiles[storyboardName] = delegate.scenes
+    segueDestinationIds.formUnion(delegate.segueDestinationIds)
+    modules.formUnion(delegate.modules)
   }
 
   public func parseDirectory(at path: Path) throws {
@@ -123,43 +245,42 @@ public final class StoryboardParser {
       }
     }
   }
+}
+// swiftlint:enable type_body_length
 
-  private func collectModules(initial: InitialScene?, scenes: Set<Scene>, segues: Set<Segue>) -> Set<String> {
-    var result = Set<String>()
-
-    if let module = initial?.customModule {
-      result.insert(module)
-    }
-    result.formUnion(Set<String>(scenes.flatMap { $0.customModule }))
-    result.formUnion(Set<String>(segues.flatMap { $0.customModule }))
-
-    return result
+extension StoryboardParser.Scene: Hashable, Equatable {
+  public var hashValue: Int {
+    return (identifier.hashValue ^
+      storyboardId.hashValue ^
+      type.hashValue ^
+      isInitial.hashValue ^
+      reuseIdentifiers.hashValue ^
+      segues.hashValue)
   }
 }
 
-extension StoryboardParser.Scene: Equatable { }
-func == (lhs: StoryboardParser.Scene, rhs: StoryboardParser.Scene) -> Bool {
-  return lhs.storyboardID == rhs.storyboardID &&
-    lhs.tag == rhs.tag &&
-    lhs.customClass == rhs.customClass &&
-    lhs.customModule == rhs.customModule
-}
-
-extension StoryboardParser.Scene: Hashable {
-  var hashValue: Int {
-    return storyboardID.hashValue ^ tag.hashValue ^ (customModule?.hashValue ?? 0) ^ (customClass?.hashValue ?? 0)
+extension StoryboardParser.Segue: Hashable, Equatable {
+  public var hashValue: Int {
+    return (identifier.hashValue ^
+      storyboardId.hashValue ^
+      type.hashValue ^
+      destinationId.hashValue ^
+      kind.hashValue ^
+      (popoverPresentationAnchorView?.hashValue ?? 0) ^
+      (unwindAction?.hashValue ?? 0) ^
+      (relationship?.hashValue ?? 0)
+    )
   }
 }
 
-extension StoryboardParser.Segue: Equatable { }
-func == (lhs: StoryboardParser.Segue, rhs: StoryboardParser.Segue) -> Bool {
-  return lhs.identifier == rhs.identifier &&
-    lhs.customClass == rhs.customClass &&
-    lhs.customModule == rhs.customModule
-}
+// MARK: - Extensions
 
-extension StoryboardParser.Segue: Hashable {
-  var hashValue: Int {
-    return identifier.hashValue ^ (customModule?.hashValue ?? 0) ^ (customClass?.hashValue ?? 0)
+extension String {
+  var capitalizedFirstLetter: String {
+    let first = String(characters.prefix(1)).capitalized
+    let other = String(characters.dropFirst())
+    return first + other
   }
 }
+
+// swiftlint:enable file_length
