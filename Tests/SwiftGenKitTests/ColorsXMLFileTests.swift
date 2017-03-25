@@ -32,18 +32,6 @@ class ColorsXMLFileTests: XCTestCase {
     XCTDiffContexts(result, expected: "customname.plist", sub: .colors)
   }
 
-  func testFileWithBadSyntax() {
-    let parser = ColorsXMLFileParser()
-    do {
-      try parser.parseFile(at: Fixtures.path(for: "bad-syntax.xml", sub: .colors))
-      XCTFail("Code did parse file successfully while it was expected to fail for bad syntax")
-    } catch ColorsParserError.invalidFile {
-      // That's the expected exception we want to happen
-    } catch let error {
-      XCTFail("Unexpected error occured while parsing: \(error)")
-    }
-  }
-
   func testFileWithBadValue() {
     let parser = ColorsXMLFileParser()
     do {

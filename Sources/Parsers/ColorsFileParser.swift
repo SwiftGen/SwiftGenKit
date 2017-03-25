@@ -4,8 +4,9 @@
 // MIT Licence
 //
 
-import Foundation
 import AppKit.NSColor
+import Foundation
+import Fuzi
 import PathKit
 
 public protocol ColorsFileParser {
@@ -169,65 +170,25 @@ extension NSColor {
 // MARK: - Android colors.xml File Parser
 
 public final class ColorsXMLFileParser: ColorsFileParser {
-  static let colorTagName = "color"
-  static let colorNameAttribute = "name"
+  private enum XML {
+    static let colorPath = "/resources/color"
+    static let nameAttribute = "name"
+  }
 
   public private(set) var colors = [String: UInt32]()
 
   public init() {}
 
-  private class ParserDelegate: NSObject, XMLParserDelegate {
-    var parsedColors = [String: UInt32]()
-    var currentColorName: String?
-    var currentColorValue: String?
-    var colorParserError: Error?
-
-    @objc func parser(_ parser: XMLParser, didStartElement elementName: String,
-                      namespaceURI: String?, qualifiedName qName: String?,
-                      attributes attributeDict: [String: String]) {
-      guard elementName == ColorsXMLFileParser.colorTagName else { return }
-      currentColorName = attributeDict[ColorsXMLFileParser.colorNameAttribute]
-      currentColorValue = nil
-    }
-
-    @objc func parser(_ parser: XMLParser, foundCharacters string: String) {
-      currentColorValue = (currentColorValue ?? "") + string
-    }
-
-    @objc func parser(_ parser: XMLParser, didEndElement elementName: String,
-                      namespaceURI: String?, qualifiedName qName: String?) {
-      guard elementName == ColorsXMLFileParser.colorTagName else { return }
-      guard let colorName = currentColorName, let colorValue = currentColorValue else { return }
-
-      do {
-        parsedColors[colorName] = try parse(hex: colorValue, key: colorName)
-      } catch let error as ColorsParserError {
-        colorParserError = error
-        parser.abortParsing()
-      } catch {
-        parser.abortParsing()
-      }
-
-      currentColorName = nil
-      currentColorValue = nil
-    }
-  }
-
   public func parseFile(at path: Path) throws {
-    let parser = XMLParser(data: try path.read())
-    let delegate = ParserDelegate()
-    parser.delegate = delegate
+    let document = try Fuzi.XMLDocument(string: try path.read())
 
-    if parser.parse() {
-      colors = delegate.parsedColors
-    } else if let error = delegate.colorParserError {
-      throw error
-    } else {
-      let reason = parser.parserError?.localizedDescription ?? "Unknown XML parser error."
-      throw ColorsParserError.invalidFile(reason: reason)
+    for color in document.xpath(XML.colorPath) {
+      let value = color.stringValue
+      guard let name = color["name"], !name.isEmpty else { continue }
+
+      colors[name] = try parse(hex: value, key: name)
     }
   }
-
 }
 
 // MARK: - JSON File Parser
