@@ -5,11 +5,11 @@
 //
 
 import Foundation
+import Fuzi
 import PathKit
 
 public final class StoryboardParser {
   struct InitialScene {
-    let objectID: String
     let tag: String
     let customClass: String?
     let customModule: String?
@@ -27,6 +27,11 @@ public final class StoryboardParser {
     let customClass: String?
     let customModule: String?
   }
+  
+  enum XML {
+    static let scenePath = "/document/scenes/scene/objects/*[@sceneMemberID=\"viewController\"]"
+    static let seguePath = "/document/scenes/scene//connections/segue[string(@identifier)]"
+  }
 
   var initialScenes = [String: InitialScene]()
   var storyboardsScenes = [String: Set<Scene>]()
@@ -35,83 +40,47 @@ public final class StoryboardParser {
 
   public init() {}
 
-  private class ParserDelegate: NSObject, XMLParserDelegate {
-    var initialViewControllerObjectID: String?
-    var initialScene: InitialScene?
-    var scenes = Set<Scene>()
-    var segues = Set<Segue>()
-    var inScene = false
-    var readyForFirstObject = false
-    var readyForConnections = false
-
-    @objc func parser(_ parser: XMLParser, didStartElement elementName: String,
-                      namespaceURI: String?, qualifiedName qName: String?,
-                      attributes attributeDict: [String: String]) {
-
-      switch elementName {
-      case "document":
-        initialViewControllerObjectID = attributeDict["initialViewController"]
-      case "scene":
-        inScene = true
-      case "objects" where inScene:
-        readyForFirstObject = true
-      case let tag where (readyForFirstObject && tag != "viewControllerPlaceholder"):
-        let customClass = attributeDict["customClass"]
-        let customModule = attributeDict["customModule"]
-        if let objectID = attributeDict["id"], objectID == initialViewControllerObjectID {
-          initialScene = InitialScene(objectID: objectID,
-                                      tag: tag,
-                                      customClass: customClass,
-                                      customModule: customModule)
-        }
-        if let storyboardID = attributeDict["storyboardIdentifier"] {
-          scenes.insert(Scene(storyboardID: storyboardID,
-                              tag: tag,
-                              customClass: customClass,
-                              customModule: customModule))
-        }
-        readyForFirstObject = false
-      case "connections":
-        readyForConnections = true
-      case "segue" where readyForConnections:
-        if let segueID = attributeDict["identifier"] {
-          let customClass = attributeDict["customClass"]
-          let customModule = attributeDict["customModule"]
-          segues.insert(Segue(identifier: segueID, customClass: customClass, customModule: customModule))
-        }
-      default:
-        break
-      }
-    }
-
-    @objc func parser(_ parser: XMLParser, didEndElement elementName: String,
-                      namespaceURI: String?, qualifiedName qName: String?) {
-      switch elementName {
-      case "scene":
-        inScene = false
-      case "objects" where inScene:
-        readyForFirstObject = false
-      case "connections":
-        readyForConnections = false
-      default:
-        break
-      }
-    }
-  }
-
   public func addStoryboard(at path: Path) throws {
-    let parser = XMLParser(data: try path.read())
-
-    let delegate = ParserDelegate()
-    parser.delegate = delegate
-    parser.parse()
+    let document = try Fuzi.XMLDocument(string: try path.read())
 
     let storyboardName = path.lastComponentWithoutExtension
-    initialScenes[storyboardName] = delegate.initialScene
-    storyboardsScenes[storyboardName] = delegate.scenes
-    storyboardsSegues[storyboardName] = delegate.segues
+    let initialSceneID = document.root?["initialViewController"]
+    var initialScene: InitialScene? = nil
+    var scenes = Set<Scene>()
+    var segues = Set<Segue>()
 
-    modules.formUnion(collectModules(initial: delegate.initialScene, scenes: delegate.scenes, segues: delegate.segues))
+    for scene in document.xpath(XML.scenePath) {
+      guard scene.tag != "viewControllerPlaceholder" else { continue }
+
+      let customClass = scene["customClass"]
+      let customModule = scene["customModule"]
+
+      if scene["id"] == initialSceneID {
+        initialScene = InitialScene(tag: scene.tag ?? "",
+                                    customClass: customClass,
+                                    customModule: customModule)
+      }
+      if let id = scene["storyboardIdentifier"] {
+        scenes.insert(Scene(storyboardID: id,
+                            tag: scene.tag ?? "",
+                            customClass: customClass,
+                            customModule: customModule))
+      }
+    }
+
+    for segue in document.xpath(XML.seguePath) {
+      let id = segue["identifier"] ?? ""
+      let customClass = segue["customClass"]
+      let customModule = segue["customModule"]
+
+      segues.insert(Segue(identifier: id, customClass: customClass, customModule: customModule))
+    }
+
+    initialScenes[storyboardName] = initialScene
+    storyboardsScenes[storyboardName] = scenes
+    storyboardsSegues[storyboardName] = segues
+
+    modules.formUnion(collectModules(initial: initialScene, scenes: scenes, segues: segues))
   }
 
   public func parseDirectory(at path: Path) throws {
