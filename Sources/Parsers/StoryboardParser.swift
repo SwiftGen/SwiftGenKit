@@ -27,10 +27,23 @@ public final class StoryboardParser {
     let customClass: String?
     let customModule: String?
   }
-  
+
   enum XML {
-    static let scenePath = "/document/scenes/scene/objects/*[@sceneMemberID=\"viewController\"]"
-    static let seguePath = "/document/scenes/scene//connections/segue[string(@identifier)]"
+    enum Path {
+      static let scene = "/document/scenes/scene/objects/*[@sceneMemberID=\"viewController\"]"
+      static let segue = "/document/scenes/scene//connections/segue[string(@identifier)]"
+    }
+    enum Tag {
+      static let placeholder = "viewControllerPlaceholder"
+    }
+    enum Attribute {
+      static let customClass = "customClass"
+      static let customModule = "customModule"
+      static let id = "id"
+      static let identifier = "identifier"
+      static let initialVC = "initialViewController"
+      static let storyboardIdentifier = "storyboardIdentifier"
+    }
   }
 
   var initialScenes = [String: InitialScene]()
@@ -44,23 +57,23 @@ public final class StoryboardParser {
     let document = try Fuzi.XMLDocument(string: try path.read())
 
     let storyboardName = path.lastComponentWithoutExtension
-    let initialSceneID = document.root?["initialViewController"]
+    let initialSceneID = document.root?[XML.Attribute.initialVC]
     var initialScene: InitialScene? = nil
     var scenes = Set<Scene>()
     var segues = Set<Segue>()
 
-    for scene in document.xpath(XML.scenePath) {
-      guard scene.tag != "viewControllerPlaceholder" else { continue }
+    for scene in document.xpath(XML.Path.scene) {
+      guard scene.tag != XML.Tag.placeholder else { continue }
 
-      let customClass = scene["customClass"]
-      let customModule = scene["customModule"]
+      let customClass = scene[XML.Attribute.customClass]
+      let customModule = scene[XML.Attribute.customModule]
 
-      if scene["id"] == initialSceneID {
+      if scene[XML.Attribute.id] == initialSceneID {
         initialScene = InitialScene(tag: scene.tag ?? "",
                                     customClass: customClass,
                                     customModule: customModule)
       }
-      if let id = scene["storyboardIdentifier"] {
+      if let id = scene[XML.Attribute.storyboardIdentifier] {
         scenes.insert(Scene(storyboardID: id,
                             tag: scene.tag ?? "",
                             customClass: customClass,
@@ -68,10 +81,10 @@ public final class StoryboardParser {
       }
     }
 
-    for segue in document.xpath(XML.seguePath) {
-      let id = segue["identifier"] ?? ""
-      let customClass = segue["customClass"]
-      let customModule = segue["customModule"]
+    for segue in document.xpath(XML.Path.segue) {
+      let id = segue[XML.Attribute.identifier] ?? ""
+      let customClass = segue[XML.Attribute.customClass]
+      let customModule = segue[XML.Attribute.customModule]
 
       segues.insert(Segue(identifier: id, customClass: customClass, customModule: customModule))
     }
