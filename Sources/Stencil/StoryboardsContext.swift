@@ -115,7 +115,8 @@ extension StoryboardParser {
   private func map(segue: Segue) -> [String: Any] {
     return [
       "identifier": segue.identifier,
-      "customClass": segue.customClass ?? ""
+      "customClass": segue.customClass ?? "",
+      "customModule": segue.customModule ?? ""
     ]
   }
 }
