@@ -7,11 +7,8 @@
 import Foundation
 
 /*
- - `enumName`: `String` — name of the enum to generate
  - `colors`: `Array` of:
     - `name` : `String` — name of each color
-    - `rgb`  : `String` — hex value of the form RRGGBB (like "ff6600")
-    - `rgba` : `String` — hex value of the form RRGGBBAA (like "ff6600cc")
     - `red`  : `String` — hex value of the red component
     - `green`: `String` — hex value of the green component
     - `blue` : `String` — hex value of the blue component
@@ -40,10 +37,10 @@ extension ColorsFileParser {
 
     return [
       "colors": colorMap,
-      "param": ["enumName": enumName],
 
       // NOTE: This is a deprecated variable
-      "enumName": enumName
+      "enumName": enumName,
+      "param": ["enumName": enumName]
     ]
   }
 }

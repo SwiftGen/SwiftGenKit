@@ -15,20 +15,18 @@ private extension String {
 }
 
 /*
- - `enumName`: `String`
- - `tableName`: `String` - name of the `.strings` file (usually `"Localizable"`)
- - `strings`: `Array`
-    - `key`: `String`
-    - `translation`: `String`
-    - `params`: `Dictionary` — defined only if localized string has parameters; contains the following entries:
-       - `count`: `Int` — number of parameters
-       - `types`: `Array<String>` containing types like `"String"`, `"Int"`, etc
-       - `declarations`: `Array<String>` containing declarations like `"let p0"`, `"let p1"`, etc
-       - `names`: `Array<String>` containing parameter names like `"p0"`, `"p1"`, etc
-       - `typednames`: Array<String>` containing typed declarations like `"let p0: String`", `"let p1: Int"`, etc
-    - `keytail`: `String` containing the rest of the key after the next first `.`
-                 (useful to do recursion when splitting keys against `.` for structured templates)
- - `structuredStrings`: `Dictionary` - contains strings structured by keys separated by '.' syntax
+ - `tables`: `Array` - List of string tables
+   - `name`   : `String` - name of the `.strings` file (usually `"Localizable"`)
+   - `strings`: `Array` - Tree structure of strings (based on dot syntax), each level has:
+     - `name`   : `String` - name of the level
+     - `strings`: `Array` - list of strings at this level:
+       - `key`: `String` - the full translation key
+       - `translation`: `String` - the translated text
+       - `types`: `Array<String>` — defined only if localized string has parameters.
+          Containing types like `"String"`, `"Int"`, etc
+       - `keytail`: `String` containing the rest of the key after the next first `.`
+         (useful to do recursion when splitting keys against `.` for structured templates)
+     - `subenums`: `Array` - list of sub-levels, repeating the structure mentioned above
 */
 extension StringsFileParser {
   public func stencilContext(enumName: String = "L10n", tableName: String = "Localizable") -> [String: Any] {
@@ -74,10 +72,10 @@ extension StringsFileParser {
 
     return [
       "tables": tables,
-      "param": ["enumName": enumName],
 
       // NOTE: These are deprecated variables
       "enumName": enumName,
+      "param": ["enumName": enumName],
       "strings": strings,
       "structuredStrings": structuredStrings,
       "tableName": tableName

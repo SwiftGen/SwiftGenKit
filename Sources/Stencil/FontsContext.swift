@@ -7,12 +7,11 @@
 import Foundation
 
 /*
-- `enumName`: `String`
-- `families`: `Array`
-  - `name`: `String`
-  - `fonts`: `Array`
-    - `style`: `String`
-    - `name`: `String`
+- `families`: `Array` — list of font families
+  - `name` : `String` — name of family
+  - `fonts`: `Array` — list of fonts in family
+    - `style`: `String` — font style
+    - `name` : `String` — font postscript name
 */
 
 extension FontsFileParser {
@@ -35,10 +34,10 @@ extension FontsFileParser {
 
     return [
       "families": families,
-      "param": ["enumName": enumName],
 
       // NOTE: This is a deprecated variable
-      "enumName": enumName
+      "enumName": enumName,
+      "param": ["enumName": enumName]
     ]
   }
 }

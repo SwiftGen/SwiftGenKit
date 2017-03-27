@@ -14,26 +14,25 @@ private func uppercaseFirst(_ string: String) -> String {
 }
 
 /*
- - `sceneEnumName`: `String`
- - `segueEnumName`: `String`
- - `modules`: `Array` of `String`
- - `storyboards`: `Array` of:
-    - `name`: `String`
+ - `modules`    : `Array<String>` — List of modules used by scenes and segues
+ - `storyboards`: `Array` — List of storyboards
+    - `name`: `String` — Name of the storyboard
     - `initialScene`: `Dictionary` (absent if not specified)
-       - `customClass`: `String` (absent if generic UIViewController/NSViewController)
-       - `isBaseViewController`: `Bool`, indicate if the baseType is 'viewController' or anything else
+       - `customClass` : `String` (absent if generic UIViewController/NSViewController)
+       - `customModule`: `String` (absent if no custom class)
        - `baseType`: `String` (absent if class is a custom class).
           The base class type on which the initial scene is base.
           Possible values include 'ViewController', 'NavigationController', 'TableViewController'…
     - `scenes`: `Array` (absent if empty)
-       - `identifier`: `String`
+       - `identifier` : `String`
        - `customClass`: `String` (absent if generic UIViewController/NSViewController)
-       - `isBaseViewController`: `Bool`, indicate if the baseType is 'ViewController' or anything else
-       - `baseType`: `String` (absent if class is a custom class). The base class type on which a scene is base.
+       - `customModule`: `String` (absent if no custom class)
+       - `baseType`: `String` (absent if class is a custom class).
+          The base class type on which a scene is base.
           Possible values include 'ViewController', 'NavigationController', 'TableViewController'…
     - `segues`: `Array` (absent if empty)
        - `identifier`: `String`
-       - `class`: `String` (absent if generic UIStoryboardSegue)
+       - `customClass`: `String` (absent if generic UIStoryboardSegue)
 */
 extension StoryboardParser {
   public func stencilContext(sceneEnumName: String = "StoryboardScene",
@@ -60,15 +59,15 @@ extension StoryboardParser {
       return sbMap
     }
     return [
-      "storyboards": storyboardsMap,
       "modules": modules.sorted(),
+      "storyboards": storyboardsMap,
+
+      // NOTE: This is a deprecated variable
+      "extraImports": modules.sorted(),
       "param": [
         "sceneEnumName": sceneEnumName,
         "segueEnumName": segueEnumName
       ],
-
-      // NOTE: This is a deprecated variable
-      "extraImports": modules.sorted(),
       "sceneEnumName": sceneEnumName,
       "segueEnumName": segueEnumName
     ]
