@@ -45,7 +45,7 @@ extension StringsFileParser {
       ]
 
       if entry.types.count > 0 {
-        result["parameters"] = entry.types.map { $0.rawValue }
+        result["types"] = entry.types.map { $0.rawValue }
 
         // NOTE: params is deprecated
         result["params"] = [
