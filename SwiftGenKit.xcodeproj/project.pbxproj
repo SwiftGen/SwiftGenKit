@@ -24,12 +24,9 @@
 
 /* Begin PBXFileReference section */
 		09A87B501BCCA2C600D9B9F5 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1807D936DC8EC9E147BFED39 /* Pods-Generate Contexts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Generate Contexts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Generate Contexts/Pods-Generate Contexts.debug.xcconfig"; sourceTree = "<group>"; };
 		47888DD528DEC4C84FD8F15B /* Pods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tests/Pods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		4B3D39DBCD15D8F6BB891D92 /* Pods-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tests/Pods-Tests.release.xcconfig"; sourceTree = "<group>"; };
 		8BF798509C76E5A9ACE03491 /* Pods_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0953FBF302610271EE29CD4 /* Pods_Generate_Contexts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Generate_Contexts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D7E03D6F3B0C007A95249620 /* Pods-Generate Contexts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Generate Contexts.release.xcconfig"; path = "Pods/Target Support Files/Pods-Generate Contexts/Pods-Generate Contexts.release.xcconfig"; sourceTree = "<group>"; };
 		DDF573171E6103DC0033C01B /* ColorsCLRFileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsCLRFileTests.swift; sourceTree = "<group>"; };
 		DDF573181E6103DC0033C01B /* ColorsJSONFileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsJSONFileTests.swift; sourceTree = "<group>"; };
 		DDF573191E6103DC0033C01B /* ColorsTextFileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsTextFileTests.swift; sourceTree = "<group>"; };
@@ -82,7 +79,6 @@
 			isa = PBXGroup;
 			children = (
 				8BF798509C76E5A9ACE03491 /* Pods_Tests.framework */,
-				D0953FBF302610271EE29CD4 /* Pods_Generate_Contexts.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -92,8 +88,6 @@
 			children = (
 				47888DD528DEC4C84FD8F15B /* Pods-Tests.debug.xcconfig */,
 				4B3D39DBCD15D8F6BB891D92 /* Pods-Tests.release.xcconfig */,
-				1807D936DC8EC9E147BFED39 /* Pods-Generate Contexts.debug.xcconfig */,
-				D7E03D6F3B0C007A95249620 /* Pods-Generate Contexts.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
