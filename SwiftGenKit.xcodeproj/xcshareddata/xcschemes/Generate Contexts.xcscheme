@@ -39,7 +39,7 @@
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "GENERATE_CONTEXTS"
-            value = "Test"
+            value = "YES"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
