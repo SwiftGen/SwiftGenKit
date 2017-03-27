@@ -16,9 +16,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DD3EE1D91E6C7A5300EA1599"
-               BuildableName = "Generate Contexts.xctest"
-               BlueprintName = "Generate Contexts"
+               BlueprintIdentifier = "09A87B4F1BCCA2C600D9B9F5"
+               BuildableName = "Tests.xctest"
+               BlueprintName = "Tests"
                ReferencedContainer = "container:SwiftGenKit.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -36,6 +36,13 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "GENERATE_CONTEXTS"
+            value = "Test"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>

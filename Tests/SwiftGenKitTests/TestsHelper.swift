@@ -76,16 +76,16 @@ func XCTDiffContexts(_ result: [String: Any],
                      sub directory: Fixtures.Directory,
                      file: StaticString = #file,
                      line: UInt = #line) {
-  #if GENERATE_CONTEXTS
+  if ProcessInfo().environment["GENERATE_CONTEXTS"] == "YES" {
     let target = Path(#file).parent().parent() + "Resources/Contexts" + directory.rawValue + name
     guard (result as NSDictionary).write(to: target.url, atomically: true) else {
       fatalError("Unable to write context file \(target)")
     }
-  #else
+  } else {
     let expected = Fixtures.context(for: name, sub: directory)
     guard let error = diff(result, expected) else { return }
     XCTFail(error, file: file, line: line)
-  #endif
+  }
 }
 
 class Fixtures {
