@@ -15,18 +15,18 @@ private extension String {
 }
 
 /*
- - `tables`: `Array` - List of string tables
-   - `name`   : `String` - name of the `.strings` file (usually `"Localizable"`)
-   - `strings`: `Array` - Tree structure of strings (based on dot syntax), each level has:
-     - `name`   : `String` - name of the level
-     - `strings`: `Array` - list of strings at this level:
-       - `key`: `String` - the full translation key
-       - `translation`: `String` - the translated text
+ - `tables`: `Array` — List of string tables
+   - `name`   : `String` — name of the `.strings` file (usually `"Localizable"`)
+   - `strings`: `Array` — Tree structure of strings (based on dot syntax), each level has:
+     - `name`   : `String` — name of the level
+     - `strings`: `Array` — list of strings at this level:
+       - `key`: `String` — the full translation key
+       - `translation`: `String` — the translated text
        - `types`: `Array<String>` — defined only if localized string has parameters.
           Containing types like `"String"`, `"Int"`, etc
        - `keytail`: `String` containing the rest of the key after the next first `.`
          (useful to do recursion when splitting keys against `.` for structured templates)
-     - `subenums`: `Array` - list of sub-levels, repeating the structure mentioned above
+     - `subenums`: `Array` — list of sub-levels, repeating the structure mentioned above
 */
 extension StringsFileParser {
   public func stencilContext(enumName: String = "L10n", tableName: String = "Localizable") -> [String: Any] {

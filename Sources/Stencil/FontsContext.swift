@@ -7,11 +7,11 @@
 import Foundation
 
 /*
-- `families`: `Array` — list of font families
-  - `name` : `String` — name of family
-  - `fonts`: `Array` — list of fonts in family
-    - `style`: `String` — font style
-    - `name` : `String` — font postscript name
+ - `families`: `Array` — list of font families
+   - `name` : `String` — name of family
+   - `fonts`: `Array` — list of fonts in family
+     - `style`: `String` — font style
+     - `name` : `String` — font postscript name
 */
 
 extension FontsFileParser {
