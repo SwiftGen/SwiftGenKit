@@ -155,10 +155,10 @@ extension NSColor {
   }
 
   fileprivate var hexValue: UInt32 {
-    let hexRed   = UInt32(redComponent   * 0xFF) << 24
-    let hexGreen = UInt32(greenComponent * 0xFF) << 16
-    let hexBlue  = UInt32(blueComponent  * 0xFF) << 8
-    let hexAlpha = UInt32(alphaComponent * 0xFF)
+    let hexRed   = UInt32(round(redComponent   * 0xFF)) << 24
+    let hexGreen = UInt32(round(greenComponent * 0xFF)) << 16
+    let hexBlue  = UInt32(round(blueComponent  * 0xFF)) << 8
+    let hexAlpha = UInt32(round(alphaComponent * 0xFF))
     return hexRed | hexGreen | hexBlue | hexAlpha
   }
 
