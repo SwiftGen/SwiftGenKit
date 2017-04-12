@@ -66,8 +66,6 @@ class StoryboardsMacOSTests: XCTestCase {
     }
 
     let result = parser.stencilContext(sceneEnumName: "XCTStoryboardsScene", segueEnumName: "XCTStoryboardsSegue")
-    let expected = Fixtures.context(for: "customname.plist", sub: .storyboardsMacOS)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "customname.plist", sub: .storyboardsMacOS)
   }
 }
