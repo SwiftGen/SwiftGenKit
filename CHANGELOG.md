@@ -14,6 +14,10 @@ _None_
 
 ### New Features
 
+* Add PlistParser.  
+  [Toshihiro Suzuki](https://github.com/toshi0383)
+  [#22](https://github.com/SwiftGen/SwiftGenKit/pull/22)
+
 * More variables have been deprecated, while new variables have been added.  
   [David Jennes](https://github.com/djbe)
   [#13](https://github.com/SwiftGen/SwiftGenKit/issues/13)
