@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F0CFFD11E9DEC6F006043E6 /* PlistTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0CFFD01E9DEC6F006043E6 /* PlistTests.swift */; };
 		82EF0CC0752D216C67279A16 /* Pods_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BF798509C76E5A9ACE03491 /* Pods_Tests.framework */; };
 		DDF573231E6103DC0033C01B /* ColorsCLRFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF573171E6103DC0033C01B /* ColorsCLRFileTests.swift */; };
 		DDF573241E6103DC0033C01B /* ColorsJSONFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF573181E6103DC0033C01B /* ColorsJSONFileTests.swift */; };
@@ -24,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		09A87B501BCCA2C600D9B9F5 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F0CFFD01E9DEC6F006043E6 /* PlistTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistTests.swift; sourceTree = "<group>"; };
 		47888DD528DEC4C84FD8F15B /* Pods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tests/Pods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		4B3D39DBCD15D8F6BB891D92 /* Pods-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tests/Pods-Tests.release.xcconfig"; sourceTree = "<group>"; };
 		8BF798509C76E5A9ACE03491 /* Pods_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,6 +112,7 @@
 				DDF5731A1E6103DC0033C01B /* ColorsXMLFileTests.swift */,
 				DDF5731B1E6103DC0033C01B /* FontsTests.swift */,
 				DDF5731C1E6103DC0033C01B /* ImagesTests.swift */,
+				1F0CFFD01E9DEC6F006043E6 /* PlistTests.swift */,
 				DDF5731F1E6103DC0033C01B /* StoryboardsiOSTests.swift */,
 				DDF573201E6103DC0033C01B /* StoryboardsMacOSTests.swift */,
 				DDF573211E6103DC0033C01B /* StringsTests.swift */,
@@ -272,6 +275,7 @@
 				DDF573251E6103DC0033C01B /* ColorsTextFileTests.swift in Sources */,
 				DDF573281E6103DC0033C01B /* ImagesTests.swift in Sources */,
 				DDF5732C1E6103DC0033C01B /* StringsTests.swift in Sources */,
+				1F0CFFD11E9DEC6F006043E6 /* PlistTests.swift in Sources */,
 				DDF573241E6103DC0033C01B /* ColorsJSONFileTests.swift in Sources */,
 				DDF5732A1E6103DC0033C01B /* StoryboardsiOSTests.swift in Sources */,
 				DDF573271E6103DC0033C01B /* FontsTests.swift in Sources */,
