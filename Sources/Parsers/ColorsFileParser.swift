@@ -151,6 +151,8 @@ public final class ColorsCLRFileParser: ColorsFileParser {
 extension NSColor {
 
   fileprivate var rgbColor: NSColor? {
+    guard colorSpace.colorSpaceModel != .RGB else { return self }
+    
     return usingColorSpaceName(NSCalibratedRGBColorSpace)
   }
 
