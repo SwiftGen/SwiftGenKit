@@ -33,6 +33,9 @@ _None_
   [David Jennes](https://github.com/djbe)
   [#10](https://github.com/SwiftGen/SwiftGenKit/issues/10)
   [#28](https://github.com/SwiftGen/SwiftGenKit/issues/28)
+* Documented the input & output of each parser.  
+  [David Jennes](https://github.com/djbe)
+  [#24](https://github.com/SwiftGen/SwiftGenKit/issues/24)
 
 ## 1.0.1
 
