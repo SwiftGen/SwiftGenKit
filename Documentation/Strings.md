@@ -4,7 +4,29 @@
 
 The strings parser accepts a `strings` file, typically `Localizable.stirngs`. It will parse each string in this file, including the type information for formatting parameters. 
 
-The strings file will be converted into a structured tree version, where each string is separated into components by the `.` character. We call this the `dot syntax`, each component representing a level.
+The strings file will be converted into a structured tree version, where each string is separated into components by the `.` character. We call this the `dot syntax`, each component representing a level. For example, the following strings:
+
+```
+"some.deep.structure"
+"some.deep.something"
+"hello.world"
+```
+
+will be parsed into the following structure (not showing the rest of the structure, such as values and types):
+
+```swift
+[
+  "some": [
+    "deep": [
+      "structure",
+      "something"
+    ]
+  ],
+  "hello": [
+    "world"
+  ]
+]
+```
 
 ## Output
 
