@@ -15,9 +15,7 @@ class PlistTests: XCTestCase {
     let parser = PlistParser()
 
     let result = parser.stencilContext()
-    let expected = [
-      "plistKeys": []
-    ]
+    let expected = [String: Any]()
 
     XCTDiffContexts(result, expected)
   }
@@ -26,7 +24,7 @@ class PlistTests: XCTestCase {
     parser.parse(at: Fixtures.path(for: "default.plist", sub: .plist))
     let result = parser.stencilContext()
     let expected = [
-      "plistKeys": [
+      "stringKeys": [
         "UIUserInterfaceStyle",
         "CFBundleShortVersionString",
         "CFBundleExecutable",
@@ -34,12 +32,45 @@ class PlistTests: XCTestCase {
         "UIMainStoryboardFile",
         "CFBundleDevelopmentRegion",
         "CFBundlePackageType",
-        "LSRequiresIPhoneOS",
         "CFBundleName",
         "CFBundleVersion",
         "CFBundleIdentifier",
-        "UIRequiredDeviceCapabilities"
+      ],
+      "boolKeys": [
+        "LSRequiresIPhoneOS",
+      ],
+      "arrayKeys": [
+        "UIRequiredDeviceCapabilities",
       ]
+    ]
+    XCTDiffContexts(result, expected)
+  }
+  func testFileWithVariousTypeContents() {
+    let parser = PlistParser()
+    parser.parse(at: Fixtures.path(for: "various-types.plist", sub: .plist))
+    let result = parser.stencilContext()
+    let expected = [
+      "stringKeys": [
+        "CFBundleIdentifier",
+      ],
+      "boolKeys": [
+        "LSRequiresIPhoneOS",
+      ],
+      "dictKeys": [
+        "NSAppTransportSecurity",
+      ],
+      "dateKeys": [
+        "SomeDate",
+      ],
+      "dataKeys": [
+        "SomeData",
+      ],
+      "intKeys": [
+        "SomeNumber",
+      ],
+      "arrayKeys": [
+        "ArrayOfManyTypes",
+      ],
     ]
     XCTDiffContexts(result, expected)
   }
