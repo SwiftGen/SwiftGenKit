@@ -22,7 +22,8 @@ extension FontsFileParser {
         // Font
         return [
           "style": font.style,
-          "fontName": font.postScriptName
+          "fontName": font.postScriptName,
+          "path": font.filePath
         ]
       }.sorted { $0["fontName"] ?? "" < $1["fontName"] ?? "" }
       // Family
