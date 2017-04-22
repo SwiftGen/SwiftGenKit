@@ -21,9 +21,12 @@ extension FontsFileParser {
       let fonts = family.map { (font: Font) -> [String: String] in
         // Font
         return [
+          "name": font.postScriptName,
+          "path": font.filePath,
           "style": font.style,
-          "fontName": font.postScriptName,
-          "path": font.filePath
+
+          // NOTE: This is a deprecated variable
+          "fontName": font.postScriptName
         ]
       }.sorted { $0["fontName"] ?? "" < $1["fontName"] ?? "" }
       // Family
