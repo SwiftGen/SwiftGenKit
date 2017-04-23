@@ -36,9 +36,8 @@ public func == (lhs: Font, rhs: Font) -> Bool {
 }
 
 extension PathKit.Path {
-
   /// Returns the Path relative to a parent directory.
-  /// If the argument passe as parent isn't a prefix of self, returns nil.
+  /// If the argument passed as parent isn't a prefix of `self`, returns `nil`.
   ///
   /// - Parameter parent: The parent Path to get the relative path against
   /// - Returns: The relative Path, or nil if parent was not a parent dir of self
