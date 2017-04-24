@@ -21,7 +21,6 @@ _None_
   * The `strings`, `structuredStrings` and `tableName` have been replaced by `tables`, which is an array of string tables, each with a `name` and a `strings` property.
   * For each string, the `params` variable and it's subvariables (such as `names`, `count`, ...) have been replaced by `types`, which is an array of types.
   * `enumName`, `sceneEnumName` and `segueEnumName` have been replaced by `param.enumName`, `param.sceneEnumName` and `param.segueEnumName` respectively. Templates should provide a default value for these in case the variables are empty.
-
 * Added the `path` variable to the fonts context (so that we can use it to genrate `Info.plist` entries and such).  
   [Olivier Halligon](https://github.com/AliGator)
   [#25](https://github.com/SwiftGen/SwiftGenKit/pull/25)
@@ -31,6 +30,7 @@ _None_
 * Switch from Travis CI to Circle CI, clean up the Rakefile in the process.  
   [David Jennes](https://github.com/djbe)
   [#10](https://github.com/SwiftGen/SwiftGenKit/issues/10)
+  [#28](https://github.com/SwiftGen/SwiftGenKit/issues/28)
 
 ## 1.0.1
 
