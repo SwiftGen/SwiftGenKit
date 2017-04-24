@@ -22,6 +22,9 @@ extension FontsFileParser {
         // Font
         return [
           "style": font.style,
+          "name": font.postScriptName,
+
+          // NOTE: This is a deprecated variable
           "fontName": font.postScriptName
         ]
       }.sorted { $0["fontName"] ?? "" < $1["fontName"] ?? "" }
