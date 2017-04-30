@@ -132,10 +132,16 @@ class StringsTests: XCTestCase {
     XCTAssertEqual(placeholders, [.Unknown, .Int, .Object, .Float, .Char])
   }
 
-  func testParseEscapePercentSign() {
+  func testParseEvenEscapePercentSign() {
     let placeholders = StringsFileParser.PlaceholderType.placeholders(fromFormat: "%%foo")
     // Must NOT map to [.Float]
     XCTAssertEqual(placeholders, [])
+  }
+
+  func testParseOddEscapePercentSign() {
+    let placeholders = StringsFileParser.PlaceholderType.placeholders(fromFormat: "%%%foo")
+    // Should map to [.Float]
+    XCTAssertEqual(placeholders, [.Float])
   }
 
 }
