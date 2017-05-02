@@ -10,8 +10,9 @@ import Foundation
  - `families`: `Array` — list of font families
    - `name` : `String` — name of family
    - `fonts`: `Array` — list of fonts in family
-     - `style`: `String` — font style
-     - `name` : `String` — font postscript name
+     - `name` : `String` — the font's postscript name
+     - `path` : `String` — the path to the font, relative to the folder being scanned
+     - `style`: `String` — the designer's description of the font's style, like bold, oblique, …
 */
 
 extension FontsFileParser {
@@ -21,8 +22,9 @@ extension FontsFileParser {
       let fonts = family.map { (font: Font) -> [String: String] in
         // Font
         return [
-          "style": font.style,
           "name": font.postScriptName,
+          "path": font.filePath,
+          "style": font.style,
 
           // NOTE: This is a deprecated variable
           "fontName": font.postScriptName
