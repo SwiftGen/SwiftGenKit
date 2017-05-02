@@ -11,5 +11,6 @@ The output context has the following structure:
  - `families`: `Array` — list of font families
    - `name` : `String` — name of family
    - `fonts`: `Array` — list of fonts in family
-     - `style`: `String` — font style
-     - `name` : `String` — font postscript name
+     - `name` : `String` — the font's postscript name
+     - `path` : `String` — the path to the font, relative to the folder being scanned
+     - `style`: `String` — the designer's description of the font's style, like bold, oblique, …
