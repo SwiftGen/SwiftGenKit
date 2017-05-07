@@ -14,7 +14,7 @@ private func uppercaseFirst(_ string: String) -> String {
 }
 
 /*
- - `modules`    : `Array<String>` — List of modules used by scenes and segues — typically to be used for "import" statements
+ - `modules`    : `Array<String>` — List of modules used by scenes and segues — typically used for "import" statements
  - `storyboards`: `Array` — List of storyboards
     - `name`: `String` — Name of the storyboard
     - `initialScene`: `Dictionary` (absent if not specified)
