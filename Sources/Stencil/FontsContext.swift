@@ -8,11 +8,11 @@ import Foundation
 
 /*
  - `families`: `Array` — list of font families
-   - `name` : `String` — name of family
-   - `fonts`: `Array` — list of fonts in family
+   - `name` : `String` — name of the font family
+   - `fonts`: `Array` — list of fonts in the font family
      - `name` : `String` — the font's postscript name
      - `path` : `String` — the path to the font, relative to the folder being scanned
-     - `style`: `String` — the designer's description of the font's style, like bold, oblique, …
+     - `style`: `String` — the designer's description of the font's style, like "bold", "oblique", …
 */
 
 extension FontsFileParser {
