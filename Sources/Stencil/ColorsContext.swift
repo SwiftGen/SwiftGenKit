@@ -30,8 +30,8 @@ extension ColorsFileParser {
         "alpha": comps[3],
 
         // NOTE: This is a deprecated variable
-		"rgba": String(hexChars[0..<8]),
-		"rgb": String(hexChars[0..<6])
+        "rgba": String(hexChars[0..<8]),
+        "rgb": String(hexChars[0..<6])
       ]
     }).sorted { $0["name"] ?? "" < $1["name"] ?? "" }
 
