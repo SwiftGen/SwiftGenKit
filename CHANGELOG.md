@@ -18,7 +18,9 @@ _None_
 
 ### Internal Changes
 
-_None_
+* Fix swiftlint errors on enum names not conforming to the Swift 3 syntax.  
+  [Liquidsoul](https://github.com/liquidsoul)
+  [#31](https://github.com/SwiftGen/SwiftGenKit/issues/31)
 
 ## 1.1.0
 
