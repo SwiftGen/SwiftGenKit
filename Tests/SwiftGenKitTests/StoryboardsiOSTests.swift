@@ -19,9 +19,7 @@ class StoryboardsiOSTests: XCTestCase {
     let parser = StoryboardParser()
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "empty.plist", sub: .storyboardsiOS)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "empty.plist", sub: .storyboardsiOS)
   }
 
   func testMessageStoryboardWithDefaults() {
@@ -33,9 +31,7 @@ class StoryboardsiOSTests: XCTestCase {
     }
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "messages.plist", sub: .storyboardsiOS)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "messages.plist", sub: .storyboardsiOS)
   }
 
   func testAnonymousStoryboardWithDefaults() {
@@ -47,9 +43,7 @@ class StoryboardsiOSTests: XCTestCase {
     }
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "anonymous.plist", sub: .storyboardsiOS)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "anonymous.plist", sub: .storyboardsiOS)
   }
 
   func testAllStoryboardsWithDefaults() {
@@ -61,9 +55,7 @@ class StoryboardsiOSTests: XCTestCase {
     }
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "all.plist", sub: .storyboardsiOS)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "all.plist", sub: .storyboardsiOS)
   }
 
   func testAllStoryboardsWithCustomName() {
@@ -75,8 +67,6 @@ class StoryboardsiOSTests: XCTestCase {
     }
 
     let result = parser.stencilContext(sceneEnumName: "XCTStoryboardsScene", segueEnumName: "XCTStoryboardsSegue")
-    let expected = Fixtures.context(for: "customname.plist", sub: .storyboardsiOS)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "customname.plist", sub: .storyboardsiOS)
   }
 }

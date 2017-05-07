@@ -33,6 +33,9 @@ _None_
   [David Jennes](https://github.com/djbe)
   [#10](https://github.com/SwiftGen/SwiftGenKit/issues/10)
   [#28](https://github.com/SwiftGen/SwiftGenKit/issues/28)
+* We can now re-generate the contexts used for testing by using the "Generate Contexts" Xcode scheme.  
+  [David Jennes](https://github.com/djbe)
+  [#14](https://github.com/SwiftGen/SwiftGenKit/issues/14)
 * Documented the input & output of each parser.  
   [David Jennes](https://github.com/djbe)
   [#24](https://github.com/SwiftGen/SwiftGenKit/issues/24)

@@ -22,3 +22,11 @@ Each parser provided by this framework has a corresponding documentation file ex
 * [Fonts](Documentation/Fonts.md)
 * [Storyboards](Documentation/Storyboards.md)
 * [Strings](Documentation/Strings.md) 
+
+## Contributing
+
+Please check the [CONTRIBUTING file](https://github.com/SwiftGen/SwiftGen/blob/master/CONTRIBUTING.md) for guidelines on how to contribute to this repository.
+
+During development, should you make changes to the code generating context, you can re-generate all the context files instead of modifying them manually. Use either of these methods:
+- In Xcode, select the "Generate Contexts" scheme and run the tests
+- From Terminal, execute `rake generate_contexts`
