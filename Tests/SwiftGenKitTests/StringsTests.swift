@@ -28,7 +28,7 @@ class StringsTests: XCTestCase {
                                             translation: "My awesome title"))
     parser.addEntry(StringsFileParser.Entry(key: "Greetings",
                                             translation: "Hello, my name is %@ and I'm %d",
-                                            types: .Object, .Int))
+                                            types: .object, .int))
 
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "entries.plist", sub: .strings)
@@ -78,44 +78,44 @@ class StringsTests: XCTestCase {
 
   func testParseStringPlaceholder() {
     let placeholders = StringsFileParser.PlaceholderType.placeholders(fromFormat: "%@")
-    XCTAssertEqual(placeholders, [.Object])
+    XCTAssertEqual(placeholders, [.object])
   }
 
   func testParseFloatPlaceholder() {
     let placeholders = StringsFileParser.PlaceholderType.placeholders(fromFormat: "%f")
-    XCTAssertEqual(placeholders, [.Float])
+    XCTAssertEqual(placeholders, [.float])
   }
 
   func testParseDoublePlaceholders() {
     let placeholders = StringsFileParser.PlaceholderType.placeholders(fromFormat: "%g-%e")
-    XCTAssertEqual(placeholders, [.Float, .Float])
+    XCTAssertEqual(placeholders, [.float, .float])
   }
 
   func testParseFloatWithPrecisionPlaceholders() {
     let placeholders = StringsFileParser.PlaceholderType.placeholders(fromFormat: "%1.2f : %.3f : %+3f : %-6.2f")
-    XCTAssertEqual(placeholders, [.Float, .Float, .Float, .Float])
+    XCTAssertEqual(placeholders, [.float, .float, .float, .float])
   }
 
   func testParseIntPlaceholders() {
     let placeholders = StringsFileParser.PlaceholderType.placeholders(fromFormat: "%d-%i-%o-%u-%x")
-    XCTAssertEqual(placeholders, [.Int, .Int, .Int, .Int, .Int])
+    XCTAssertEqual(placeholders, [.int, .int, .int, .int, .int])
   }
 
   func testParseCCharAndStringPlaceholders() {
     let placeholders = StringsFileParser.PlaceholderType.placeholders(fromFormat: "%c-%s")
-    XCTAssertEqual(placeholders, [.Char, .CString])
+    XCTAssertEqual(placeholders, [.char, .cString])
   }
 
   func testParsePositionalPlaceholders() {
     let placeholders = StringsFileParser.PlaceholderType.placeholders(fromFormat: "%2$d-%4$f-%3$@-%c")
-    XCTAssertEqual(placeholders, [.Char, .Int, .Object, .Float])
+    XCTAssertEqual(placeholders, [.char, .int, .object, .float])
   }
 
   func testParseComplexFormatPlaceholders() {
     let format = "%2$1.3d - %4$-.7f - %3$@ - %% - %5$+3c - %%"
     let placeholders = StringsFileParser.PlaceholderType.placeholders(fromFormat: format)
     // positions 2, 4, 3, 5 set to Int, Float, Object, Char, and position 1 not matched, defaulting to Unknown
-    XCTAssertEqual(placeholders, [.Unknown, .Int, .Object, .Float, .Char])
+    XCTAssertEqual(placeholders, [.unknown, .int, .object, .float, .char])
   }
 
   func testParseEscapePercentSign() {
