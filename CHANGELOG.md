@@ -18,6 +18,7 @@ _None_
 
 * More variables have been deprecated, while new variables have been added.  
   [David Jennes](https://github.com/djbe)
+  [#5](https://github.com/SwiftGen/SwiftGenKit/issues/5)
   [#13](https://github.com/SwiftGen/SwiftGenKit/issues/13)
   [#27](https://github.com/SwiftGen/SwiftGenKit/issues/27)
   [#33](https://github.com/SwiftGen/SwiftGenKit/issues/33)
