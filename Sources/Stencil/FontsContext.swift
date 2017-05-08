@@ -26,7 +26,7 @@ extension FontsFileParser {
           "path": font.filePath,
           "style": font.style
         ]
-      }.sorted { $0["fontName"] ?? "" < $1["fontName"] ?? "" }
+      }.sorted { $0["name"] ?? "" < $1["name"] ?? "" }
       // Family
       return [
         "name": name,
