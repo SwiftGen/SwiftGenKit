@@ -37,8 +37,11 @@ namespace :release do
     results << Utils.table_result(podfile_lock_version == podspec_version, "Podfile.lock", "Please run pod install")
 
     # Check if submodule is aligned
-    submodule_branch = Dir.chdir('Tests/Resources') { `git rev-parse --abbrev-ref HEAD`.chomp }
-    results << Utils.table_result(submodule_branch == 'master', "Submodule on master", "Please align the submodule to master")
+    submodule_aligned = Dir.chdir('Tests/Resources') do
+      `git fetch origin`
+      `git rev-parse origin/master`.chomp == `git rev-parse HEAD`.chomp
+    end
+    results << Utils.table_result(submodule_aligned, "Submodule on origin/master", "Please align the submodule to master")
 
     # Check if entry present in CHANGELOG
     changelog_entry = system(%Q{grep -q '^## #{Regexp.quote(podspec_version)}$' CHANGELOG.md})
