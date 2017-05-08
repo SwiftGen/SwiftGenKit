@@ -24,10 +24,7 @@ extension FontsFileParser {
         return [
           "name": font.postScriptName,
           "path": font.filePath,
-          "style": font.style,
-
-          // NOTE: This is a deprecated variable
-          "fontName": font.postScriptName
+          "style": font.style
         ]
       }.sorted { $0["fontName"] ?? "" < $1["fontName"] ?? "" }
       // Family
@@ -38,11 +35,7 @@ extension FontsFileParser {
     }.sorted { $0["name"] as? String ?? "" < $1["name"] as? String ?? "" }
 
     return [
-      "families": families,
-
-      // NOTE: This is a deprecated variable
-      "enumName": enumName,
-      "param": ["enumName": enumName]
+      "families": families
     ]
   }
 }
