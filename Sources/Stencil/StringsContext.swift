@@ -32,9 +32,7 @@ extension StringsFileParser {
   public func stencilContext(enumName: String = "L10n", tableName: String = "Localizable") -> [String: Any] {
 
     let entryToStringMapper = { (entry: Entry, keyPath: [String]) -> [String: Any] in
-      var keyStructure = entry.keyStructure
-      Array(0..<keyPath.count).forEach { _ in keyStructure.removeFirst() }
-      let levelName = keyStructure.joined(separator: ".")
+      let levelName = entry.keyStructure.last ?? ""
 
       var result: [String: Any] = [
         "name": levelName,
@@ -49,9 +47,6 @@ extension StringsFileParser {
       return result
     }
 
-    let strings = entries
-      .sorted { $0.key.caseInsensitiveCompare($1.key) == .orderedAscending }
-      .map { entryToStringMapper($0, []) }
     let structuredStrings = structure(
       entries: entries,
       usingMapper: entryToStringMapper
