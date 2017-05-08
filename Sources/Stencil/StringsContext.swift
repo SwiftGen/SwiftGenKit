@@ -16,17 +16,17 @@ private extension String {
 
 /*
  - `tables`: `Array` — List of string tables
-   - `name`   : `String` — name of the `.strings` file (usually `"Localizable"`)
-   - `strings`: `Array` — Tree structure of strings (based on dot syntax), each level has:
-     - `name`   : `String` — name of the level (that is, part of the key split by `.` that we're describing)
-     - `strings`: `Array` — list of strings at this level:
-       - `key`: `String` — the full translation key, as it appears in the strings file
+   - `name`  : `String` — name of the `.strings` file (usually `"Localizable"`)
+   - `levels`: `Array` — Tree structure of strings (based on dot syntax), each level has:
+     - `name`    : `String` — name of the level (that is, part of the key split by `.` that we're describing)
+     - `children`: `Array` — list of sub-levels, repeating the same structure as a level
+     - `strings` : `Array` — list of strings at this level:
+       - `name` : `String` — contains only the last part of the key (after the last `.`)
+         (useful to do recursion when splitting keys against `.` for structured templates)
+       - `key`  : `String` — the full translation key, as it appears in the strings file
        - `translation`: `String` — the translation for that key in the strings file
        - `types`: `Array<String>` — defined only if localized string has parameter placeholders like `%d` and `%@` etc.
           Contains a list of types like `"String"`, `"Int"`, etc
-       - `keytail`: `String` — contains only the last part of the key (after the last `.`)
-         (useful to do recursion when splitting keys against `.` for structured templates)
-     - `subenums`: `Array` — list of sub-levels, repeating the structure mentioned above
 */
 extension StringsFileParser {
   public func stencilContext(enumName: String = "L10n", tableName: String = "Localizable") -> [String: Any] {
@@ -34,12 +34,15 @@ extension StringsFileParser {
     let entryToStringMapper = { (entry: Entry, keyPath: [String]) -> [String: Any] in
       var keyStructure = entry.keyStructure
       Array(0..<keyPath.count).forEach { _ in keyStructure.removeFirst() }
-      let keytail = keyStructure.joined(separator: ".")
+      let levelName = keyStructure.joined(separator: ".")
 
       var result: [String: Any] = [
+        "name": levelName,
         "key": entry.key.newlineEscaped,
         "translation": entry.translation.newlineEscaped,
-        "keytail": keytail
+
+        // NOTE: keytail is deprecated
+        "keytail": levelName
       ]
 
       if entry.types.count > 0 {
@@ -67,7 +70,7 @@ extension StringsFileParser {
     )
     let tables: [[String: Any]] = [[
       "name": tableName,
-      "strings": structuredStrings
+      "levels": structuredStrings
     ]]
 
     return [
@@ -108,7 +111,7 @@ extension StringsFileParser {
       structuredStrings["name"] = lastKeyPathComponent
     }
 
-    var subenums: [[String: Any]] = []
+    var children: [[String: Any]] = []
     let nextLevelKeyPaths: [[String]] = entries
       .filter({ $0.keyStructure.count > keyPath.count+1 })
       .map({ Array($0.keyStructure.prefix(keyPath.count+1)) })
@@ -127,15 +130,18 @@ extension StringsFileParser {
       let entriesInKeyPath = entries.filter {
         Array($0.keyStructure.map(normalize).prefix(nextLevelKeyPath.count)) == nextLevelKeyPath.map(normalize)
       }
-      subenums.append(
+      children.append(
           structure(entries: entriesInKeyPath,
                     atKeyPath: nextLevelKeyPath,
                     usingMapper: mapper)
       )
     }
 
-    if !subenums.isEmpty {
-      structuredStrings["subenums"] = subenums
+    if !children.isEmpty {
+      structuredStrings["children"] = children
+
+      // NOTE: These are deprecated variables
+      structuredStrings["subenums"] = children
     }
 
     return structuredStrings
