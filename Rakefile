@@ -18,7 +18,7 @@ end
 
 namespace :release do
   desc 'Create a new release on CocoaPods'
-  task :new => [:check_versions, 'xcode:tests', :cocoapods]
+  task :new => [:check_versions, 'xcode:test', :cocoapods]
 
   desc 'Check if all versions from the podspecs and CHANGELOG match'
   task :check_versions do
