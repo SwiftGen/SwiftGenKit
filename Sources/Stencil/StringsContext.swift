@@ -19,7 +19,7 @@ private extension String {
    - `name`  : `String` — name of the `.strings` file (usually `"Localizable"`)
    - `levels`: `Array` — Tree structure of strings (based on dot syntax), each level has:
      - `name`    : `String` — name of the level (that is, part of the key split by `.` that we're describing)
-     - `children`: `Array` — list of sub-levels, repeating the structure mentioned above
+     - `children`: `Array` — list of sub-levels, repeating the same structure as a level
      - `strings` : `Array` — list of strings at this level:
        - `name` : `String` — contains only the last part of the key (after the last `.`)
          (useful to do recursion when splitting keys against `.` for structured templates)
@@ -34,15 +34,15 @@ extension StringsFileParser {
     let entryToStringMapper = { (entry: Entry, keyPath: [String]) -> [String: Any] in
       var keyStructure = entry.keyStructure
       Array(0..<keyPath.count).forEach { _ in keyStructure.removeFirst() }
-      let keytail = keyStructure.joined(separator: ".")
+      let levelName = keyStructure.joined(separator: ".")
 
       var result: [String: Any] = [
-        "name": keytail,
+        "name": levelName,
         "key": entry.key.newlineEscaped,
         "translation": entry.translation.newlineEscaped,
 
         // NOTE: keytail is deprecated
-        "keytail": keytail
+        "keytail": levelName
       ]
 
       if entry.types.count > 0 {
@@ -111,7 +111,7 @@ extension StringsFileParser {
       structuredStrings["name"] = lastKeyPathComponent
     }
 
-    var subenums: [[String: Any]] = []
+    var children: [[String: Any]] = []
     let nextLevelKeyPaths: [[String]] = entries
       .filter({ $0.keyStructure.count > keyPath.count+1 })
       .map({ Array($0.keyStructure.prefix(keyPath.count+1)) })
@@ -130,18 +130,18 @@ extension StringsFileParser {
       let entriesInKeyPath = entries.filter {
         Array($0.keyStructure.map(normalize).prefix(nextLevelKeyPath.count)) == nextLevelKeyPath.map(normalize)
       }
-      subenums.append(
+      children.append(
           structure(entries: entriesInKeyPath,
                     atKeyPath: nextLevelKeyPath,
                     usingMapper: mapper)
       )
     }
 
-    if !subenums.isEmpty {
-      structuredStrings["children"] = subenums
+    if !children.isEmpty {
+      structuredStrings["children"] = children
 
       // NOTE: These are deprecated variables
-      structuredStrings["subenums"] = subenums
+      structuredStrings["subenums"] = children
     }
 
     return structuredStrings

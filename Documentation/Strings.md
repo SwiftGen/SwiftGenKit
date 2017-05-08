@@ -36,7 +36,7 @@ The output context has the following structure:
    - `name`  : `String` — name of the `.strings` file (usually `"Localizable"`)
    - `levels`: `Array` — Tree structure of strings (based on dot syntax), each level has:
      - `name`    : `String` — name of the level (that is, part of the key split by `.` that we're describing)
-     - `children`: `Array` — list of sub-levels, repeating the structure mentioned above
+     - `children`: `Array` — list of sub-levels, repeating the same structure as a level
      - `strings` : `Array` — list of strings at this level:
        - `name` : `String` — contains only the last part of the key (after the last `.`)
          (useful to do recursion when splitting keys against `.` for structured templates)
