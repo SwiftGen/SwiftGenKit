@@ -29,6 +29,13 @@ class Utils
     JSON.parse(`bundle exec pod ipc spec #{file}.podspec`)["version"]
   end
 
+  def self.podfile_lock_version(pod)
+    require 'yaml'
+    root_pods = YAML.load_file('Podfile.lock')['PODS'].map { |n| n.is_a?(Hash) ? n.keys.first : n }
+    pod_vers = root_pods.select { |n| n.start_with?(pod) }.first # "SwiftGen (x.y.z)"
+    /\((.*)\)$/.match(pod_vers)[1] # Just the 'x.y.z' part
+  end
+
   # print an info header
   def self.print_header(str)
     puts "== #{str.chomp} ==".format(:yellow, :bold)

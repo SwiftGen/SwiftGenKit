@@ -2,17 +2,13 @@
 
 ---
 
-## Master
+## 1.1.0
 
 ### Bug Fixes
 
 * Don't convert colors to the calibrated RGB color space if it isn't needed.
   [David Jennes](https://github.com/djbe)
   [#23](https://github.com/SwiftGen/SwiftGenKit/issues/23)
-
-### Breaking Changes
-
-_None_
 
 ### New Features
 
