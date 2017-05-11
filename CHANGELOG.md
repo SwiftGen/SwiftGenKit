@@ -10,7 +10,9 @@ _None_
 
 ### Breaking Changes
 
-_None_
+* Removed deprecated variables. See [SwiftGenKit#5](https://github.com/SwiftGen/SwiftGenKit/issues/5) for more information.   
+  [David Jennes](https://github.com/djbe)
+  [#35](https://github.com/SwiftGen/templates/issues/35)
 
 ### New Features
 
