@@ -124,7 +124,7 @@ public final class StringsFileParser {
 
     do {
       return try NSRegularExpression(
-        pattern: "(?:^|[^%]|(?<!%)(?:%%)+)%\(position)\(precision)(@|\(pattern_int)|\(pattern_float)|[csp])",
+        pattern: "(?:^|(?<!%)(?:%%)*)%\(position)\(precision)(@|\(pattern_int)|\(pattern_float)|[csp])",
         options: [.caseInsensitive]
       )
     } catch {
