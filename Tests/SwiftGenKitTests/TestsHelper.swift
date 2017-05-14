@@ -71,10 +71,21 @@ func compare(_ lhs: Any, _ rhs: Any, key: String, path: String) -> String? {
   return nil
 }
 
-func XCTDiffContexts(_ result: [String: Any], _ expected: [String: Any],
-                     file: StaticString = #file, line: UInt = #line) {
-  guard let error = diff(result, expected) else { return }
-  XCTFail(error, file: file, line: line)
+func XCTDiffContexts(_ result: [String: Any],
+                     expected name: String,
+                     sub directory: Fixtures.Directory,
+                     file: StaticString = #file,
+                     line: UInt = #line) {
+  if ProcessInfo().environment["GENERATE_CONTEXTS"] == "YES" {
+    let target = Path(#file).parent().parent() + "Resources/Contexts" + directory.rawValue + name
+    guard (result as NSDictionary).write(to: target.url, atomically: true) else {
+      fatalError("Unable to write context file \(target)")
+    }
+  } else {
+    let expected = Fixtures.context(for: name, sub: directory)
+    guard let error = diff(result, expected) else { return }
+    XCTFail(error, file: file, line: line)
+  }
 }
 
 class Fixtures {
@@ -115,7 +126,7 @@ class Fixtures {
   static func context(for name: String, sub: Directory) -> [String: Any] {
     let path = self.path(for: name, subDirectory: "Contexts/\(sub.rawValue)")
 
-    guard let data = NSDictionary(contentsOfFile: path.description) as? [String: Any] else {
+    guard let data = NSDictionary(contentsOf: path.url) as? [String: Any] else {
       fatalError("Unable to load fixture content")
     }
 
