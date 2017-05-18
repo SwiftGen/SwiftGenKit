@@ -1,3 +1,3 @@
 [submodule "Tests/Resources"]
 	path = Tests/Resources
-	url = https://github.com/SwiftGen/templates.git
+	url = git@github.com:toshi0383/templates.git
