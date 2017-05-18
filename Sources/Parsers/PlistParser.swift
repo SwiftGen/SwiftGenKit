@@ -9,16 +9,6 @@
 import Foundation
 import PathKit
 
-// Replace special characters with "_"
-private func format(_ string: String) -> String {
-  return string.characters.map { String($0) }.map { c in
-    guard ("a"..<"z").contains(c) || ("A"..<"Z").contains(c) || ("0"..<"9").contains(c) else {
-      return "_"
-    }
-    return c
-  }.joined()
-}
-
 public final class PlistParser {
 
   var stringKeys: [Meta] = []
