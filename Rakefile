@@ -7,7 +7,6 @@ SCHEME_NAME = 'Tests'
 CONFIGURATION = 'Debug'
 POD_NAME = 'SwiftGenKit'
 
-
 desc 'Generate Test Contexts'
 task :generate_contexts => "xcode:build" do |task|
   Utils.print_header 'Generating contexts...'
@@ -26,14 +25,14 @@ namespace :release do
 
     # Check if bundler is installed first, as we'll need it for the cocoapods task (and we prefer to fail early)
     `which bundler`
-    results << Utils.table_result( $?.success?, 'Bundler installed', 'Please install bundler using `gem install bundler` and run `bundle install` first.')
+    results << Utils.table_result($?.success?, 'Bundler installed', 'Please install bundler using `gem install bundler` and run `bundle install` first.')
 
-    # Extract version from SwiftGen.podspec
-    podspec_version = Utils.podspec_version('SwiftGenKit')
-    Utils.table_info('SwiftGenKit.podspec', podspec_version)
+    # Extract version from podspec
+    podspec_version = Utils.podspec_version(POD_NAME)
+    Utils.table_info("#{POD_NAME}.podspec", podspec_version)
 
     # Check if version in Podfile.lock matches
-    podfile_lock_version = Utils.podfile_lock_version('SwiftGenKit')
+    podfile_lock_version = Utils.podfile_lock_version(POD_NAME)
     results << Utils.table_result(podfile_lock_version == podspec_version, "Podfile.lock", "Please run pod install")
 
     # Check if submodule is aligned
@@ -56,12 +55,11 @@ namespace :release do
     exit 2 unless (STDIN.gets.chomp == 'Y')
   end
 
-  desc 'pod trunk push SwiftGenKit to CocoaPods'
+  desc "pod trunk push #{POD_NAME} to CocoaPods"
   task :cocoapods do
     Utils.print_header "Pushing pod to CocoaPods Trunk"
-    sh 'bundle exec pod trunk push SwiftGenKit.podspec'
+    sh "bundle exec pod trunk push #{POD_NAME}.podspec"
   end
 end
-
 
 task :default => 'xcode:test'
