@@ -184,7 +184,9 @@ public final class ColorsXMLFileParser: ColorsFileParser {
 
     for color in document.xpath(XML.colorXPath) {
       let value = color.stringValue
-      guard let name = color["name"], !name.isEmpty else { continue }
+      guard let name = color["name"], !name.isEmpty else {
+        throw ColorsParserError.invalidFile(reason: "Invalid structure, color \(value) must have a name.")
+      }
 
       colors[name] = try parse(hex: value, key: name)
     }
