@@ -6,7 +6,7 @@
 
 ### Bug Fixes
 
-* Improved format string regex to handle escaped "%"s that precede a variable
+* Improved format string regex to handle escaped "%"s that precede a variable.  
   [Tamas Lustyik](https://github.com/lvsti)
   [#29](https://github.com/SwiftGen/SwiftGenKit/pull/29)
 
