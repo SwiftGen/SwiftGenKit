@@ -171,7 +171,7 @@ extension NSColor {
 
 public final class ColorsXMLFileParser: ColorsFileParser {
   private enum XML {
-    static let colorPath = "/resources/color"
+    static let colorXPath = "/resources/color"
     static let nameAttribute = "name"
   }
 
@@ -182,7 +182,7 @@ public final class ColorsXMLFileParser: ColorsFileParser {
   public func parseFile(at path: Path) throws {
     let document = try Fuzi.XMLDocument(string: try path.read())
 
-    for color in document.xpath(XML.colorPath) {
+    for color in document.xpath(XML.colorXPath) {
       let value = color.stringValue
       guard let name = color["name"], !name.isEmpty else { continue }
 

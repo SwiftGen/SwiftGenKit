@@ -29,7 +29,7 @@ public final class StoryboardParser {
   }
 
   enum XMLScene {
-    static let path = "/document/scenes/scene/objects/*[@sceneMemberID=\"viewController\"]"
+    static let sceneXPath = "/document/scenes/scene/objects/*[@sceneMemberID=\"viewController\"]"
     static let placeholderTag = "viewControllerPlaceholder"
     static let customClassAttribute = "customClass"
     static let customModuleAttribute = "customModule"
@@ -38,7 +38,7 @@ public final class StoryboardParser {
     static let storyboardIdentifierAttribute = "storyboardIdentifier"
   }
   enum XMLSegue {
-    static let path = "/document/scenes/scene//connections/segue[string(@identifier)]"
+    static let segueXPath = "/document/scenes/scene//connections/segue[string(@identifier)]"
     static let identifierAttribute = "identifier"
     static let customClassAttribute = "customClass"
     static let customModuleAttribute = "customModule"
@@ -60,7 +60,7 @@ public final class StoryboardParser {
     var scenes = Set<Scene>()
     var segues = Set<Segue>()
 
-    for scene in document.xpath(XMLScene.path) {
+    for scene in document.xpath(XMLScene.sceneXPath) {
       guard scene.tag != XMLScene.placeholderTag else { continue }
 
       let customClass = scene[XMLScene.customClassAttribute]
@@ -79,7 +79,7 @@ public final class StoryboardParser {
       }
     }
 
-    for segue in document.xpath(XMLSegue.path) {
+    for segue in document.xpath(XMLSegue.segueXPath) {
       let id = segue[XMLSegue.identifierAttribute] ?? ""
       let customClass = segue[XMLSegue.customClassAttribute]
       let customModule = segue[XMLSegue.customModuleAttribute]
