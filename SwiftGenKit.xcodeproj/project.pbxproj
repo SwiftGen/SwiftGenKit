@@ -21,6 +21,7 @@
 		DDF573301E6103F90033C01B /* Contexts in Resources */ = {isa = PBXBuildFile; fileRef = DDF5732E1E6103F90033C01B /* Contexts */; };
 		DDF573311E6103F90033C01B /* Fixtures in Resources */ = {isa = PBXBuildFile; fileRef = DDF5732F1E6103F90033C01B /* Fixtures */; };
 		DDFFF20D1ED30FB500E69817 /* ColorParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFFF20B1ED30FB500E69817 /* ColorParserTests.swift */; };
+		DDFFF20E1ED30FB500E69817 /* StringParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFFF20C1ED30FB500E69817 /* StringParserTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		DDF5732E1E6103F90033C01B /* Contexts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Contexts; path = Tests/Resources/Contexts; sourceTree = SOURCE_ROOT; };
 		DDF5732F1E6103F90033C01B /* Fixtures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fixtures; path = Tests/Resources/Fixtures; sourceTree = SOURCE_ROOT; };
 		DDFFF20B1ED30FB500E69817 /* ColorParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorParserTests.swift; sourceTree = "<group>"; };
+		DDFFF20C1ED30FB500E69817 /* StringParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringParserTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 				DDF5731C1E6103DC0033C01B /* ImagesTests.swift */,
 				DDF5731F1E6103DC0033C01B /* StoryboardsiOSTests.swift */,
 				DDF573201E6103DC0033C01B /* StoryboardsMacOSTests.swift */,
+				DDFFF20C1ED30FB500E69817 /* StringParserTests.swift */,
 				DDF573211E6103DC0033C01B /* StringsTests.swift */,
 				DDF573221E6103DC0033C01B /* TestsHelper.swift */,
 			);
@@ -273,6 +276,7 @@
 				DDF573231E6103DC0033C01B /* ColorsCLRFileTests.swift in Sources */,
 				DDF573261E6103DC0033C01B /* ColorsXMLFileTests.swift in Sources */,
 				DDF573251E6103DC0033C01B /* ColorsTextFileTests.swift in Sources */,
+				DDFFF20E1ED30FB500E69817 /* StringParserTests.swift in Sources */,
 				DDF573281E6103DC0033C01B /* ImagesTests.swift in Sources */,
 				DDF5732C1E6103DC0033C01B /* StringsTests.swift in Sources */,
 				DDF573241E6103DC0033C01B /* ColorsJSONFileTests.swift in Sources */,
