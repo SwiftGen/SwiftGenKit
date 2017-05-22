@@ -23,6 +23,10 @@ _None_
 * Fix swiftlint errors on enum names not conforming to the Swift 3 syntax.  
   [Liquidsoul](https://github.com/liquidsoul)
   [#31](https://github.com/SwiftGen/SwiftGenKit/issues/31)
+* Switch to a DOM-based XML parser.  
+  [David Jennes](https://github.com/djbe)
+  [#18](https://github.com/SwiftGen/templates/issues/18)
+  [#38](https://github.com/SwiftGen/templates/issues/38)
 
 ## 1.1.0
 
