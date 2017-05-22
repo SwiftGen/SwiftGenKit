@@ -47,6 +47,9 @@ Due to the removal of legacy code, there are a few breaking changes in this new 
 * Images: switch back from `actool` to an internal parser to fix numerous issues with the former.  
   [David Jennes](https://github.com/djbe)
   [#43](https://github.com/SwiftGen/templates/issues/43)
+* Refactor the colors parser into a generic parser that will invoke the correct type-specific parser based on the file extension. This allows us to support multiple input files. 
+  [David Jennes](https://github.com/djbe)
+  [#40](https://github.com/SwiftGen/templates/issues/40)
 
 ## 1.1.0
 
