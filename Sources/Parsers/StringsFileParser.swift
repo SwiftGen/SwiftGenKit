@@ -25,13 +25,9 @@ public enum StringsFileParserError: Error, CustomStringConvertible {
 }
 
 public final class StringsFileParser {
-  var entries = [Entry]()
+  var tables = [String: [Entry]]()
 
   public init() {}
-
-  public func addEntry(_ entry: Entry) {
-    entries.append(entry)
-  }
 
   // Localizable.strings files are generally UTF16, not UTF8!
   public func parseFile(at path: Path) throws {
@@ -39,15 +35,14 @@ public final class StringsFileParser {
       throw StringsFileParserError.failureOnLoading(path: path.string)
     }
 
-    let plist = try PropertyListSerialization
-        .propertyList(from: data, format: nil)
-
+    let plist = try PropertyListSerialization.propertyList(from: data, format: nil)
     guard let dict = plist as? [String: String] else {
       throw StringsFileParserError.invalidFormat
     }
 
-    for (key, translation) in dict {
-      addEntry(try Entry(key: key, translation: translation))
+    let name = path.lastComponentWithoutExtension
+    tables[name] = try dict.map { key, translation in
+      try Entry(key: key, translation: translation)
     }
   }
 
