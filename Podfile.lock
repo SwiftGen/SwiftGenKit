@@ -1,8 +1,8 @@
 PODS:
-  - Fuzi (1.0.1)
+  - Kanna (2.2.1)
   - PathKit (0.8.0)
   - SwiftGenKit (1.1.0):
-    - Fuzi
+    - Kanna
     - PathKit (~> 0.8.0)
 
 DEPENDENCIES:
@@ -13,9 +13,9 @@ EXTERNAL SOURCES:
     :path: "."
 
 SPEC CHECKSUMS:
-  Fuzi: 851403654bac55675aaeed815d0c8a1d3e3d3e8b
+  Kanna: 182789ab065e8f9a6ccc2a74ce6283d3401c0c4a
   PathKit: dcab05d701474011aae0e40cf892298a831f63d6
-  SwiftGenKit: aac1f32057a36995625f245d45474fb7d3c0c8ea
+  SwiftGenKit: e05a57c399688f1e37bd2fbed932c055efb34cf3
 
 PODFILE CHECKSUM: c30ec8de82eda04587ffe005a6ce7372509b1340
 

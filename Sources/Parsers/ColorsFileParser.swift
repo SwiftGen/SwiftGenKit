@@ -6,7 +6,7 @@
 
 import AppKit.NSColor
 import Foundation
-import Fuzi
+import Kanna
 import PathKit
 
 public protocol ColorsFileParser {
@@ -180,10 +180,14 @@ public final class ColorsXMLFileParser: ColorsFileParser {
   public init() {}
 
   public func parseFile(at path: Path) throws {
-    let document = try Fuzi.XMLDocument(string: try path.read())
+    guard let document = Kanna.XML(xml: try path.read(), encoding: .utf8) else {
+      throw ColorsParserError.invalidFile(reason: "Unknown XML parser error.")
+    }
 
     for color in document.xpath(XML.colorXPath) {
-      let value = color.stringValue
+      guard let value = color.text else {
+        throw ColorsParserError.invalidFile(reason: "Invalid structure, color must have a value.")
+      }
       guard let name = color["name"], !name.isEmpty else {
         throw ColorsParserError.invalidFile(reason: "Invalid structure, color \(value) must have a name.")
       }

@@ -5,7 +5,7 @@
 //
 
 import Foundation
-import Fuzi
+import Kanna
 import PathKit
 
 public final class StoryboardParser {
@@ -29,12 +29,12 @@ public final class StoryboardParser {
   }
 
   enum XMLScene {
+    static let initialVCXPath = "/*/@initialViewController"
     static let sceneXPath = "/document/scenes/scene/objects/*[@sceneMemberID=\"viewController\"]"
     static let placeholderTag = "viewControllerPlaceholder"
     static let customClassAttribute = "customClass"
     static let customModuleAttribute = "customModule"
     static let idAttribute = "id"
-    static let initialVCAttribute = "initialViewController"
     static let storyboardIdentifierAttribute = "storyboardIdentifier"
   }
   enum XMLSegue {
@@ -52,28 +52,30 @@ public final class StoryboardParser {
   public init() {}
 
   public func addStoryboard(at path: Path) throws {
-    let document = try Fuzi.XMLDocument(string: try path.read())
+    guard let document = Kanna.XML(xml: try path.read(), encoding: .utf8) else {
+      throw ColorsParserError.invalidFile(reason: "Unknown XML parser error.")
+    }
 
     let storyboardName = path.lastComponentWithoutExtension
-    let initialSceneID = document.root?[XMLScene.initialVCAttribute]
+    let initialSceneID = document.at_xpath(XMLScene.initialVCXPath)?.text
     var initialScene: InitialScene? = nil
     var scenes = Set<Scene>()
     var segues = Set<Segue>()
 
     for scene in document.xpath(XMLScene.sceneXPath) {
-      guard scene.tag != XMLScene.placeholderTag else { continue }
+      guard scene.tagName != XMLScene.placeholderTag else { continue }
 
       let customClass = scene[XMLScene.customClassAttribute]
       let customModule = scene[XMLScene.customModuleAttribute]
 
       if scene[XMLScene.idAttribute] == initialSceneID {
-        initialScene = InitialScene(tag: scene.tag ?? "",
+        initialScene = InitialScene(tag: scene.tagName ?? "",
                                     customClass: customClass,
                                     customModule: customModule)
       }
       if let id = scene[XMLScene.storyboardIdentifierAttribute] {
         scenes.insert(Scene(storyboardID: id,
-                            tag: scene.tag ?? "",
+                            tag: scene.tagName ?? "",
                             customClass: customClass,
                             customModule: customModule))
       }

@@ -84,8 +84,8 @@ public final class FontsFileParser {
     for file in dirChildren {
       var value: AnyObject? = nil
       let url = file.url as NSURL
-      guard let _ = try? url.getResourceValue(&value, forKey: URLResourceKey.typeIdentifierKey),
-        let uti = value as? String else {
+      try? url.getResourceValue(&value, forKey: URLResourceKey.typeIdentifierKey)
+      guard let uti = value as? String else {
           print("Unable to determine the Universal Type Identifier for file \(file)")
           continue
       }
