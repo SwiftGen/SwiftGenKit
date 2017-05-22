@@ -6,6 +6,9 @@
 
 ### Bug Fixes
 
+* Fixed color's hex value rounding error.  
+  [Yusuke Onishi](https://github.com/yusuke024)
+  [#19](https://github.com/SwiftGen/SwiftGenKit/pull/19)
 * Improved format string regex to handle escaped "%"s that precede a variable.  
   [Tamas Lustyik](https://github.com/lvsti)
   [#29](https://github.com/SwiftGen/SwiftGenKit/pull/29)
@@ -25,6 +28,10 @@ _None_
 * Fix swiftlint errors on enum names not conforming to the Swift 3 syntax.  
   [Liquidsoul](https://github.com/liquidsoul)
   [#31](https://github.com/SwiftGen/SwiftGenKit/issues/31)
+* Switch to a DOM-based XML parser.  
+  [David Jennes](https://github.com/djbe)
+  [#18](https://github.com/SwiftGen/templates/issues/18)
+  [#38](https://github.com/SwiftGen/templates/issues/38)
 
 ## 1.1.0
 
