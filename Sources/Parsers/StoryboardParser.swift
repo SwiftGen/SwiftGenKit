@@ -29,12 +29,12 @@ public final class StoryboardParser {
   }
 
   enum XMLScene {
+    static let initialVCXPath = "/*/@initialViewController"
     static let sceneXPath = "/document/scenes/scene/objects/*[@sceneMemberID=\"viewController\"]"
     static let placeholderTag = "viewControllerPlaceholder"
     static let customClassAttribute = "customClass"
     static let customModuleAttribute = "customModule"
     static let idAttribute = "id"
-    static let initialVCXPath = "/*/@initialViewController"
     static let storyboardIdentifierAttribute = "storyboardIdentifier"
   }
   enum XMLSegue {
