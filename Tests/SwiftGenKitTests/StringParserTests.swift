@@ -49,13 +49,13 @@ class StringParserTests: XCTestCase {
     // positions 2, 4, 3, 5 set to Int, Float, Object, Char, and position 1 not matched, defaulting to Unknown
     XCTAssertEqual(placeholders, [.unknown, .int, .object, .float, .char])
   }
-  
+
   func testParseEvenEscapePercentSign() {
     let placeholders = StringsFileParser.PlaceholderType.placeholders(fromFormat: "%%foo")
     // Must NOT map to [.float]
     XCTAssertEqual(placeholders, [])
   }
-  
+
   func testParseOddEscapePercentSign() {
     let placeholders = StringsFileParser.PlaceholderType.placeholders(fromFormat: "%%%foo")
     // Should map to [.float]
