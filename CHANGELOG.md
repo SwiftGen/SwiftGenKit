@@ -6,7 +6,9 @@
 
 ### Bug Fixes
 
-_None_
+* Fixed color's hex value rounding error.  
+  [Yusuke Onishi](https://github.com/yusuke024)
+  [#19](https://github.com/SwiftGen/SwiftGenKit/pull/19)
 
 ### Breaking Changes
 
