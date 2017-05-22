@@ -4,8 +4,9 @@
 // MIT Licence
 //
 
-import Foundation
 import AppKit.NSColor
+import Foundation
+import Kanna
 import PathKit
 
 public protocol ColorsFileParser {
@@ -19,7 +20,7 @@ public enum ColorsParserError: Error, CustomStringConvertible {
   public var description: String {
     switch self {
     case .invalidHexColor(string: let string, key: let key):
-      let keyInfo = key.flatMap { k in " for key \"\(k)\"" } ?? ""
+      let keyInfo = key.flatMap { " for key \"\($0)\"" } ?? ""
       return "error: Invalid hex color \"\(string)\" found\(keyInfo)."
     case .invalidFile(reason: let reason):
       return "error: Unable to parse file. \(reason)"
@@ -137,7 +138,7 @@ public final class ColorsCLRFileParser: ColorsFileParser {
   public init() {}
 
   public func parseFile(at path: Path) throws {
-    if let colorsList = NSColorList(name: "UserColors", fromFile: path.description) {
+    if let colorsList = NSColorList(name: "UserColors", fromFile: path.string) {
       for colorName in colorsList.allKeys {
         colors[colorName] = colorsList.color(withKey: colorName)?.rgbColor?.hexValue
       }
@@ -151,6 +152,8 @@ public final class ColorsCLRFileParser: ColorsFileParser {
 extension NSColor {
 
   fileprivate var rgbColor: NSColor? {
+    guard colorSpace.colorSpaceModel != .RGB else { return self }
+
     return usingColorSpaceName(NSCalibratedRGBColorSpace)
   }
 
@@ -167,65 +170,31 @@ extension NSColor {
 // MARK: - Android colors.xml File Parser
 
 public final class ColorsXMLFileParser: ColorsFileParser {
-  static let colorTagName = "color"
-  static let colorNameAttribute = "name"
+  private enum XML {
+    static let colorXPath = "/resources/color"
+    static let nameAttribute = "name"
+  }
 
   public private(set) var colors = [String: UInt32]()
 
   public init() {}
 
-  private class ParserDelegate: NSObject, XMLParserDelegate {
-    var parsedColors = [String: UInt32]()
-    var currentColorName: String?
-    var currentColorValue: String?
-    var colorParserError: Error?
-
-    @objc func parser(_ parser: XMLParser, didStartElement elementName: String,
-                      namespaceURI: String?, qualifiedName qName: String?,
-                      attributes attributeDict: [String: String]) {
-      guard elementName == ColorsXMLFileParser.colorTagName else { return }
-      currentColorName = attributeDict[ColorsXMLFileParser.colorNameAttribute]
-      currentColorValue = nil
+  public func parseFile(at path: Path) throws {
+    guard let document = Kanna.XML(xml: try path.read(), encoding: .utf8) else {
+      throw ColorsParserError.invalidFile(reason: "Unknown XML parser error.")
     }
 
-    @objc func parser(_ parser: XMLParser, foundCharacters string: String) {
-      currentColorValue = (currentColorValue ?? "") + string
-    }
-
-    @objc func parser(_ parser: XMLParser, didEndElement elementName: String,
-                      namespaceURI: String?, qualifiedName qName: String?) {
-      guard elementName == ColorsXMLFileParser.colorTagName else { return }
-      guard let colorName = currentColorName, let colorValue = currentColorValue else { return }
-
-      do {
-        parsedColors[colorName] = try parse(hex: colorValue, key: colorName)
-      } catch let error as ColorsParserError {
-        colorParserError = error
-        parser.abortParsing()
-      } catch {
-        parser.abortParsing()
+    for color in document.xpath(XML.colorXPath) {
+      guard let value = color.text else {
+        throw ColorsParserError.invalidFile(reason: "Invalid structure, color must have a value.")
+      }
+      guard let name = color["name"], !name.isEmpty else {
+        throw ColorsParserError.invalidFile(reason: "Invalid structure, color \(value) must have a name.")
       }
 
-      currentColorName = nil
-      currentColorValue = nil
+      colors[name] = try parse(hex: value, key: name)
     }
   }
-
-  public func parseFile(at path: Path) throws {
-    let parser = XMLParser(data: try path.read())
-    let delegate = ParserDelegate()
-    parser.delegate = delegate
-
-    if parser.parse() {
-      colors = delegate.parsedColors
-    } else if let error = delegate.colorParserError {
-      throw error
-    } else {
-      let reason = parser.parserError?.localizedDescription ?? "Unknown XML parser error."
-      throw ColorsParserError.invalidFile(reason: reason)
-    }
-  }
-
 }
 
 // MARK: - JSON File Parser

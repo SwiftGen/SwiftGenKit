@@ -13,9 +13,7 @@ class ColorsTextFileTests: XCTestCase {
     let parser = ColorsTextFileParser()
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "empty.plist", sub: .colors)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "empty.plist", sub: .colors)
   }
 
   func testListWithDefaults() throws {
@@ -26,9 +24,7 @@ class ColorsTextFileTests: XCTestCase {
     try parser.addColor(named: "ArticleBackground", value: "#ffcc0099")
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "entries.plist", sub: .colors)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "entries.plist", sub: .colors)
   }
 
   func testFileWithDefaults() throws {
@@ -36,9 +32,7 @@ class ColorsTextFileTests: XCTestCase {
     try parser.parseFile(at: Fixtures.path(for: "colors.txt", sub: .colors))
 
     let result = parser.stencilContext()
-    let expected = Fixtures.context(for: "text-defaults.plist", sub: .colors)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "text-defaults.plist", sub: .colors)
   }
 
   func testFileWithCustomName() throws {
@@ -46,9 +40,7 @@ class ColorsTextFileTests: XCTestCase {
     try parser.parseFile(at: Fixtures.path(for: "colors.txt", sub: .colors))
 
     let result = parser.stencilContext(enumName: "XCTColors")
-    let expected = Fixtures.context(for: "text-customname.plist", sub: .colors)
-
-    XCTDiffContexts(result, expected)
+    XCTDiffContexts(result, expected: "text-customname.plist", sub: .colors)
   }
 
   func testFileWithBadSyntax() {

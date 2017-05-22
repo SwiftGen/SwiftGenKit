@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SwiftGenKit"
-  s.version      = "1.0.1"
+  s.version      = "1.1.0"
   s.summary      = "The SwiftGen framework responsible for parsing assets and turn them in a dictionary representation suitable for Stencil templates"
 
   s.description  = <<-DESC
@@ -22,6 +22,7 @@ Pod::Spec.new do |s|
 
   s.source_files = "Sources/**/*.swift"
 
+  s.dependency 'Kanna'
   s.dependency 'PathKit', '~> 0.8.0'
   s.framework  = "Foundation"
 end
