@@ -9,6 +9,9 @@
 * Fixed color's hex value rounding error.  
   [Yusuke Onishi](https://github.com/yusuke024)
   [#19](https://github.com/SwiftGen/SwiftGenKit/pull/19)
+* Improved format string regex to handle escaped "%"s that precede a variable.  
+  [Tamas Lustyik](https://github.com/lvsti)
+  [#29](https://github.com/SwiftGen/SwiftGenKit/pull/29)
 
 ### Breaking Changes
 

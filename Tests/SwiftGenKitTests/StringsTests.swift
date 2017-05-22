@@ -14,7 +14,6 @@ import SwiftGenKit
  */
 
 class StringsTests: XCTestCase {
-
   func testEmpty() {
     let parser = StringsFileParser()
 
