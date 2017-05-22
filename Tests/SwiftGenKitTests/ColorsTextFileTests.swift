@@ -6,39 +6,20 @@
 
 import XCTest
 import PathKit
-import SwiftGenKit
+@testable import SwiftGenKit
 
 class ColorsTextFileTests: XCTestCase {
-  func testEmpty() {
-    let parser = ColorsTextFileParser()
-
-    let result = parser.stencilContext()
-    XCTDiffContexts(result, expected: "empty.plist", sub: .colors)
-  }
-
-  func testListWithDefaults() throws {
-    let parser = ColorsTextFileParser()
-
-    try parser.addColor(named: "Text&Body Color", value: "0x999999")
-    try parser.addColor(named: "ArticleTitle", value: "#996600")
-    try parser.addColor(named: "ArticleBackground", value: "#ffcc0099")
-
-    let result = parser.stencilContext()
-    XCTDiffContexts(result, expected: "entries.plist", sub: .colors)
-  }
-
   func testFileWithDefaults() throws {
-    let parser = ColorsTextFileParser()
-    try parser.parseFile(at: Fixtures.path(for: "colors.txt", sub: .colors))
+    let parser = try ColorsFileParser()
+    parser.colors = try ColorsTextFileParser().parseFile(at: Fixtures.path(for: "colors.txt", sub: .colors))
 
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "text-defaults.plist", sub: .colors)
   }
 
   func testFileWithBadSyntax() {
-    let parser = ColorsTextFileParser()
     do {
-      try parser.parseFile(at: Fixtures.path(for: "bad-syntax.txt", sub: .colors))
+      _ = try ColorsTextFileParser().parseFile(at: Fixtures.path(for: "bad-syntax.txt", sub: .colors))
       XCTFail("Code did parse file successfully while it was expected to fail for bad syntax")
     } catch ColorsParserError.invalidFile {
       // That's the expected exception we want to happen
@@ -48,9 +29,8 @@ class ColorsTextFileTests: XCTestCase {
   }
 
   func testFileWithBadValue() {
-    let parser = ColorsTextFileParser()
     do {
-      try parser.parseFile(at: Fixtures.path(for: "bad-value.txt", sub: .colors))
+      _ = try ColorsTextFileParser().parseFile(at: Fixtures.path(for: "bad-value.txt", sub: .colors))
       XCTFail("Code did parse file successfully while it was expected to fail for bad value")
     } catch ColorsParserError.invalidHexColor(string: "thisIsn'tAColor", key: "ArticleTitle"?) {
       // That's the expected exception we want to happen
