@@ -28,6 +28,9 @@ Due to the removal of legacy code, there are a few breaking changes in this new 
 * Throw an error if a format string has mismatching types for the same placeholde position.  
   [David Jennes](https://github.com/djbe)
   [#44](https://github.com/SwiftGen/SwiftGenKit/issues/44)
+* Added support for multiple string tables.   
+  [David Jennes](https://github.com/djbe)
+  [#41](https://github.com/SwiftGen/templates/issues/41)
 
 ### Internal Changes
 
