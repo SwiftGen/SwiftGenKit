@@ -30,7 +30,7 @@ public enum ColorsParserError: Error, CustomStringConvertible {
 
 // MARK: - Private Helpers
 
-fileprivate func parse(hex hexString: String, key: String? = nil) throws -> UInt32 {
+internal func parse(hex hexString: String, key: String? = nil) throws -> UInt32 {
   let scanner = Scanner(string: hexString)
   let prefixLen: Int
   if scanner.scanString("#", into: nil) {
@@ -157,7 +157,7 @@ extension NSColor {
     return usingColorSpaceName(NSCalibratedRGBColorSpace)
   }
 
-  fileprivate var hexValue: UInt32 {
+  internal var hexValue: UInt32 {
     let hexRed   = UInt32(round(redComponent   * 0xFF)) << 24
     let hexGreen = UInt32(round(greenComponent * 0xFF)) << 16
     let hexBlue  = UInt32(round(blueComponent  * 0xFF)) << 8

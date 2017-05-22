@@ -20,6 +20,7 @@
 		DDF5732D1E6103DC0033C01B /* TestsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF573221E6103DC0033C01B /* TestsHelper.swift */; };
 		DDF573301E6103F90033C01B /* Contexts in Resources */ = {isa = PBXBuildFile; fileRef = DDF5732E1E6103F90033C01B /* Contexts */; };
 		DDF573311E6103F90033C01B /* Fixtures in Resources */ = {isa = PBXBuildFile; fileRef = DDF5732F1E6103F90033C01B /* Fixtures */; };
+		DDFFF20D1ED30FB500E69817 /* ColorParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFFF20B1ED30FB500E69817 /* ColorParserTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		DDF573221E6103DC0033C01B /* TestsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestsHelper.swift; sourceTree = "<group>"; };
 		DDF5732E1E6103F90033C01B /* Contexts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Contexts; path = Tests/Resources/Contexts; sourceTree = SOURCE_ROOT; };
 		DDF5732F1E6103F90033C01B /* Fixtures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fixtures; path = Tests/Resources/Fixtures; sourceTree = SOURCE_ROOT; };
+		DDFFF20B1ED30FB500E69817 /* ColorParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorParserTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				DDF5731D1E6103DC0033C01B /* Resources */,
 				DDF573171E6103DC0033C01B /* ColorsCLRFileTests.swift */,
 				DDF573181E6103DC0033C01B /* ColorsJSONFileTests.swift */,
+				DDFFF20B1ED30FB500E69817 /* ColorParserTests.swift */,
 				DDF573191E6103DC0033C01B /* ColorsTextFileTests.swift */,
 				DDF5731A1E6103DC0033C01B /* ColorsXMLFileTests.swift */,
 				DDF5731B1E6103DC0033C01B /* FontsTests.swift */,
@@ -274,6 +277,7 @@
 				DDF5732C1E6103DC0033C01B /* StringsTests.swift in Sources */,
 				DDF573241E6103DC0033C01B /* ColorsJSONFileTests.swift in Sources */,
 				DDF5732A1E6103DC0033C01B /* StoryboardsiOSTests.swift in Sources */,
+				DDFFF20D1ED30FB500E69817 /* ColorParserTests.swift in Sources */,
 				DDF573271E6103DC0033C01B /* FontsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
