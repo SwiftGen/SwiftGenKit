@@ -35,67 +35,49 @@ private func uppercaseFirst(_ string: String) -> String {
 */
 extension StoryboardParser {
   public func stencilContext() -> [String: Any] {
-    let storyboards = Set(storyboardsScenes.keys).union(storyboardsSegues.keys).sorted(by: <)
-    let storyboardsMap = storyboards.map { (storyboardName: String) -> [String:Any] in
-      var sbMap: [String:Any] = ["name": storyboardName]
-      // Initial Scene
-      if let initialScene = initialScenes[storyboardName] {
-        sbMap["initialScene"] = map(initialScene: initialScene)
-      }
-      // All Scenes
-      if let scenes = storyboardsScenes[storyboardName] {
-        sbMap["scenes"] = scenes
-          .sorted(by: {$0.storyboardID < $1.storyboardID})
-          .map(map(scene:))
-      }
-      // All Segues
-      if let segues = storyboardsSegues[storyboardName] {
-        sbMap["segues"] = segues
-          .sorted(by: {$0.identifier < $1.identifier})
-          .map(map(segue:))
-      }
-      return sbMap
-    }
+    let storyboards = self.storyboards
+      .sorted { (lhs, rhs) in lhs.name < rhs.name }
+      .map(map(storyboard:))
     return [
       "modules": modules.sorted(),
-      "storyboards": storyboardsMap
+      "storyboards": storyboards
     ]
   }
 
-  private func map(initialScene scene: InitialScene) -> [String: Any] {
+  private func map(storyboard: Storyboard) -> [String: Any] {
+    var result: [String: Any] = [
+      "name": storyboard.name,
+      "scenes": storyboard.scenes
+        .sorted { $0.identifier < $1.identifier }
+        .map(map(scene:)),
+      "segues": storyboard.segues
+        .sorted { $0.identifier < $1.identifier }
+        .map(map(segue:))
+    ]
+
+    if let scene = storyboard.initialScene {
+      result["initialScene"] = map(scene: scene)
+    }
+
+    return result
+  }
+
+  private func map(scene: Storyboard.Scene) -> [String: Any] {
     if let customClass = scene.customClass {
       return [
+        "identifier": scene.identifier,
         "customClass": customClass,
         "customModule": scene.customModule ?? ""
       ]
     } else {
       return [
+        "identifier": scene.identifier,
         "baseType": uppercaseFirst(scene.tag)
       ]
     }
   }
 
-  private func map(scene: Scene) -> [String: Any] {
-    if let customClass = scene.customClass {
-      return [
-        "identifier": scene.storyboardID,
-        "customClass": customClass,
-        "customModule": scene.customModule ?? ""
-      ]
-    } else if scene.tag == "viewController" {
-      return [
-        "identifier": scene.storyboardID,
-        "baseType": uppercaseFirst(scene.tag)
-      ]
-    } else {
-      return [
-        "identifier": scene.storyboardID,
-        "baseType": uppercaseFirst(scene.tag)
-      ]
-    }
-  }
-
-  private func map(segue: Segue) -> [String: Any] {
+  private func map(segue: Storyboard.Segue) -> [String: Any] {
     return [
       "identifier": segue.identifier,
       "customClass": segue.customClass ?? "",
