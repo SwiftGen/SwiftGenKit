@@ -61,4 +61,18 @@ class StringsTests: XCTestCase {
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "multiple.plist", sub: .strings)
   }
+
+  func testMultipleFilesDuplicate() throws {
+    let parser = StringsFileParser()
+    try parser.parseFile(at: Fixtures.path(for: "Localizable.strings", sub: .strings))
+
+    do {
+      try parser.parseFile(at: Fixtures.path(for: "Localizable.strings", sub: .strings))
+      XCTFail("Code did parse file successfully while it was expected to fail for duplicate file")
+    } catch StringsFileParserError.duplicateTable {
+      // That's the expected exception we want to happen
+    } catch let error {
+      XCTFail("Unexpected error occured while parsing: \(error)")
+    }
+  }
 }

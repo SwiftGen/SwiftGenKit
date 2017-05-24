@@ -8,12 +8,15 @@ import Foundation
 import PathKit
 
 public enum StringsFileParserError: Error, CustomStringConvertible {
+  case duplicateTable(name: String)
   case failureOnLoading(path: String)
   case invalidFormat
   case invalidPlaceholder(previous: StringsFileParser.PlaceholderType, new: StringsFileParser.PlaceholderType)
 
   public var description: String {
     switch self {
+    case .duplicateTable(let name):
+      return "Table \"\(name)\" already loaded, cannot add it again"
     case .failureOnLoading(let path):
       return "Failed to load a file at \"\(path)\""
     case .invalidFormat:
@@ -31,6 +34,11 @@ public final class StringsFileParser {
 
   // Localizable.strings files are generally UTF16, not UTF8!
   public func parseFile(at path: Path) throws {
+    let name = path.lastComponentWithoutExtension
+
+    guard tables[name] == nil else {
+      throw StringsFileParserError.duplicateTable(name: name)
+    }
     guard let data = try? path.read() else {
       throw StringsFileParserError.failureOnLoading(path: path.string)
     }
@@ -40,7 +48,6 @@ public final class StringsFileParser {
       throw StringsFileParserError.invalidFormat
     }
 
-    let name = path.lastComponentWithoutExtension
     tables[name] = try dict.map { key, translation in
       try Entry(key: key, translation: translation)
     }
