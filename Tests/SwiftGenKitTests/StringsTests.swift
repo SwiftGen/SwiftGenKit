@@ -52,4 +52,13 @@ class StringsTests: XCTestCase {
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "structuredonly.plist", sub: .strings)
   }
+
+  func testMultipleFiles() throws {
+    let parser = StringsFileParser()
+    try parser.parseFile(at: Fixtures.path(for: "Localizable.strings", sub: .strings))
+    try parser.parseFile(at: Fixtures.path(for: "LocMultiline.strings", sub: .strings))
+
+    let result = parser.stencilContext()
+    XCTDiffContexts(result, expected: "multiple.plist", sub: .strings)
+  }
 }
