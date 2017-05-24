@@ -40,7 +40,8 @@ extension StoryboardParser {
       .map(map(storyboard:))
     return [
       "modules": modules.sorted(),
-      "storyboards": storyboards
+      "storyboards": storyboards,
+      "platform": platform ?? ""
     ]
   }
 

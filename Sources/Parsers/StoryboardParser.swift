@@ -101,7 +101,7 @@ public final class StoryboardParser {
       "MacOSX.Cocoa": "macOS",
       "watchKit": "watchOS"
     ]
-    var targetRuntime = document.at_xpath(XML.Scene.targetRuntimeXPath)?.text ?? ""
+    let targetRuntime = document.at_xpath(XML.Scene.targetRuntimeXPath)?.text ?? ""
     let platform = mapping[targetRuntime] ?? targetRuntime
 
     storyboards += [Storyboard(name: path.lastComponentWithoutExtension,
@@ -134,6 +134,16 @@ public final class StoryboardParser {
     }
 
     return result
+  }
+
+  var platform: String? {
+    let platforms = Set<String>(storyboards.map { $0.platform })
+
+    if platforms.count > 1 {
+      return nil
+    } else {
+      return platforms.first
+    }
   }
 }
 
