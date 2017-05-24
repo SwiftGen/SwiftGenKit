@@ -60,6 +60,7 @@ struct Storyboard {
   }
 
   let name: String
+  let platform: String
   let initialScene: Scene?
   let scenes: Set<Scene>
   let segues: Set<Segue>
@@ -93,7 +94,18 @@ public final class StoryboardParser {
       Storyboard.Segue(with: $0)
     })
 
+    // TargetRuntime
+    let mapping = [
+      "AppleTV": "tvOS",
+      "iOS.CocoaTouch": "iOS",
+      "MacOSX.Cocoa": "macOS",
+      "watchKit": "watchOS"
+    ]
+    var targetRuntime = document.at_xpath(XML.Scene.targetRuntimeXPath)?.text ?? ""
+    let platform = mapping[targetRuntime] ?? targetRuntime
+
     storyboards += [Storyboard(name: path.lastComponentWithoutExtension,
+                               platform: platform,
                                initialScene: initialScene,
                                scenes: scenes,
                                segues: segues)]

@@ -52,7 +52,8 @@ extension StoryboardParser {
         .map(map(scene:)),
       "segues": storyboard.segues
         .sorted { $0.identifier < $1.identifier }
-        .map(map(segue:))
+        .map(map(segue:)),
+      "platform": storyboard.platform
     ]
 
     if let scene = storyboard.initialScene {
