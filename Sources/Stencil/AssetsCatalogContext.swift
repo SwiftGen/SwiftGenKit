@@ -18,7 +18,7 @@ import Foundation
        - `value`: `String` — the actual full name for loading the image
 */
 extension AssetsCatalogParser {
-  public func stencilContext(enumName: String = "Asset") -> [String: Any] {
+  public func stencilContext() -> [String: Any] {
     let catalogs = self.catalogs.keys.sorted(by: <).map { name -> [String: Any] in
       return [
         "name": name,

@@ -29,7 +29,7 @@ private extension String {
           Contains a list of types like `"String"`, `"Int"`, etc
 */
 extension StringsFileParser {
-  public func stencilContext(enumName: String = "L10n", tableName: String = "Localizable") -> [String: Any] {
+  public func stencilContext() -> [String: Any] {
 
     let entryToStringMapper = { (entry: Entry, keyPath: [String]) -> [String: Any] in
       let levelName = entry.keyStructure.last ?? ""
@@ -52,7 +52,7 @@ extension StringsFileParser {
       usingMapper: entryToStringMapper
     )
     let tables: [[String: Any]] = [[
-      "name": tableName,
+      "name": "Localizable",
       "levels": structuredStrings
     ]]
 

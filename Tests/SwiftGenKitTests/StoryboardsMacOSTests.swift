@@ -21,7 +21,7 @@ class StoryboardsMacOSTests: XCTestCase {
     XCTDiffContexts(result, expected: "empty.plist", sub: .storyboardsMacOS)
   }
 
-  func testMessageStoryboardWithDefaults() {
+  func testMessageStoryboard() {
     let parser = StoryboardParser()
     do {
       try parser.addStoryboard(at: Fixtures.path(for: "Message.storyboard", sub: .storyboardsMacOS))
@@ -33,7 +33,7 @@ class StoryboardsMacOSTests: XCTestCase {
     XCTDiffContexts(result, expected: "messages.plist", sub: .storyboardsMacOS)
   }
 
-  func testAnonymousStoryboardWithDefaults() {
+  func testAnonymousStoryboard() {
     let parser = StoryboardParser()
     do {
       try parser.addStoryboard(at: Fixtures.path(for: "Anonymous.storyboard", sub: .storyboardsMacOS))
@@ -45,7 +45,7 @@ class StoryboardsMacOSTests: XCTestCase {
     XCTDiffContexts(result, expected: "anonymous.plist", sub: .storyboardsMacOS)
   }
 
-  func testAllStoryboardsWithDefaults() {
+  func testAllStoryboards() {
     let parser = StoryboardParser()
     do {
       try parser.parseDirectory(at: Fixtures.directory(sub: .storyboardsMacOS))
@@ -55,17 +55,5 @@ class StoryboardsMacOSTests: XCTestCase {
 
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "all.plist", sub: .storyboardsMacOS)
-  }
-
-  func testAllStoryboardsWithCustomName() {
-    let parser = StoryboardParser()
-    do {
-      try parser.parseDirectory(at: Fixtures.directory(sub: .storyboardsMacOS))
-    } catch {
-      print("Error: \(error.localizedDescription)")
-    }
-
-    let result = parser.stencilContext(sceneEnumName: "XCTStoryboardsScene", segueEnumName: "XCTStoryboardsSegue")
-    XCTDiffContexts(result, expected: "customname.plist", sub: .storyboardsMacOS)
   }
 }

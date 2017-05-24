@@ -25,12 +25,4 @@ class FontsTests: XCTestCase {
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "defaults.plist", sub: .fonts)
   }
-
-  func testCustomName() {
-    let parser = FontsFileParser()
-    parser.parseFile(at: Fixtures.directory(sub: .fonts))
-
-    let result = parser.stencilContext(enumName: "CustomFamily")
-    XCTDiffContexts(result, expected: "customname.plist", sub: .fonts)
-  }
 }
