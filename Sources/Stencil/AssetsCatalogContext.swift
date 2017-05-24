@@ -19,11 +19,13 @@ import Foundation
 */
 extension AssetsCatalogParser {
   public func stencilContext() -> [String: Any] {
-    let catalogs = self.catalogs.keys.sorted(by: <).map { name -> [String: Any] in
-      return [
-        "name": name,
-        "assets": structure(entries: self.catalogs[name] ?? [])
-      ]
+    let catalogs = self.catalogs
+      .sorted { lhs, rhs in lhs.name < rhs.name }
+      .map { catalog -> [String: Any] in
+        return [
+          "name": catalog.name,
+          "assets": structure(entries: catalog.entries)
+        ]
     }
 
     return [
@@ -31,7 +33,7 @@ extension AssetsCatalogParser {
     ]
   }
 
-  private func structure(entries: [Entry]) -> [[String: Any]] {
+  private func structure(entries: [Catalog.Entry]) -> [[String: Any]] {
     return entries.map { entry in
       switch entry {
       case let .group(name: name, items: items):
