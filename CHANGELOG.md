@@ -25,7 +25,9 @@ Due to the removal of legacy code, there are a few breaking changes in this new 
 
 ### New Features
 
-_None_
+* Throw an error if a format string has mismatching types for the same placeholde position.  
+  [David Jennes](https://github.com/djbe)
+  [#44](https://github.com/SwiftGen/SwiftGenKit/issues/44)
 
 ### Internal Changes
 
