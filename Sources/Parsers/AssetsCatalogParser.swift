@@ -7,17 +7,6 @@
 import Foundation
 import PathKit
 
-public enum AssetCatalogParserError: Error, CustomStringConvertible {
-  case invalidFile
-
-  public var description: String {
-    switch self {
-    case .invalidFile:
-      return "error: File must be an asset catalog"
-    }
-  }
-}
-
 struct Catalog {
   enum Entry {
     case group(name: String, items: [Entry])
@@ -29,13 +18,24 @@ struct Catalog {
 }
 
 public final class AssetsCatalogParser {
+  public enum Error: Swift.Error, CustomStringConvertible {
+    case invalidFile
+
+    public var description: String {
+      switch self {
+      case .invalidFile:
+        return "error: File must be an asset catalog"
+      }
+    }
+  }
+
   var catalogs = [Catalog]()
 
   public init() {}
 
   public func parseCatalog(at path: Path) throws {
     guard path.extension == AssetCatalog.extension else {
-      throw AssetCatalogParserError.invalidFile
+      throw AssetsCatalogParser.Error.invalidFile
     }
 
     let name = path.lastComponentWithoutExtension
