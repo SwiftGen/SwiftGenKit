@@ -16,7 +16,7 @@ import Foundation
 */
 
 extension FontsFileParser {
-  public func stencilContext(enumName: String = "FontFamily") -> [String: Any] {
+  public func stencilContext() -> [String: Any] {
     // turn into array of dictionaries
     let families = entries.map { (name: String, family: Set<Font>) -> [String: Any] in
       let fonts = family.map { (font: Font) -> [String: String] in

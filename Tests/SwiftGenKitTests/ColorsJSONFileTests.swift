@@ -24,14 +24,6 @@ class ColorsJSONFileTests: XCTestCase {
     XCTDiffContexts(result, expected: "defaults.plist", sub: .colors)
   }
 
-  func testFileWithCustomName() throws {
-    let parser = ColorsJSONFileParser()
-    try parser.parseFile(at: Fixtures.path(for: "colors.json", sub: .colors))
-
-    let result = parser.stencilContext(enumName: "XCTColors")
-    XCTDiffContexts(result, expected: "customname.plist", sub: .colors)
-  }
-
   func testFileWithBadSyntax() {
     let parser = ColorsJSONFileParser()
     do {

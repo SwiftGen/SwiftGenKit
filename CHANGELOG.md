@@ -4,6 +4,9 @@
 
 ## Master
 
+Due to the removal of legacy code, there are a few breaking changes in this new version that affect both template writers as well as developers. We've provided a migration guide to help you through these changes, which you can find here:
+[Migration Guide for 2.0](https://github.com/SwiftGen/SwiftGenKit/blob/master/Documentation/MigrationGuide.md#swiftgenkit-20-swiftgen-50)
+
 ### Bug Fixes
 
 * Fixed color's hex value rounding error.  
@@ -18,6 +21,7 @@
 * Removed deprecated variables. See [SwiftGenKit#5](https://github.com/SwiftGen/SwiftGenKit/issues/5) for more information.   
   [David Jennes](https://github.com/djbe)
   [#35](https://github.com/SwiftGen/templates/issues/35)
+  [#42](https://github.com/SwiftGen/templates/issues/42)
 
 ### New Features
 

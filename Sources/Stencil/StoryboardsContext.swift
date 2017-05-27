@@ -34,8 +34,7 @@ private func uppercaseFirst(_ string: String) -> String {
        - `customModule`: `String` — The custom module of the segue (absent if no custom segue class)
 */
 extension StoryboardParser {
-  public func stencilContext(sceneEnumName: String = "StoryboardScene",
-                             segueEnumName: String = "StoryboardSegue") -> [String: Any] {
+  public func stencilContext() -> [String: Any] {
     let storyboards = Set(storyboardsScenes.keys).union(storyboardsSegues.keys).sorted(by: <)
     let storyboardsMap = storyboards.map { (storyboardName: String) -> [String:Any] in
       var sbMap: [String:Any] = ["name": storyboardName]

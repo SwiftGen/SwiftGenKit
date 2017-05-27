@@ -15,7 +15,7 @@ import Foundation
     - `alpha`: `String` — hex value of the alpha component
 */
 extension ColorsFileParser {
-  public func stencilContext(enumName: String = "ColorName") -> [String: Any] {
+  public func stencilContext() -> [String: Any] {
     let colorMap = colors.map({ (color: (name: String, value: UInt32)) -> [String:String] in
       let name = color.name.trimmingCharacters(in: CharacterSet.whitespaces)
       let hex = "00000000" + String(color.value, radix: 16)

@@ -21,24 +21,12 @@ class StringsTests: XCTestCase {
     XCTDiffContexts(result, expected: "empty.plist", sub: .strings)
   }
 
-  func testEntriesWithDefaults() {
-    let parser = StringsFileParser()
-    parser.addEntry(StringsFileParser.Entry(key: "Title",
-                                            translation: "My awesome title"))
-    parser.addEntry(StringsFileParser.Entry(key: "Greetings",
-                                            translation: "Hello, my name is %@ and I'm %d",
-                                            types: .object, .int))
-
-    let result = parser.stencilContext()
-    XCTDiffContexts(result, expected: "entries.plist", sub: .strings)
-  }
-
-  func testFileWithDefaults() throws {
+  func testLocalizable() throws {
     let parser = StringsFileParser()
     try parser.parseFile(at: Fixtures.path(for: "Localizable.strings", sub: .strings))
 
     let result = parser.stencilContext()
-    XCTDiffContexts(result, expected: "defaults.plist", sub: .strings)
+    XCTDiffContexts(result, expected: "localizable.plist", sub: .strings)
   }
 
   func testMultiline() throws {
@@ -49,7 +37,7 @@ class StringsTests: XCTestCase {
     XCTDiffContexts(result, expected: "multiline.plist", sub: .strings)
   }
 
-  func testUTF8FileWithDefaults() throws {
+  func testUTF8File() throws {
     let parser = StringsFileParser()
     try parser.parseFile(at: Fixtures.path(for: "LocUTF8.strings", sub: .strings))
 
@@ -57,15 +45,7 @@ class StringsTests: XCTestCase {
     XCTDiffContexts(result, expected: "utf8.plist", sub: .strings)
   }
 
-  func testFileWithCustomName() throws {
-    let parser = StringsFileParser()
-    try parser.parseFile(at: Fixtures.path(for: "Localizable.strings", sub: .strings))
-
-    let result = parser.stencilContext(enumName: "XCTLoc")
-    XCTDiffContexts(result, expected: "customname.plist", sub: .strings)
-  }
-
-  func testFileWithStructuredOnly() throws {
+  func testStructuredOnly() throws {
     let parser = StringsFileParser()
     try parser.parseFile(at: Fixtures.path(for: "LocStructuredOnly.strings", sub: .strings))
 

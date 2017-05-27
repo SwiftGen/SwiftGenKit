@@ -35,14 +35,6 @@ class ColorsTextFileTests: XCTestCase {
     XCTDiffContexts(result, expected: "text-defaults.plist", sub: .colors)
   }
 
-  func testFileWithCustomName() throws {
-    let parser = ColorsTextFileParser()
-    try parser.parseFile(at: Fixtures.path(for: "colors.txt", sub: .colors))
-
-    let result = parser.stencilContext(enumName: "XCTColors")
-    XCTDiffContexts(result, expected: "text-customname.plist", sub: .colors)
-  }
-
   func testFileWithBadSyntax() {
     let parser = ColorsTextFileParser()
     do {

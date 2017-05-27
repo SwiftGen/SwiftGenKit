@@ -22,19 +22,11 @@ class ImagesTests: XCTestCase {
     XCTDiffContexts(result, expected: "empty.plist", sub: .images)
   }
 
-  func testFileWithDefaults() {
+  func testDefaults() {
     let parser = AssetsCatalogParser()
     parser.parseCatalog(at: Fixtures.path(for: "Images.xcassets", sub: .images))
 
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "defaults.plist", sub: .images)
-  }
-
-  func testFileWithCustomName() {
-    let parser = AssetsCatalogParser()
-    parser.parseCatalog(at: Fixtures.path(for: "Images.xcassets", sub: .images))
-
-    let result = parser.stencilContext(enumName: "XCTImages")
-    XCTDiffContexts(result, expected: "customname.plist", sub: .images)
   }
 }
