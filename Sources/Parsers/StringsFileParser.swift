@@ -10,6 +10,7 @@ import PathKit
 public enum StringsFileParserError: Error, CustomStringConvertible {
   case failureOnLoading(path: String)
   case invalidFormat
+  case invalidPlaceholder(previous: StringsFileParser.PlaceholderType, new: StringsFileParser.PlaceholderType)
 
   public var description: String {
     switch self {
@@ -17,6 +18,8 @@ public enum StringsFileParserError: Error, CustomStringConvertible {
       return "Failed to load a file at \"\(path)\""
     case .invalidFormat:
       return "Invalid strings file"
+    case .invalidPlaceholder(let previous, let new):
+      return "Invalid placeholder type \(new) (previous: \(previous))"
     }
   }
 }
@@ -44,7 +47,7 @@ public final class StringsFileParser {
     }
 
     for (key, translation) in dict {
-      addEntry(Entry(key: key, translation: translation))
+      addEntry(try Entry(key: key, translation: translation))
     }
   }
 
@@ -81,8 +84,8 @@ public final class StringsFileParser {
       }
     }
 
-    public static func placeholders(fromFormat str: String) -> [PlaceholderType] {
-      return StringsFileParser.placeholders(fromFormat:  str)
+    public static func placeholders(fromFormat str: String) throws -> [PlaceholderType] {
+      return try StringsFileParser.placeholders(fromFormat:  str)
     }
   }
 
@@ -104,8 +107,8 @@ public final class StringsFileParser {
       self.init(key: key, translation: translation, types: types)
     }
 
-    public init(key: String, translation: String) {
-      let types = PlaceholderType.placeholders(fromFormat: translation)
+    public init(key: String, translation: String) throws {
+      let types = try PlaceholderType.placeholders(fromFormat: translation)
       self.init(key: key, translation: translation, types: types)
     }
   }
@@ -133,7 +136,7 @@ public final class StringsFileParser {
   }()
 
   // "I give %d apples to %@" --> [.Int, .String]
-  private static func placeholders(fromFormat formatString: String) -> [PlaceholderType] {
+  private static func placeholders(fromFormat formatString: String) throws -> [PlaceholderType] {
     let range = NSRange(location: 0, length: (formatString as NSString).length)
 
     // Extract the list of chars (conversion specifiers) and their optional positional specifier
@@ -177,6 +180,10 @@ public final class StringsFileParser {
         if insertionPos > 0 {
           while list.count <= insertionPos-1 {
             list.append(.unknown)
+          }
+          let previous = list[insertionPos-1]
+          guard previous == .unknown || previous == p else {
+            throw StringsFileParserError.invalidPlaceholder(previous: previous, new: p)
           }
           list[insertionPos-1] = p
         }
