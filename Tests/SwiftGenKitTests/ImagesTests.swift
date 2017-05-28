@@ -22,9 +22,9 @@ class ImagesTests: XCTestCase {
     XCTDiffContexts(result, expected: "empty.plist", sub: .images)
   }
 
-  func testDefaults() {
+  func testDefaults() throws {
     let parser = AssetsCatalogParser()
-    parser.parseCatalog(at: Fixtures.path(for: "Images.xcassets", sub: .images))
+    try parser.parseCatalog(at: Fixtures.path(for: "Images.xcassets", sub: .images))
 
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "defaults.plist", sub: .images)

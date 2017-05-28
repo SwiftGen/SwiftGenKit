@@ -38,6 +38,9 @@ Due to the removal of legacy code, there are a few breaking changes in this new 
   [David Jennes](https://github.com/djbe)
   [#18](https://github.com/SwiftGen/templates/issues/18)
   [#38](https://github.com/SwiftGen/templates/issues/38)
+* Images: switch back from `actool` to an internal parser to fix numerous issues with the former.  
+  [David Jennes](https://github.com/djbe)
+  [#43](https://github.com/SwiftGen/templates/issues/43)
 
 ## 1.1.0
 
