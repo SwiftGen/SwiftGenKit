@@ -30,7 +30,6 @@ private extension String {
 */
 extension StringsFileParser {
   public func stencilContext() -> [String: Any] {
-
     let entryToStringMapper = { (entry: Entry, keyPath: [String]) -> [String: Any] in
       let levelName = entry.keyStructure.last ?? ""
 
@@ -47,14 +46,15 @@ extension StringsFileParser {
       return result
     }
 
-    let structuredStrings = structure(
-      entries: entries,
-      usingMapper: entryToStringMapper
-    )
-    let tables: [[String: Any]] = [[
-      "name": "Localizable",
-      "levels": structuredStrings
-    ]]
+    let tables = self.tables.map { name, entries in
+      return [
+        "name": name,
+        "levels": structure(
+          entries: entries,
+          usingMapper: entryToStringMapper
+        )
+      ]
+    }
 
     return [
       "tables": tables
