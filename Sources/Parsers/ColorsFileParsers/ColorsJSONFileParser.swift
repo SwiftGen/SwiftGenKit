@@ -10,7 +10,7 @@ import PathKit
 final class ColorsJSONFileParser: ColorsFileTypeParser {
   static let extensions = ["json"]
 
-  func parseFile(at path: Path) throws -> [String: UInt32] {
+  func parseFile(at path: Path) throws -> Palette {
     do {
       let json = try JSONSerialization.jsonObject(with: try path.read(), options: [])
       guard let dict = json as? [String: String] else {
@@ -23,7 +23,8 @@ final class ColorsJSONFileParser: ColorsFileTypeParser {
         colors[key] = try parse(hex: value, key: key)
       }
 
-      return colors
+      let name = path.lastComponentWithoutExtension
+      return Palette(name: name, colors: colors)
     } catch let error as ColorsParserError {
       throw error
     } catch let error {

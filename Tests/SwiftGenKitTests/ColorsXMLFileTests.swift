@@ -11,7 +11,7 @@ import PathKit
 class ColorsXMLFileTests: XCTestCase {
   func testFileWithDefaults() throws {
     let parser = try ColorsFileParser()
-    parser.colors = try ColorsXMLFileParser().parseFile(at: Fixtures.path(for: "colors.xml", sub: .colors))
+    parser.palettes = [try ColorsXMLFileParser().parseFile(at: Fixtures.path(for: "colors.xml", sub: .colors))]
 
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "defaults.plist", sub: .colors)

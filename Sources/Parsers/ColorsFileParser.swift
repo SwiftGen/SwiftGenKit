@@ -29,16 +29,21 @@ public enum ColorsParserError: Error, CustomStringConvertible {
   }
 }
 
+struct Palette {
+  let name: String
+  let colors: [String: UInt32]
+}
+
 protocol ColorsFileTypeParser: class {
   static var extensions: [String] { get }
 
   init()
-  func parseFile(at path: Path) throws -> [String: UInt32]
+  func parseFile(at path: Path) throws -> Palette
 }
 
 public final class ColorsFileParser {
   private var parsers = [String: ColorsFileTypeParser.Type]()
-  var colors = [String: UInt32]()
+  var palettes = [Palette]()
 
   public init() throws {
     try register(parser: ColorsCLRFileParser.self)
@@ -53,11 +58,9 @@ public final class ColorsFileParser {
     }
 
     let parser = parserType.init()
-    let colors = try parser.parseFile(at: path)
+    let palette = try parser.parseFile(at: path)
 
-    for (name, value) in colors {
-      self.colors[name] = value
-    }
+    palettes += [palette]
   }
 
   func register(parser: ColorsFileTypeParser.Type) throws {

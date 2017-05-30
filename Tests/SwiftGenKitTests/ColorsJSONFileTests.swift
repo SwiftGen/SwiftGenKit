@@ -11,7 +11,7 @@ import PathKit
 class ColorsJSONFileTests: XCTestCase {
   func testFileWithDefaults() throws {
     let parser = try ColorsFileParser()
-    parser.colors = try ColorsJSONFileParser().parseFile(at: Fixtures.path(for: "colors.json", sub: .colors))
+    parser.palettes = [try ColorsJSONFileParser().parseFile(at: Fixtures.path(for: "colors.json", sub: .colors))]
 
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "defaults.plist", sub: .colors)

@@ -65,7 +65,7 @@ final class ColorsTextFileParser: ColorsFileTypeParser {
   //  - One line per entry
   //  - Each line composed by the color name, then ":", then the color hex representation
   //  - Extra spaces will be skipped
-  func parseFile(at path: Path) throws -> [String: UInt32] {
+  func parseFile(at path: Path) throws -> Palette {
     do {
       let dict = try keyValueDict(from: path, withSeperator: ":")
       for key in dict.keys {
@@ -77,6 +77,7 @@ final class ColorsTextFileParser: ColorsFileTypeParser {
       throw ColorsParserError.invalidFile(path: path, reason: error.localizedDescription)
     }
 
-    return colors
+    let name = path.lastComponentWithoutExtension
+    return Palette(name: name, colors: colors)
   }
 }

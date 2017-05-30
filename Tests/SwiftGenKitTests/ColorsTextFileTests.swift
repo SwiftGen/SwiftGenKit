@@ -11,10 +11,10 @@ import PathKit
 class ColorsTextFileTests: XCTestCase {
   func testFileWithDefaults() throws {
     let parser = try ColorsFileParser()
-    parser.colors = try ColorsTextFileParser().parseFile(at: Fixtures.path(for: "colors.txt", sub: .colors))
+    parser.palettes = [try ColorsTextFileParser().parseFile(at: Fixtures.path(for: "extra.txt", sub: .colors))]
 
     let result = parser.stencilContext()
-    XCTDiffContexts(result, expected: "text-defaults.plist", sub: .colors)
+    XCTDiffContexts(result, expected: "extra.plist", sub: .colors)
   }
 
   func testFileWithBadSyntax() {

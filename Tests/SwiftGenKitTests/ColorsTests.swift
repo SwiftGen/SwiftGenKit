@@ -10,22 +10,22 @@ import XCTest
 
 final class TestFileParser1: ColorsFileTypeParser {
   static let extensions = ["test1"]
-  func parseFile(at path: Path) throws -> [String: UInt32] {
-    return ["test1": 1]
+  func parseFile(at path: Path) throws -> Palette {
+    return Palette(name: "test1", colors: [:])
   }
 }
 
 final class TestFileParser2: ColorsFileTypeParser {
   static let extensions = ["test2"]
-  func parseFile(at path: Path) throws -> [String: UInt32] {
-    return ["test2": 1]
+  func parseFile(at path: Path) throws -> Palette {
+    return Palette(name: "test2", colors: [:])
   }
 }
 
 final class TestFileParser3: ColorsFileTypeParser {
   static let extensions = ["test1"]
-  func parseFile(at path: Path) throws -> [String: UInt32] {
-    return [:]
+  func parseFile(at path: Path) throws -> Palette {
+    return Palette(name: "test3", colors: [:])
   }
 }
 
@@ -45,8 +45,7 @@ class ColorParserTests: XCTestCase {
     try parser.register(parser: TestFileParser2.self)
 
     try parser.parseFile(at: "someFile.test1")
-    XCTAssertEqual(parser.colors["test1"], 1)
-    XCTAssertNil(parser.colors["test2"])
+    XCTAssertEqual(parser.palettes.first?.name, "test1")
   }
 
   func testDispatchUnknownExtension() throws {
@@ -76,6 +75,17 @@ class ColorParserTests: XCTestCase {
     } catch let error {
       XCTFail("Unexpected error occured while parsing: \(error)")
     }
+  }
+
+  // MARK: - Multiple palettes
+
+  func testParseMultipleFiles() throws {
+    let parser = try ColorsFileParser()
+    try parser.parseFile(at: Fixtures.path(for: "colors.clr", sub: .colors))
+    try parser.parseFile(at: Fixtures.path(for: "extra.txt", sub: .colors))
+
+    let result = parser.stencilContext()
+    XCTDiffContexts(result, expected: "multiple.plist", sub: .colors)
   }
 
   // MARK: - String parsing

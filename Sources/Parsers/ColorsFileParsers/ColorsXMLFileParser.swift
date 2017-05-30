@@ -16,7 +16,7 @@ final class ColorsXMLFileParser: ColorsFileTypeParser {
     static let nameAttribute = "name"
   }
 
-  func parseFile(at path: Path) throws -> [String: UInt32] {
+  func parseFile(at path: Path) throws -> Palette {
     guard let document = Kanna.XML(xml: try path.read(), encoding: .utf8) else {
       throw ColorsParserError.invalidFile(path: path, reason: "Unknown XML parser error.")
     }
@@ -34,6 +34,7 @@ final class ColorsXMLFileParser: ColorsFileTypeParser {
       colors[name] = try parse(hex: value, key: name)
     }
 
-    return colors
+    let name = path.lastComponentWithoutExtension
+    return Palette(name: name, colors: colors)
   }
 }

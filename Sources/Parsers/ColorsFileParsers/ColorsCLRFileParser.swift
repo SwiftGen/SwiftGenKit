@@ -14,7 +14,7 @@ final class ColorsCLRFileParser: ColorsFileTypeParser {
     static let userColors = "UserColors"
   }
 
-  func parseFile(at path: Path) throws -> [String: UInt32] {
+  func parseFile(at path: Path) throws -> Palette {
     if let colorsList = NSColorList(name: Keys.userColors, fromFile: path.string) {
       var colors = [String: UInt32]()
 
@@ -22,7 +22,8 @@ final class ColorsCLRFileParser: ColorsFileTypeParser {
         colors[colorName] = colorsList.color(withKey: colorName)?.hexValue
       }
 
-      return colors
+      let name = path.lastComponentWithoutExtension
+      return Palette(name: name, colors: colors)
     } else {
       throw ColorsParserError.invalidFile(path: path, reason: "Invalid color list")
     }
