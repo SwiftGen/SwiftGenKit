@@ -8,46 +8,66 @@ import Foundation
 import Kanna
 import PathKit
 
-public final class StoryboardParser {
-  struct InitialScene {
-    let tag: String
-    let customClass: String?
-    let customModule: String?
+private enum XML {
+  enum Scene {
+    static let initialVCXPath = "/*/@initialViewController"
+    static let targetRuntimeXPath = "/*/@targetRuntime"
+    static func initialSceneXPath(identifier: String) -> String {
+      return "/document/scenes/scene/objects/*[@sceneMemberID=\"viewController\" and @id=\"\(identifier)\"]"
+    }
+    static func sceneXPath(initial: String) -> String {
+      return "/document/scenes/scene/objects/*[@sceneMemberID=\"viewController\" and " +
+        "string-length(@storyboardIdentifier) > 0]"
+    }
+    static let placeholderTag = "viewControllerPlaceholder"
+    static let customClassAttribute = "customClass"
+    static let customModuleAttribute = "customModule"
+    static let storyboardIdentifierAttribute = "storyboardIdentifier"
   }
+  enum Segue {
+    static let segueXPath = "/document/scenes/scene//connections/segue[string(@identifier)]"
+    static let identifierAttribute = "identifier"
+    static let customClassAttribute = "customClass"
+    static let customModuleAttribute = "customModule"
+  }
+}
 
+struct Storyboard {
   struct Scene {
-    let storyboardID: String
+    let identifier: String
     let tag: String
     let customClass: String?
     let customModule: String?
+
+    init(with object: Kanna.XMLElement) {
+      identifier = object[XML.Scene.storyboardIdentifierAttribute] ?? ""
+      tag = object.tagName ?? ""
+      customClass = object[XML.Scene.customClassAttribute]
+      customModule = object[XML.Scene.customModuleAttribute]
+    }
   }
 
   struct Segue {
     let identifier: String
     let customClass: String?
     let customModule: String?
+
+    init(with object: Kanna.XMLElement) {
+      identifier = object[XML.Segue.identifierAttribute] ?? ""
+      customClass = object[XML.Segue.customClassAttribute]
+      customModule = object[XML.Segue.customModuleAttribute]
+    }
   }
 
-  enum XMLScene {
-    static let initialVCXPath = "/*/@initialViewController"
-    static let sceneXPath = "/document/scenes/scene/objects/*[@sceneMemberID=\"viewController\"]"
-    static let placeholderTag = "viewControllerPlaceholder"
-    static let customClassAttribute = "customClass"
-    static let customModuleAttribute = "customModule"
-    static let idAttribute = "id"
-    static let storyboardIdentifierAttribute = "storyboardIdentifier"
-  }
-  enum XMLSegue {
-    static let segueXPath = "/document/scenes/scene//connections/segue[string(@identifier)]"
-    static let identifierAttribute = "identifier"
-    static let customClassAttribute = "customClass"
-    static let customModuleAttribute = "customModule"
-  }
+  let name: String
+  let platform: String
+  let initialScene: Scene?
+  let scenes: Set<Scene>
+  let segues: Set<Segue>
+}
 
-  var initialScenes = [String: InitialScene]()
-  var storyboardsScenes = [String: Set<Scene>]()
-  var storyboardsSegues = [String: Set<Segue>]()
-  var modules = Set<String>()
+public final class StoryboardParser {
+  var storyboards = [Storyboard]()
 
   public init() {}
 
@@ -56,44 +76,39 @@ public final class StoryboardParser {
       throw ColorsParserError.invalidFile(reason: "Unknown XML parser error.")
     }
 
-    let storyboardName = path.lastComponentWithoutExtension
-    let initialSceneID = document.at_xpath(XMLScene.initialVCXPath)?.text
-    var initialScene: InitialScene? = nil
-    var scenes = Set<Scene>()
-    var segues = Set<Segue>()
-
-    for scene in document.xpath(XMLScene.sceneXPath) {
-      guard scene.tagName != XMLScene.placeholderTag else { continue }
-
-      let customClass = scene[XMLScene.customClassAttribute]
-      let customModule = scene[XMLScene.customModuleAttribute]
-
-      if scene[XMLScene.idAttribute] == initialSceneID {
-        initialScene = InitialScene(tag: scene.tagName ?? "",
-                                    customClass: customClass,
-                                    customModule: customModule)
-      }
-      if let id = scene[XMLScene.storyboardIdentifierAttribute] {
-        scenes.insert(Scene(storyboardID: id,
-                            tag: scene.tagName ?? "",
-                            customClass: customClass,
-                            customModule: customModule))
-      }
+    // Initial VC
+    let initialSceneID = document.at_xpath(XML.Scene.initialVCXPath)?.text ?? ""
+    var initialScene: Storyboard.Scene? = nil
+    if let object = document.at_xpath(XML.Scene.initialSceneXPath(identifier: initialSceneID)) {
+      initialScene = Storyboard.Scene(with: object)
     }
 
-    for segue in document.xpath(XMLSegue.segueXPath) {
-      let id = segue[XMLSegue.identifierAttribute] ?? ""
-      let customClass = segue[XMLSegue.customClassAttribute]
-      let customModule = segue[XMLSegue.customModuleAttribute]
+    // Scenes
+    let scenes = Set<Storyboard.Scene>(document.xpath(XML.Scene.sceneXPath(initial: initialSceneID)).flatMap {
+      guard $0.tagName != XML.Scene.placeholderTag else { return nil }
+      return Storyboard.Scene(with: $0)
+    })
 
-      segues.insert(Segue(identifier: id, customClass: customClass, customModule: customModule))
-    }
+    // Segues
+    let segues = Set<Storyboard.Segue>(document.xpath(XML.Segue.segueXPath).map {
+      Storyboard.Segue(with: $0)
+    })
 
-    initialScenes[storyboardName] = initialScene
-    storyboardsScenes[storyboardName] = scenes
-    storyboardsSegues[storyboardName] = segues
+    // TargetRuntime
+    let mapping = [
+      "AppleTV": "tvOS",
+      "iOS.CocoaTouch": "iOS",
+      "MacOSX.Cocoa": "macOS",
+      "watchKit": "watchOS"
+    ]
+    let targetRuntime = document.at_xpath(XML.Scene.targetRuntimeXPath)?.text ?? ""
+    let platform = mapping[targetRuntime] ?? targetRuntime
 
-    modules.formUnion(collectModules(initial: initialScene, scenes: scenes, segues: segues))
+    storyboards += [Storyboard(name: path.lastComponentWithoutExtension,
+                               platform: platform,
+                               initialScene: initialScene,
+                               scenes: scenes,
+                               segues: segues)]
   }
 
   public func parseDirectory(at path: Path) throws {
@@ -106,41 +121,54 @@ public final class StoryboardParser {
     }
   }
 
-  private func collectModules(initial: InitialScene?, scenes: Set<Scene>, segues: Set<Segue>) -> Set<String> {
-    var result = Set<String>()
+  var modules: Set<String> {
+    return Set<String>(storyboards.flatMap(collectModules(from:)))
+  }
 
-    if let module = initial?.customModule {
-      result.insert(module)
+  private func collectModules(from storyboard: Storyboard) -> [String] {
+    var result: [String] = storyboard.scenes.flatMap { $0.customModule } +
+      storyboard.segues.flatMap { $0.customModule }
+
+    if let module = storyboard.initialScene?.customModule {
+      result += [module]
     }
-    result.formUnion(Set<String>(scenes.flatMap { $0.customModule }))
-    result.formUnion(Set<String>(segues.flatMap { $0.customModule }))
 
     return result
   }
+
+  var platform: String? {
+    let platforms = Set<String>(storyboards.map { $0.platform })
+
+    if platforms.count > 1 {
+      return nil
+    } else {
+      return platforms.first
+    }
+  }
 }
 
-extension StoryboardParser.Scene: Equatable { }
-func == (lhs: StoryboardParser.Scene, rhs: StoryboardParser.Scene) -> Bool {
-  return lhs.storyboardID == rhs.storyboardID &&
+extension Storyboard.Scene: Equatable { }
+func == (lhs: Storyboard.Scene, rhs: Storyboard.Scene) -> Bool {
+  return lhs.identifier == rhs.identifier &&
     lhs.tag == rhs.tag &&
     lhs.customClass == rhs.customClass &&
     lhs.customModule == rhs.customModule
 }
 
-extension StoryboardParser.Scene: Hashable {
+extension Storyboard.Scene: Hashable {
   var hashValue: Int {
-    return storyboardID.hashValue ^ tag.hashValue ^ (customModule?.hashValue ?? 0) ^ (customClass?.hashValue ?? 0)
+    return identifier.hashValue ^ tag.hashValue ^ (customModule?.hashValue ?? 0) ^ (customClass?.hashValue ?? 0)
   }
 }
 
-extension StoryboardParser.Segue: Equatable { }
-func == (lhs: StoryboardParser.Segue, rhs: StoryboardParser.Segue) -> Bool {
+extension Storyboard.Segue: Equatable { }
+func == (lhs: Storyboard.Segue, rhs: Storyboard.Segue) -> Bool {
   return lhs.identifier == rhs.identifier &&
     lhs.customClass == rhs.customClass &&
     lhs.customModule == rhs.customModule
 }
 
-extension StoryboardParser.Segue: Hashable {
+extension Storyboard.Segue: Hashable {
   var hashValue: Int {
     return identifier.hashValue ^ (customModule?.hashValue ?? 0) ^ (customClass?.hashValue ?? 0)
   }
