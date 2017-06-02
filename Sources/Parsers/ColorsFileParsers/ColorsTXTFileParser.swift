@@ -23,26 +23,22 @@ final class ColorsTextFileParser: ColorsFileTypeParser {
   public func keyValueDict(from path: Path, withSeperator seperator: String = ":") throws -> [String:String] {
     let content = try path.read(.utf8)
     let lines = content.components(separatedBy: CharacterSet.newlines)
-    let whitespace = CharacterSet.whitespaces
-    let skippedCharacters = NSMutableCharacterSet()
-    skippedCharacters.formUnion(with: whitespace)
-    skippedCharacters.formUnion(with: skippedCharacters as CharacterSet)
 
     var dict: [String: String] = [:]
     for line in lines {
       let scanner = Scanner(string: line)
-      scanner.charactersToBeSkipped = skippedCharacters as CharacterSet
+      scanner.charactersToBeSkipped = .whitespaces
 
       var key: NSString?
       var value: NSString?
       guard scanner.scanUpTo(seperator, into: &key) &&
         scanner.scanString(seperator, into: nil) &&
-        scanner.scanUpToCharacters(from: whitespace, into: &value) else {
+        scanner.scanUpToCharacters(from: .whitespaces, into: &value) else {
           continue
       }
 
-      if let key: String = key?.trimmingCharacters(in: whitespace),
-        let value: String = value?.trimmingCharacters(in: whitespace) {
+      if let key: String = key?.trimmingCharacters(in: .whitespaces),
+        let value: String = value?.trimmingCharacters(in: .whitespaces) {
         dict[key] = value
       }
     }
