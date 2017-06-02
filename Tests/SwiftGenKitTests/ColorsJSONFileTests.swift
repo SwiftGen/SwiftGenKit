@@ -32,7 +32,7 @@ class ColorsJSONFileTests: XCTestCase {
     do {
       _ = try ColorsJSONFileParser().parseFile(at: Fixtures.path(for: "bad-value.json", sub: .colors))
       XCTFail("Code did parse file successfully while it was expected to fail for bad value")
-    } catch ColorsParserError.invalidHexColor(string: "this isn't a color", key: "ArticleTitle"?) {
+    } catch ColorsParserError.invalidHexColor(path: _, string: "this isn't a color", key: "ArticleTitle"?) {
       // That's the expected exception we want to happen
     } catch let error {
       XCTFail("Unexpected error occured while parsing: \(error)")

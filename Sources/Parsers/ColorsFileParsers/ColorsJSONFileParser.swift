@@ -20,7 +20,7 @@ final class ColorsJSONFileParser: ColorsFileTypeParser {
 
       var colors = [String: UInt32]()
       for (key, value) in dict {
-        colors[key] = try parse(hex: value, key: key)
+        colors[key] = try parse(hex: value, key: key, path: path)
       }
 
       let name = path.lastComponentWithoutExtension

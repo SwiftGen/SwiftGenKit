@@ -31,7 +31,7 @@ final class ColorsXMLFileParser: ColorsFileTypeParser {
         throw ColorsParserError.invalidFile(path: path, reason: "Invalid structure, color \(value) must have a name.")
       }
 
-      colors[name] = try parse(hex: value, key: name)
+      colors[name] = try parse(hex: value, key: name, path: path)
     }
 
     let name = path.lastComponentWithoutExtension

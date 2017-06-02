@@ -91,22 +91,22 @@ class ColorParserTests: XCTestCase {
   // MARK: - String parsing
 
   func testStringNoPrefix() throws {
-    let color = try parse(hex: "FFFFFF")
+    let color = try parse(hex: "FFFFFF", path: #file)
     XCTAssertEqual(color, 0xFFFFFFFF)
   }
 
   func testStringWithHash() throws {
-    let color = try parse(hex: "#FFFFFF")
+    let color = try parse(hex: "#FFFFFF", path: #file)
     XCTAssertEqual(color, 0xFFFFFFFF)
   }
 
   func testStringWith0x() throws {
-    let color = try parse(hex: "0xFFFFFF")
+    let color = try parse(hex: "0xFFFFFF", path: #file)
     XCTAssertEqual(color, 0xFFFFFFFF)
   }
 
   func testStringWithAlpha() throws {
-    let color = try parse(hex: "FFFFFFCC")
+    let color = try parse(hex: "FFFFFFCC", path: #file)
     XCTAssertEqual(color, 0xFFFFFFCC)
   }
 

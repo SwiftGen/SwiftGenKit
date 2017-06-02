@@ -9,7 +9,7 @@ import PathKit
 
 public enum ColorsParserError: Error, CustomStringConvertible {
   case duplicateExtensionParser(ext: String, existing: String, new: String)
-  case invalidHexColor(string: String, key: String?)
+  case invalidHexColor(path: Path, string: String, key: String?)
   case invalidFile(path: Path, reason: String)
   case unsupportedFileType(path: Path, supported: [String])
 
@@ -17,9 +17,9 @@ public enum ColorsParserError: Error, CustomStringConvertible {
     switch self {
     case .duplicateExtensionParser(let ext, let existing, let new):
       return "error: Parser \(new) tried to register the file type '\(ext)' already registered by \(existing)."
-    case .invalidHexColor(let string, let key):
+    case .invalidHexColor(let path, let string, let key):
       let keyInfo = key.flatMap { " for key \"\($0)\"" } ?? ""
-      return "error: Invalid hex color \"\(string)\" found\(keyInfo)."
+      return "error: Invalid hex color \"\(string)\" found\(keyInfo) (\(path))."
     case .invalidFile(let path, let reason):
       return "error: Unable to parse file at \(path). \(reason)"
     case .unsupportedFileType(let path, let supported):
@@ -77,7 +77,7 @@ public final class ColorsFileParser {
 
 // MARK: - Private Helpers
 
-func parse(hex hexString: String, key: String? = nil) throws -> UInt32 {
+func parse(hex hexString: String, key: String? = nil, path: Path) throws -> UInt32 {
   let scanner = Scanner(string: hexString)
 
   let prefixLen: Int
@@ -91,7 +91,7 @@ func parse(hex hexString: String, key: String? = nil) throws -> UInt32 {
 
   var value: UInt32 = 0
   guard scanner.scanHexInt32(&value) else {
-    throw ColorsParserError.invalidHexColor(string: hexString, key: key)
+    throw ColorsParserError.invalidHexColor(path: path, string: hexString, key: key)
   }
 
   let len = hexString.lengthOfBytes(using: .utf8) - prefixLen

@@ -12,8 +12,8 @@ final class ColorsTextFileParser: ColorsFileTypeParser {
 
   private var colors = [String: UInt32]()
 
-  private func addColor(named name: String, value: String) throws {
-    try addColor(named: name, value: parse(hex: value, key: name))
+  private func addColor(named name: String, value: String, path: Path) throws {
+    try addColor(named: name, value: parse(hex: value, key: name, path: path))
   }
 
   private func addColor(named name: String, value: UInt32) {
@@ -65,7 +65,7 @@ final class ColorsTextFileParser: ColorsFileTypeParser {
     do {
       let dict = try keyValueDict(from: path, withSeperator: ":")
       for key in dict.keys {
-        try addColor(named: key, value: colorValue(forKey: key, onDict: dict))
+        try addColor(named: key, value: colorValue(forKey: key, onDict: dict), path: path)
       }
     } catch let error as ColorsParserError {
       throw error
