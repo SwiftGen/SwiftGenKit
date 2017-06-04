@@ -13,9 +13,11 @@ The colors parser supports multiple input file types:
 
 The output context has the following structure:
 
- - `colors`: `Array` — list of colors:
-    - `name` : `String` — name of the color
-    - `red`  : `String` — hex value of the red component
-    - `green`: `String` — hex value of the green component
-    - `blue` : `String` — hex value of the blue component
-    - `alpha`: `String` — hex value of the alpha component
+ - `palettes`: `Array` of:
+   - `name`  : `String` — name of the palette
+   - `colors`: `Array` of:
+     - `name` : `String` — name of each color
+     - `red`  : `String` — hex value of the red component
+     - `green`: `String` — hex value of the green component
+     - `blue` : `String` — hex value of the blue component
+     - `alpha`: `String` — hex value of the alpha component

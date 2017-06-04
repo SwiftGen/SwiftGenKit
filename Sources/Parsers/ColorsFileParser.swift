@@ -4,34 +4,82 @@
 // MIT Licence
 //
 
-import AppKit.NSColor
 import Foundation
-import Kanna
 import PathKit
 
-public protocol ColorsFileParser {
-  var colors: [String: UInt32] { get }
-}
-
 public enum ColorsParserError: Error, CustomStringConvertible {
-  case invalidHexColor(string: String, key: String?)
-  case invalidFile(reason: String)
+  case duplicateExtensionParser(ext: String, existing: String, new: String)
+  case invalidHexColor(path: Path, string: String, key: String?)
+  case invalidFile(path: Path, reason: String)
+  case unsupportedFileType(path: Path, supported: [String])
 
   public var description: String {
     switch self {
-    case .invalidHexColor(string: let string, key: let key):
+    case .duplicateExtensionParser(let ext, let existing, let new):
+      return "error: Parser \(new) tried to register the file type '\(ext)' already registered by \(existing)."
+    case .invalidHexColor(let path, let string, let key):
       let keyInfo = key.flatMap { " for key \"\($0)\"" } ?? ""
-      return "error: Invalid hex color \"\(string)\" found\(keyInfo)."
-    case .invalidFile(reason: let reason):
-      return "error: Unable to parse file. \(reason)"
+      return "error: Invalid hex color \"\(string)\" found\(keyInfo) (\(path))."
+    case .invalidFile(let path, let reason):
+      return "error: Unable to parse file at \(path). \(reason)"
+    case .unsupportedFileType(let path, let supported):
+      return "error: Unsupported file type for \(path). " +
+        "The supported file types are: \(supported.joined(separator: ", "))"
+    }
+  }
+}
+
+struct Palette {
+  let name: String
+  let colors: [String: UInt32]
+}
+
+protocol ColorsFileTypeParser: class {
+  static var extensions: [String] { get }
+
+  init()
+  func parseFile(at path: Path) throws -> Palette
+}
+
+public final class ColorsFileParser {
+  private var parsers = [String: ColorsFileTypeParser.Type]()
+  var palettes = [Palette]()
+
+  public init() throws {
+    try register(parser: ColorsCLRFileParser.self)
+    try register(parser: ColorsJSONFileParser.self)
+    try register(parser: ColorsTextFileParser.self)
+    try register(parser: ColorsXMLFileParser.self)
+  }
+
+  public func parseFile(at path: Path) throws {
+    guard let parserType = parsers[path.extension?.lowercased() ?? ""] else {
+      throw ColorsParserError.unsupportedFileType(path: path, supported: Array(parsers.keys))
+    }
+
+    let parser = parserType.init()
+    let palette = try parser.parseFile(at: path)
+
+    palettes += [palette]
+  }
+
+  func register(parser: ColorsFileTypeParser.Type) throws {
+    for ext in parser.extensions {
+      guard parsers[ext] == nil else {
+        throw ColorsParserError.duplicateExtensionParser(ext: ext,
+                                                         existing: String(describing: parsers[ext]!),
+                                                         new: String(describing: parser))
+      }
+      parsers[ext] = parser
     }
   }
 }
 
 // MARK: - Private Helpers
 
-internal func parse(hex hexString: String, key: String? = nil) throws -> UInt32 {
+func parse(hex hexString: String, key: String? = nil, path: Path) throws -> UInt32 {
   let scanner = Scanner(string: hexString)
+
   let prefixLen: Int
   if scanner.scanString("#", into: nil) {
     prefixLen = 1
@@ -43,7 +91,7 @@ internal func parse(hex hexString: String, key: String? = nil) throws -> UInt32 
 
   var value: UInt32 = 0
   guard scanner.scanHexInt32(&value) else {
-    throw ColorsParserError.invalidHexColor(string: hexString, key: key)
+    throw ColorsParserError.invalidHexColor(path: path, string: hexString, key: key)
   }
 
   let len = hexString.lengthOfBytes(using: .utf8) - prefixLen
@@ -55,170 +103,21 @@ internal func parse(hex hexString: String, key: String? = nil) throws -> UInt32 
   return value
 }
 
-// MARK: - Text File Parser
-
-public final class ColorsTextFileParser: ColorsFileParser {
-  public private(set) var colors = [String: UInt32]()
-
-  public init() {}
-
-  public func addColor(named name: String, value: String) throws {
-    try addColor(named: name, value: parse(hex: value, key: name))
-  }
-
-  public func addColor(named name: String, value: UInt32) {
-    colors[name] = value
-  }
-
-  public func keyValueDict(from path: Path, withSeperator seperator: String = ":") throws -> [String:String] {
-
-    let content = try path.read(.utf8)
-    let lines = content.components(separatedBy: CharacterSet.newlines)
-    let whitespace = CharacterSet.whitespaces
-    let skippedCharacters = NSMutableCharacterSet()
-    skippedCharacters.formUnion(with: whitespace)
-    skippedCharacters.formUnion(with: skippedCharacters as CharacterSet)
-
-    var dict: [String: String] = [:]
-    for line in lines {
-      let scanner = Scanner(string: line)
-      scanner.charactersToBeSkipped = skippedCharacters as CharacterSet
-
-      var key: NSString?
-      var value: NSString?
-      guard scanner.scanUpTo(seperator, into: &key) &&
-        scanner.scanString(seperator, into: nil) &&
-        scanner.scanUpToCharacters(from: whitespace, into: &value) else {
-          continue
-      }
-
-      if let key: String = key?.trimmingCharacters(in: whitespace),
-        let value: String = value?.trimmingCharacters(in: whitespace) {
-        dict[key] = value
-      }
-    }
-
-    return dict
-  }
-
-  private func colorValue(forKey key: String, onDict dict: [String: String]) -> String {
-    var currentKey = key
-    var stringValue: String = ""
-    while let value = dict[currentKey]?.trimmingCharacters(in: CharacterSet.whitespaces) {
-      currentKey = value
-      stringValue = value
-    }
-
-    return stringValue
-  }
-
-  // Text file expected to be:
-  //  - One line per entry
-  //  - Each line composed by the color name, then ":", then the color hex representation
-  //  - Extra spaces will be skipped
-  public func parseFile(at path: Path, separator: String = ":") throws {
-    do {
-      let dict = try keyValueDict(from: path, withSeperator: separator)
-      for key in dict.keys {
-        try addColor(named: key, value: colorValue(forKey: key, onDict: dict))
-      }
-    } catch let error as ColorsParserError {
-      throw error
-    } catch let error {
-      throw ColorsParserError.invalidFile(reason: error.localizedDescription)
-    }
-  }
-}
-
-// MARK: - CLR File Parser
-
-public final class ColorsCLRFileParser: ColorsFileParser {
-  public private(set) var colors = [String: UInt32]()
-
-  public init() {}
-
-  public func parseFile(at path: Path) throws {
-    if let colorsList = NSColorList(name: "UserColors", fromFile: path.string) {
-      for colorName in colorsList.allKeys {
-        colors[colorName] = colorsList.color(withKey: colorName)?.rgbColor?.hexValue
-      }
-    } else {
-      throw ColorsParserError.invalidFile(reason: "Invalid color list")
-    }
-  }
-
-}
-
 extension NSColor {
-
-  fileprivate var rgbColor: NSColor? {
+  var rgbColor: NSColor? {
     guard colorSpace.colorSpaceModel != .RGB else { return self }
 
     return usingColorSpaceName(NSCalibratedRGBColorSpace)
   }
 
-  internal var hexValue: UInt32 {
-    let hexRed   = UInt32(round(redComponent   * 0xFF)) << 24
-    let hexGreen = UInt32(round(greenComponent * 0xFF)) << 16
-    let hexBlue  = UInt32(round(blueComponent  * 0xFF)) << 8
-    let hexAlpha = UInt32(round(alphaComponent * 0xFF))
+  var hexValue: UInt32 {
+    guard let rgb = rgbColor else { return 0 }
+
+    let hexRed   = UInt32(round(rgb.redComponent   * 0xFF)) << 24
+    let hexGreen = UInt32(round(rgb.greenComponent * 0xFF)) << 16
+    let hexBlue  = UInt32(round(rgb.blueComponent  * 0xFF)) << 8
+    let hexAlpha = UInt32(round(rgb.alphaComponent * 0xFF))
+
     return hexRed | hexGreen | hexBlue | hexAlpha
-  }
-
-}
-
-// MARK: - Android colors.xml File Parser
-
-public final class ColorsXMLFileParser: ColorsFileParser {
-  private enum XML {
-    static let colorXPath = "/resources/color"
-    static let nameAttribute = "name"
-  }
-
-  public private(set) var colors = [String: UInt32]()
-
-  public init() {}
-
-  public func parseFile(at path: Path) throws {
-    guard let document = Kanna.XML(xml: try path.read(), encoding: .utf8) else {
-      throw ColorsParserError.invalidFile(reason: "Unknown XML parser error.")
-    }
-
-    for color in document.xpath(XML.colorXPath) {
-      guard let value = color.text else {
-        throw ColorsParserError.invalidFile(reason: "Invalid structure, color must have a value.")
-      }
-      guard let name = color["name"], !name.isEmpty else {
-        throw ColorsParserError.invalidFile(reason: "Invalid structure, color \(value) must have a name.")
-      }
-
-      colors[name] = try parse(hex: value, key: name)
-    }
-  }
-}
-
-// MARK: - JSON File Parser
-
-public final class ColorsJSONFileParser: ColorsFileParser {
-  public private(set) var colors = [String: UInt32]()
-
-  public init() {}
-
-  public func parseFile(at path: Path) throws {
-    do {
-      let json = try JSONSerialization.jsonObject(with: try path.read(), options: [])
-
-      guard let dict = json as? [String: String] else {
-        throw ColorsParserError.invalidFile(reason: "Invalid structure, must be an object with string values.")
-      }
-
-      for (key, value) in dict {
-        colors[key] = try parse(hex: value, key: key)
-      }
-    } catch let error as ColorsParserError {
-      throw error
-    } catch let error {
-      throw ColorsParserError.invalidFile(reason: error.localizedDescription)
-    }
   }
 }

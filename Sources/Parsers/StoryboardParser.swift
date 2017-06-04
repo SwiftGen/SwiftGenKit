@@ -73,7 +73,7 @@ public final class StoryboardParser {
 
   public func addStoryboard(at path: Path) throws {
     guard let document = Kanna.XML(xml: try path.read(), encoding: .utf8) else {
-      throw ColorsParserError.invalidFile(reason: "Unknown XML parser error.")
+      throw ColorsParserError.invalidFile(path: path, reason: "Unknown XML parser error.")
     }
 
     // Initial VC

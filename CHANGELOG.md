@@ -34,6 +34,9 @@ Due to the removal of legacy code, there are a few breaking changes in this new 
 * Storyboards now provide a `platform` identifier (iOS, macOS, tvOS, watchOS).  
   [David Jennes](https://github.com/djbe)
   [#45](https://github.com/SwiftGen/templates/issues/45)
+* Added support for multiple color palettes.   
+  [David Jennes](https://github.com/djbe)
+  [#41](https://github.com/SwiftGen/templates/issues/40)
 
 ### Internal Changes
 
@@ -47,6 +50,9 @@ Due to the removal of legacy code, there are a few breaking changes in this new 
 * Images: switch back from `actool` to an internal parser to fix numerous issues with the former.  
   [David Jennes](https://github.com/djbe)
   [#43](https://github.com/SwiftGen/templates/issues/43)
+* Refactor the colors parser into a generic parser that will invoke the correct type-specific parser based on the file extension. This allows us to support multiple input files. 
+  [David Jennes](https://github.com/djbe)
+  [#40](https://github.com/SwiftGen/templates/issues/40)
 
 ## 1.1.0
 
