@@ -8,13 +8,7 @@ import XCTest
 import SwiftGenKit
 import PathKit
 
-/**
- * Important: In order for the "*.xcassets" files in fixtures/ to be copied as-is in the test bundle
- * (as opposed to being compiled when the test bundle is compiled), a custom "Build Rule" has been added to the target.
- * See Project -> Target "UnitTests" -> Build Rules -> « Files "*.xccassets" using PBXCp »
- */
-
-class ImagesTests: XCTestCase {
+class AssetCatalogTests: XCTestCase {
   func testEmpty() {
     let parser = AssetsCatalogParser()
 
@@ -24,7 +18,7 @@ class ImagesTests: XCTestCase {
 
   func testDefaults() throws {
     let parser = AssetsCatalogParser()
-    try parser.parseCatalog(at: Fixtures.path(for: "Images.xcassets", sub: .images))
+    try parser.parse(path: Fixtures.path(for: "Images.xcassets", sub: .images))
 
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "defaults.plist", sub: .images)
