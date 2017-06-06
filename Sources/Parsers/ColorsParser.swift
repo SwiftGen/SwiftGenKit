@@ -8,15 +8,12 @@ import Foundation
 import PathKit
 
 public enum ColorsParserError: Error, CustomStringConvertible {
-  case duplicateExtensionParser(ext: String, existing: String, new: String)
   case invalidHexColor(path: Path, string: String, key: String?)
   case invalidFile(path: Path, reason: String)
   case unsupportedFileType(path: Path, supported: [String])
 
   public var description: String {
     switch self {
-    case .duplicateExtensionParser(let ext, let existing, let new):
-      return "error: Parser \(new) tried to register the file type '\(ext)' already registered by \(existing)."
     case .invalidHexColor(let path, let string, let key):
       let keyInfo = key.flatMap { " for key \"\($0)\"" } ?? ""
       return "error: Invalid hex color \"\(string)\" found\(keyInfo) (\(path))."
@@ -41,18 +38,19 @@ protocol ColorsFileTypeParser: class {
   func parseFile(at path: Path) throws -> Palette
 }
 
-public final class ColorsFileParser {
+public final class ColorsParser: Parser {
   private var parsers = [String: ColorsFileTypeParser.Type]()
   var palettes = [Palette]()
+  public var warningHandler: MessageHandler?
 
-  public init() throws {
+  public init(options: [String: Any] = [:]) throws {
     try register(parser: ColorsCLRFileParser.self)
     try register(parser: ColorsJSONFileParser.self)
     try register(parser: ColorsTextFileParser.self)
     try register(parser: ColorsXMLFileParser.self)
   }
 
-  public func parseFile(at path: Path) throws {
+  public func parse(path: Path) throws {
     guard let parserType = parsers[path.extension?.lowercased() ?? ""] else {
       throw ColorsParserError.unsupportedFileType(path: path, supported: Array(parsers.keys))
     }
@@ -65,10 +63,9 @@ public final class ColorsFileParser {
 
   func register(parser: ColorsFileTypeParser.Type) throws {
     for ext in parser.extensions {
-      guard parsers[ext] == nil else {
-        throw ColorsParserError.duplicateExtensionParser(ext: ext,
-                                                         existing: String(describing: parsers[ext]!),
-                                                         new: String(describing: parser))
+      if let old = parsers[ext] {
+        warningHandler?("error: Parser \(parser) tried to register the file type '\(ext)' already" +
+          "registered by \(old).", #file, #line)
       }
       parsers[ext] = parser
     }

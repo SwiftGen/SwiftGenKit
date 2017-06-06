@@ -10,7 +10,7 @@ import PathKit
 
 class ColorsTextFileTests: XCTestCase {
   func testFileWithDefaults() throws {
-    let parser = try ColorsFileParser()
+    let parser = try ColorsParser()
     parser.palettes = [try ColorsTextFileParser().parseFile(at: Fixtures.path(for: "extra.txt", sub: .colors))]
 
     let result = parser.stencilContext()
