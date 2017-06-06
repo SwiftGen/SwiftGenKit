@@ -12,15 +12,15 @@ import AppKit.NSFont
 
 class FontsTests: XCTestCase {
   func testEmpty() {
-    let parser = FontsFileParser()
+    let parser = FontsParser()
 
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "empty.plist", sub: .fonts)
   }
 
   func testDefaults() {
-    let parser = FontsFileParser()
-    parser.parseFile(at: Fixtures.directory(sub: .fonts))
+    let parser = FontsParser()
+    parser.parse(path: Fixtures.directory(sub: .fonts))
 
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "defaults.plist", sub: .fonts)
