@@ -7,11 +7,11 @@
 import Foundation
 import PathKit
 
-public enum StringsFileParserError: Error, CustomStringConvertible {
+public enum StringsParserError: Error, CustomStringConvertible {
   case duplicateTable(name: String)
   case failureOnLoading(path: String)
   case invalidFormat
-  case invalidPlaceholder(previous: StringsFileParser.PlaceholderType, new: StringsFileParser.PlaceholderType)
+  case invalidPlaceholder(previous: StringsParser.PlaceholderType, new: StringsParser.PlaceholderType)
 
   public var description: String {
     switch self {
@@ -27,25 +27,26 @@ public enum StringsFileParserError: Error, CustomStringConvertible {
   }
 }
 
-public final class StringsFileParser {
+public final class StringsParser: Parser {
   var tables = [String: [Entry]]()
+  public var warningHandler: MessageHandler?
 
-  public init() {}
+  public init(options: [String: Any] = [:]) {}
 
   // Localizable.strings files are generally UTF16, not UTF8!
-  public func parseFile(at path: Path) throws {
+  public func parse(path: Path) throws {
     let name = path.lastComponentWithoutExtension
 
     guard tables[name] == nil else {
-      throw StringsFileParserError.duplicateTable(name: name)
+      throw StringsParserError.duplicateTable(name: name)
     }
     guard let data = try? path.read() else {
-      throw StringsFileParserError.failureOnLoading(path: path.string)
+      throw StringsParserError.failureOnLoading(path: path.string)
     }
 
     let plist = try PropertyListSerialization.propertyList(from: data, format: nil)
     guard let dict = plist as? [String: String] else {
-      throw StringsFileParserError.invalidFormat
+      throw StringsParserError.invalidFormat
     }
 
     tables[name] = try dict.map { key, translation in
@@ -87,7 +88,7 @@ public final class StringsFileParser {
     }
 
     public static func placeholders(fromFormat str: String) throws -> [PlaceholderType] {
-      return try StringsFileParser.placeholders(fromFormat:  str)
+      return try StringsParser.placeholders(fromFormat:  str)
     }
   }
 
@@ -185,7 +186,7 @@ public final class StringsFileParser {
           }
           let previous = list[insertionPos-1]
           guard previous == .unknown || previous == p else {
-            throw StringsFileParserError.invalidPlaceholder(previous: previous, new: p)
+            throw StringsParserError.invalidPlaceholder(previous: previous, new: p)
           }
           list[insertionPos-1] = p
         }

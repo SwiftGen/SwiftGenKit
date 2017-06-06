@@ -15,61 +15,61 @@ import SwiftGenKit
 
 class StringsTests: XCTestCase {
   func testEmpty() {
-    let parser = StringsFileParser()
+    let parser = StringsParser()
 
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "empty.plist", sub: .strings)
   }
 
   func testLocalizable() throws {
-    let parser = StringsFileParser()
-    try parser.parseFile(at: Fixtures.path(for: "Localizable.strings", sub: .strings))
+    let parser = StringsParser()
+    try parser.parse(path: Fixtures.path(for: "Localizable.strings", sub: .strings))
 
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "localizable.plist", sub: .strings)
   }
 
   func testMultiline() throws {
-    let parser = StringsFileParser()
-    try parser.parseFile(at: Fixtures.path(for: "LocMultiline.strings", sub: .strings))
+    let parser = StringsParser()
+    try parser.parse(path: Fixtures.path(for: "LocMultiline.strings", sub: .strings))
 
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "multiline.plist", sub: .strings)
   }
 
   func testUTF8File() throws {
-    let parser = StringsFileParser()
-    try parser.parseFile(at: Fixtures.path(for: "LocUTF8.strings", sub: .strings))
+    let parser = StringsParser()
+    try parser.parse(path: Fixtures.path(for: "LocUTF8.strings", sub: .strings))
 
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "utf8.plist", sub: .strings)
   }
 
   func testStructuredOnly() throws {
-    let parser = StringsFileParser()
-    try parser.parseFile(at: Fixtures.path(for: "LocStructuredOnly.strings", sub: .strings))
+    let parser = StringsParser()
+    try parser.parse(path: Fixtures.path(for: "LocStructuredOnly.strings", sub: .strings))
 
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "structuredonly.plist", sub: .strings)
   }
 
   func testMultipleFiles() throws {
-    let parser = StringsFileParser()
-    try parser.parseFile(at: Fixtures.path(for: "Localizable.strings", sub: .strings))
-    try parser.parseFile(at: Fixtures.path(for: "LocMultiline.strings", sub: .strings))
+    let parser = StringsParser()
+    try parser.parse(path: Fixtures.path(for: "Localizable.strings", sub: .strings))
+    try parser.parse(path: Fixtures.path(for: "LocMultiline.strings", sub: .strings))
 
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "multiple.plist", sub: .strings)
   }
 
   func testMultipleFilesDuplicate() throws {
-    let parser = StringsFileParser()
-    try parser.parseFile(at: Fixtures.path(for: "Localizable.strings", sub: .strings))
+    let parser = StringsParser()
+    try parser.parse(path: Fixtures.path(for: "Localizable.strings", sub: .strings))
 
     do {
-      try parser.parseFile(at: Fixtures.path(for: "Localizable.strings", sub: .strings))
+      try parser.parse(path: Fixtures.path(for: "Localizable.strings", sub: .strings))
       XCTFail("Code did parse file successfully while it was expected to fail for duplicate file")
-    } catch StringsFileParserError.duplicateTable {
+    } catch StringsParserError.duplicateTable {
       // That's the expected exception we want to happen
     } catch let error {
       XCTFail("Unexpected error occured while parsing: \(error)")

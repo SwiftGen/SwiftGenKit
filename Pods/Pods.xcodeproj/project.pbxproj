@@ -32,7 +32,7 @@
 		781A4D12CC4A83EA4705C6029254B012 /* libxmlHTMLDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E583382F4D2A13518BE85DEFB8059E4 /* libxmlHTMLDocument.swift */; };
 		7D947567E13401FE7092E12296C1B376 /* SwiftGenKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF7286BF701C13E3FF0BBEDABA8E877 /* SwiftGenKit-dummy.m */; };
 		83BD1B3D62FF3D67FA29807AFD600061 /* ColorsXMLFileParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C1A912F2E3ABBC32D49983511179E5 /* ColorsXMLFileParser.swift */; };
-		8ACAC84B2E13D81C677C80EC436E8EB5 /* StringsFileParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3F2A11DF27DFA455BBA8EDBFE0E2EA /* StringsFileParser.swift */; };
+		8ACAC84B2E13D81C677C80EC436E8EB5 /* StringsParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3F2A11DF27DFA455BBA8EDBFE0E2EA /* StringsParser.swift */; };
 		99E3DE035A09B764A3411C1D41FCFEEB /* StoryboardParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29D64BA76320FEA43390C0824F1343D /* StoryboardParser.swift */; };
 		9FAD3A5DA6250401540F8EB1F802445F /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159567DC0903275F3495C511C53E3FB7 /* Parser.swift */; };
 		A93D6AEE513B43826BDB4C55DF4AA7D9 /* ColorsParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37B76815BA10F0FD3E65EC2DE1DC6D3 /* ColorsParser.swift */; };
@@ -108,7 +108,7 @@
 		52E08CA96B2F20724148FF5361AD7206 /* Pods-Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Tests-umbrella.h"; sourceTree = "<group>"; };
 		53391F0841144A38898CB9462A0A2F99 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		581CEA6A54CD2608B064ABB8CBA2862C /* Kanna.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = Kanna.modulemap; sourceTree = "<group>"; };
-		5A3F2A11DF27DFA455BBA8EDBFE0E2EA /* StringsFileParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StringsFileParser.swift; sourceTree = "<group>"; };
+		5A3F2A11DF27DFA455BBA8EDBFE0E2EA /* StringsParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StringsParser.swift; sourceTree = "<group>"; };
 		62E70FF62CB8F9F0E46406C19E131D37 /* ColorsContext.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ColorsContext.swift; sourceTree = "<group>"; };
 		6BC0DCD216FBFD117A33B8EEDBE0A9CB /* ColorsJSONFileParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ColorsJSONFileParser.swift; sourceTree = "<group>"; };
 		6E3DE9DADD254D64C598089530A5932B /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -291,7 +291,7 @@
 				885EFA89BDCD436D59131C12432B169C /* FontsParser.swift */,
 				159567DC0903275F3495C511C53E3FB7 /* Parser.swift */,
 				C29D64BA76320FEA43390C0824F1343D /* StoryboardParser.swift */,
-				5A3F2A11DF27DFA455BBA8EDBFE0E2EA /* StringsFileParser.swift */,
+				5A3F2A11DF27DFA455BBA8EDBFE0E2EA /* StringsParser.swift */,
 				5F5CB94E5E429DF0E3696AA1C27CA80C /* ColorsFileParsers */,
 			);
 			path = Parsers;
@@ -584,7 +584,7 @@
 				99E3DE035A09B764A3411C1D41FCFEEB /* StoryboardParser.swift in Sources */,
 				DA9587EA1CCB8A9B12868095EAF4C073 /* StoryboardsContext.swift in Sources */,
 				F817678330FDB7948DFE794498E52EEE /* StringsContext.swift in Sources */,
-				8ACAC84B2E13D81C677C80EC436E8EB5 /* StringsFileParser.swift in Sources */,
+				8ACAC84B2E13D81C677C80EC436E8EB5 /* StringsParser.swift in Sources */,
 				7D947567E13401FE7092E12296C1B376 /* SwiftGenKit-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
