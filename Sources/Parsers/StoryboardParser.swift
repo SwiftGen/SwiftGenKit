@@ -66,12 +66,25 @@ struct Storyboard {
   let segues: Set<Segue>
 }
 
-public final class StoryboardParser {
+public final class StoryboardParser: Parser {
   var storyboards = [Storyboard]()
+  public var warningHandler: MessageHandler?
 
-  public init() {}
+  public init(options: [String: Any] = [:]) {}
 
-  public func addStoryboard(at path: Path) throws {
+  public func parse(path: Path) throws {
+    if path.extension == "storyboard" {
+      try addStoryboard(at: path)
+    } else {
+      let dirChildren = path.iterateChildren(options: [.skipsHiddenFiles, .skipsPackageDescendants])
+
+      for file in dirChildren where file.extension == "storyboard" {
+        try addStoryboard(at: file)
+      }
+    }
+  }
+
+  func addStoryboard(at path: Path) throws {
     guard let document = Kanna.XML(xml: try path.read(), encoding: .utf8) else {
       throw ColorsParserError.invalidFile(path: path, reason: "Unknown XML parser error.")
     }
@@ -109,16 +122,6 @@ public final class StoryboardParser {
                                initialScene: initialScene,
                                scenes: scenes,
                                segues: segues)]
-  }
-
-  public func parseDirectory(at path: Path) throws {
-    let iterator = path.makeIterator()
-
-    while let subPath = iterator.next() {
-      if subPath.extension == "storyboard" {
-        try addStoryboard(at: subPath)
-      }
-    }
   }
 
   var modules: Set<String> {
