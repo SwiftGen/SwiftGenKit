@@ -29,9 +29,11 @@ public enum StringsParserError: Error, CustomStringConvertible {
 
 public final class StringsParser: Parser {
   var tables = [String: [Entry]]()
-  public var warningHandler: MessageHandler?
+  public var warningHandler: Parser.MessageHandler?
 
-  public init(options: [String: Any] = [:]) {}
+  public init(options: [String: Any] = [:], warningHandler: Parser.MessageHandler? = nil) {
+    self.warningHandler = warningHandler
+  }
 
   // Localizable.strings files are generally UTF16, not UTF8!
   public func parse(path: Path) throws {

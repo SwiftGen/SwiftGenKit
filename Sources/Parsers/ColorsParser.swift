@@ -41,13 +41,15 @@ protocol ColorsFileTypeParser: class {
 public final class ColorsParser: Parser {
   private var parsers = [String: ColorsFileTypeParser.Type]()
   var palettes = [Palette]()
-  public var warningHandler: MessageHandler?
+  public var warningHandler: Parser.MessageHandler?
 
-  public init(options: [String: Any] = [:]) throws {
-    try register(parser: ColorsCLRFileParser.self)
-    try register(parser: ColorsJSONFileParser.self)
-    try register(parser: ColorsTextFileParser.self)
-    try register(parser: ColorsXMLFileParser.self)
+  public init(options: [String: Any] = [:], warningHandler: Parser.MessageHandler? = nil) {
+    self.warningHandler = warningHandler
+
+    register(parser: ColorsCLRFileParser.self)
+    register(parser: ColorsJSONFileParser.self)
+    register(parser: ColorsTextFileParser.self)
+    register(parser: ColorsXMLFileParser.self)
   }
 
   public func parse(path: Path) throws {
@@ -61,7 +63,7 @@ public final class ColorsParser: Parser {
     palettes += [palette]
   }
 
-  func register(parser: ColorsFileTypeParser.Type) throws {
+  func register(parser: ColorsFileTypeParser.Type) {
     for ext in parser.extensions {
       if let old = parsers[ext] {
         warningHandler?("error: Parser \(parser) tried to register the file type '\(ext)' already" +

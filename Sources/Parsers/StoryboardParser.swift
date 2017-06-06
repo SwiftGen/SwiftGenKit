@@ -68,9 +68,11 @@ struct Storyboard {
 
 public final class StoryboardParser: Parser {
   var storyboards = [Storyboard]()
-  public var warningHandler: MessageHandler?
+  public var warningHandler: Parser.MessageHandler?
 
-  public init(options: [String: Any] = [:]) {}
+  public init(options: [String: Any] = [:], warningHandler: Parser.MessageHandler? = nil) {
+    self.warningHandler = warningHandler
+  }
 
   public func parse(path: Path) throws {
     if path.extension == "storyboard" {

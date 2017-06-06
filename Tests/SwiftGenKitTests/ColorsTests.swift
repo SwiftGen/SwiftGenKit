@@ -31,7 +31,7 @@ final class TestFileParser3: ColorsFileTypeParser {
 
 class ColorParserTests: XCTestCase {
   func testEmpty() throws {
-    let parser = try ColorsParser()
+    let parser = ColorsParser()
 
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "empty.plist", sub: .colors)
@@ -40,18 +40,18 @@ class ColorParserTests: XCTestCase {
   // MARK: - Dispatch
 
   func testDispatchKnowExtension() throws {
-    let parser = try ColorsParser()
-    try parser.register(parser: TestFileParser1.self)
-    try parser.register(parser: TestFileParser2.self)
+    let parser = ColorsParser()
+    parser.register(parser: TestFileParser1.self)
+    parser.register(parser: TestFileParser2.self)
 
     try parser.parse(path: "someFile.test1")
     XCTAssertEqual(parser.palettes.first?.name, "test1")
   }
 
   func testDispatchUnknownExtension() throws {
-    let parser = try ColorsParser()
-    try parser.register(parser: TestFileParser1.self)
-    try parser.register(parser: TestFileParser2.self)
+    let parser = ColorsParser()
+    parser.register(parser: TestFileParser1.self)
+    parser.register(parser: TestFileParser2.self)
 
     do {
       try parser.parse(path: "someFile.unknown")
@@ -66,21 +66,21 @@ class ColorParserTests: XCTestCase {
   func testDuplicateExtensionWarning() throws {
     var warned = false
 
-    let parser = try ColorsParser()
+    let parser = ColorsParser()
     parser.warningHandler = { message, file, line in
       warned = true
     }
 
-    try parser.register(parser: TestFileParser1.self)
+    parser.register(parser: TestFileParser1.self)
     XCTAssert(!warned, "No warning should have been triggered")
-    try parser.register(parser: TestFileParser3.self)
+    parser.register(parser: TestFileParser3.self)
     XCTAssert(warned, "Warning should have been triggered for duplicate extension")
   }
 
   // MARK: - Multiple palettes
 
   func testParseMultipleFiles() throws {
-    let parser = try ColorsParser()
+    let parser = ColorsParser()
     try parser.parse(path: Fixtures.path(for: "colors.clr", sub: .colors))
     try parser.parse(path: Fixtures.path(for: "extra.txt", sub: .colors))
 

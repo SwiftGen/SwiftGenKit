@@ -8,7 +8,7 @@ import Foundation
 import PathKit
 
 public protocol Parser {
-  init(options: [String: Any]) throws
+  init(options: [String: Any], warningHandler: MessageHandler?) throws
 
   func parse(path: Path) throws
   func parse(paths: [Path]) throws

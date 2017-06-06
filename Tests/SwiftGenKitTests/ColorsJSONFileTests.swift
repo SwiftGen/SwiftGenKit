@@ -10,7 +10,7 @@ import PathKit
 
 class ColorsJSONFileTests: XCTestCase {
   func testFileWithDefaults() throws {
-    let parser = try ColorsParser()
+    let parser = ColorsParser()
     parser.palettes = [try ColorsJSONFileParser().parseFile(at: Fixtures.path(for: "colors.json", sub: .colors))]
 
     let result = parser.stencilContext()

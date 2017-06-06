@@ -76,9 +76,11 @@ extension CTFont {
 
 public final class FontsParser: Parser {
   public var entries: [String: Set<Font>] = [:]
-  public var warningHandler: MessageHandler?
+  public var warningHandler: Parser.MessageHandler?
 
-  public init(options: [String: Any] = [:]) {}
+  public init(options: [String: Any] = [:], warningHandler: Parser.MessageHandler? = nil) {
+    self.warningHandler = warningHandler
+  }
 
   public func parse(path: Path) {
     let dirChildren = path.iterateChildren(options: [.skipsHiddenFiles, .skipsPackageDescendants])
