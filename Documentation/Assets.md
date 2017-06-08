@@ -2,9 +2,7 @@
 
 ## Input
 
-The assets parser accepts one (or more) asset catalogs, which it'll parse using the `actool` utility. For now it only parses `image set`s and folders.
-
-Note: there is a bug in `actool` where it won't be able to parse a catalog if it contains certain types of assets, see [here](https://github.com/SwiftGen/SwiftGen/issues/228). The best solution (for now) is to split your asset catalog into multiple ones, and to run SwiftGen on the catalog(s) with supported types.
+The assets parser accepts one (or more) asset catalogs, which it'll parse for `image set`s and folders.
 
 ## Output
 

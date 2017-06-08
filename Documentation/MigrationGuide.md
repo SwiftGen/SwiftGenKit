@@ -5,6 +5,7 @@
 #### Colors
 
 - `enumName`: has been replaced by `param.enumName`, should provide default value.
+- `colors`: replaced by the `palettes` array, each having a `name` and a `colors` property.
 - For each `color`:
   - `rgb` and `rgba`: can be composed from the other components.
 
