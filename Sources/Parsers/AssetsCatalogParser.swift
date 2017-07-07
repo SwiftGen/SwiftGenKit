@@ -17,7 +17,7 @@ struct Catalog {
   let entries: [Entry]
 }
 
-public final class AssetsCatalogParser {
+public final class AssetsCatalogParser: Parser {
   public enum Error: Swift.Error, CustomStringConvertible {
     case invalidFile
 
@@ -30,10 +30,19 @@ public final class AssetsCatalogParser {
   }
 
   var catalogs = [Catalog]()
+  public var warningHandler: Parser.MessageHandler?
 
-  public init() {}
+  public static let commandInfo = CommandInfo(
+    name: "assets",
+    description: "generate code for items in your Assets Catalog(s)",
+    pathDescription: "Asset Catalog file(s)."
+  )
 
-  public func parseCatalog(at path: Path) throws {
+  public init(options: [String: Any] = [:], warningHandler: Parser.MessageHandler? = nil) {
+    self.warningHandler = warningHandler
+  }
+
+  public func parse(path: Path) throws {
     guard path.extension == AssetCatalog.extension else {
       throw AssetsCatalogParser.Error.invalidFile
     }
@@ -45,7 +54,7 @@ public final class AssetsCatalogParser {
   }
 }
 
-// MARK: - Plist processing
+// MARK: - Catalog processing
 
 private enum AssetCatalog {
   static let `extension` = "xcassets"
@@ -59,12 +68,12 @@ private enum AssetCatalog {
   enum Item {
     static let imageSet = "imageset"
 
-	/**
-	 * This is a list of supported asset catalog item types, for now we just
-	 * support `image set`s. If you want to add support for new types, just add
-	 * it to this whitelist, and add the necessary code to the
-	 * `process(items:withPrefix:)` method.
-	 */
+    /**
+     * This is a list of supported asset catalog item types, for now we just
+     * support `image set`s. If you want to add support for new types, just add
+     * it to this whitelist, and add the necessary code to the
+     * `process(items:withPrefix:)` method.
+     */
     static let supported = [imageSet]
   }
 }

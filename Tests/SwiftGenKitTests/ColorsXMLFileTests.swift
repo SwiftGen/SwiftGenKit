@@ -10,7 +10,7 @@ import PathKit
 
 class ColorsXMLFileTests: XCTestCase {
   func testFileWithDefaults() throws {
-    let parser = try ColorsFileParser()
+    let parser = ColorsParser()
     parser.palettes = [try ColorsXMLFileParser().parseFile(at: Fixtures.path(for: "colors.xml", sub: .colors))]
 
     let result = parser.stencilContext()

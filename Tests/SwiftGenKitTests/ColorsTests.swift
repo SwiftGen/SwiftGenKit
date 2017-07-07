@@ -31,7 +31,7 @@ final class TestFileParser3: ColorsFileTypeParser {
 
 class ColorParserTests: XCTestCase {
   func testEmpty() throws {
-    let parser = try ColorsFileParser()
+    let parser = ColorsParser()
 
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "empty.plist", sub: .colors)
@@ -40,21 +40,21 @@ class ColorParserTests: XCTestCase {
   // MARK: - Dispatch
 
   func testDispatchKnowExtension() throws {
-    let parser = try ColorsFileParser()
-    try parser.register(parser: TestFileParser1.self)
-    try parser.register(parser: TestFileParser2.self)
+    let parser = ColorsParser()
+    parser.register(parser: TestFileParser1.self)
+    parser.register(parser: TestFileParser2.self)
 
-    try parser.parseFile(at: "someFile.test1")
+    try parser.parse(path: "someFile.test1")
     XCTAssertEqual(parser.palettes.first?.name, "test1")
   }
 
   func testDispatchUnknownExtension() throws {
-    let parser = try ColorsFileParser()
-    try parser.register(parser: TestFileParser1.self)
-    try parser.register(parser: TestFileParser2.self)
+    let parser = ColorsParser()
+    parser.register(parser: TestFileParser1.self)
+    parser.register(parser: TestFileParser2.self)
 
     do {
-      try parser.parseFile(at: "someFile.unknown")
+      try parser.parse(path: "someFile.unknown")
       XCTFail("Code did succeed while it was expected to fail for unknown extension")
     } catch ColorsParserError.unsupportedFileType {
       // That's the expected exception we want to happen
@@ -63,26 +63,26 @@ class ColorParserTests: XCTestCase {
     }
   }
 
-  func testDuplicateExtensionError() throws {
-    let parser = try ColorsFileParser()
+  func testDuplicateExtensionWarning() throws {
+    var warned = false
 
-    do {
-      try parser.register(parser: TestFileParser1.self)
-      try parser.register(parser: TestFileParser3.self)
-      XCTFail("Code did succeed while it was expected to fail for duplicate extension")
-    } catch ColorsParserError.duplicateExtensionParser {
-      // That's the expected exception we want to happen
-    } catch let error {
-      XCTFail("Unexpected error occured while parsing: \(error)")
+    let parser = ColorsParser()
+    parser.warningHandler = { message, file, line in
+      warned = true
     }
+
+    parser.register(parser: TestFileParser1.self)
+    XCTAssert(!warned, "No warning should have been triggered")
+    parser.register(parser: TestFileParser3.self)
+    XCTAssert(warned, "Warning should have been triggered for duplicate extension")
   }
 
   // MARK: - Multiple palettes
 
   func testParseMultipleFiles() throws {
-    let parser = try ColorsFileParser()
-    try parser.parseFile(at: Fixtures.path(for: "colors.clr", sub: .colors))
-    try parser.parseFile(at: Fixtures.path(for: "extra.txt", sub: .colors))
+    let parser = ColorsParser()
+    try parser.parse(path: Fixtures.path(for: "colors.clr", sub: .colors))
+    try parser.parse(path: Fixtures.path(for: "extra.txt", sub: .colors))
 
     let result = parser.stencilContext()
     XCTDiffContexts(result, expected: "multiple.plist", sub: .colors)

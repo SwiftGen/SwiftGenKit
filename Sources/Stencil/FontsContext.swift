@@ -15,7 +15,7 @@ import Foundation
      - `style`: `String` — the designer's description of the font's style, like "bold", "oblique", …
 */
 
-extension FontsFileParser {
+extension FontsParser {
   public func stencilContext() -> [String: Any] {
     // turn into array of dictionaries
     let families = entries.map { (name: String, family: Set<Font>) -> [String: Any] in

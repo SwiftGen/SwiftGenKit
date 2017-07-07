@@ -16,7 +16,7 @@ import Foundation
      - `blue` : `String` — hex value of the blue component
      - `alpha`: `String` — hex value of the alpha component
 */
-extension ColorsFileParser {
+extension ColorsParser {
   public func stencilContext() -> [String: Any] {
     let palettes: [[String: Any]] = self.palettes
       .sorted(by: { $0.name < $1.name })

@@ -13,7 +13,7 @@
 		DDF573251E6103DC0033C01B /* ColorsTextFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF573191E6103DC0033C01B /* ColorsTextFileTests.swift */; };
 		DDF573261E6103DC0033C01B /* ColorsXMLFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF5731A1E6103DC0033C01B /* ColorsXMLFileTests.swift */; };
 		DDF573271E6103DC0033C01B /* FontsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF5731B1E6103DC0033C01B /* FontsTests.swift */; };
-		DDF573281E6103DC0033C01B /* ImagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF5731C1E6103DC0033C01B /* ImagesTests.swift */; };
+		DDF573281E6103DC0033C01B /* AssetCatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF5731C1E6103DC0033C01B /* AssetCatalogTests.swift */; };
 		DDF5732A1E6103DC0033C01B /* StoryboardsiOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF5731F1E6103DC0033C01B /* StoryboardsiOSTests.swift */; };
 		DDF5732B1E6103DC0033C01B /* StoryboardsMacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF573201E6103DC0033C01B /* StoryboardsMacOSTests.swift */; };
 		DDF5732C1E6103DC0033C01B /* StringsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF573211E6103DC0033C01B /* StringsTests.swift */; };
@@ -34,7 +34,7 @@
 		DDF573191E6103DC0033C01B /* ColorsTextFileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsTextFileTests.swift; sourceTree = "<group>"; };
 		DDF5731A1E6103DC0033C01B /* ColorsXMLFileTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsXMLFileTests.swift; sourceTree = "<group>"; };
 		DDF5731B1E6103DC0033C01B /* FontsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontsTests.swift; sourceTree = "<group>"; };
-		DDF5731C1E6103DC0033C01B /* ImagesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesTests.swift; sourceTree = "<group>"; };
+		DDF5731C1E6103DC0033C01B /* AssetCatalogTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetCatalogTests.swift; sourceTree = "<group>"; };
 		DDF5731E1E6103DC0033C01B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DDF5731F1E6103DC0033C01B /* StoryboardsiOSTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardsiOSTests.swift; sourceTree = "<group>"; };
 		DDF573201E6103DC0033C01B /* StoryboardsMacOSTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardsMacOSTests.swift; sourceTree = "<group>"; };
@@ -108,13 +108,13 @@
 			isa = PBXGroup;
 			children = (
 				DDF5731D1E6103DC0033C01B /* Resources */,
+				DDF5731C1E6103DC0033C01B /* AssetCatalogTests.swift */,
 				DDF573171E6103DC0033C01B /* ColorsCLRFileTests.swift */,
 				DDF573181E6103DC0033C01B /* ColorsJSONFileTests.swift */,
 				DDFFF20B1ED30FB500E69817 /* ColorsTests.swift */,
 				DDF573191E6103DC0033C01B /* ColorsTextFileTests.swift */,
 				DDF5731A1E6103DC0033C01B /* ColorsXMLFileTests.swift */,
 				DDF5731B1E6103DC0033C01B /* FontsTests.swift */,
-				DDF5731C1E6103DC0033C01B /* ImagesTests.swift */,
 				DDF5731F1E6103DC0033C01B /* StoryboardsiOSTests.swift */,
 				DDF573201E6103DC0033C01B /* StoryboardsMacOSTests.swift */,
 				DDFFF20C1ED30FB500E69817 /* StringParserTests.swift */,
@@ -277,7 +277,7 @@
 				DDF573261E6103DC0033C01B /* ColorsXMLFileTests.swift in Sources */,
 				DDF573251E6103DC0033C01B /* ColorsTextFileTests.swift in Sources */,
 				DDFFF20E1ED30FB500E69817 /* StringParserTests.swift in Sources */,
-				DDF573281E6103DC0033C01B /* ImagesTests.swift in Sources */,
+				DDF573281E6103DC0033C01B /* AssetCatalogTests.swift in Sources */,
 				DDF5732C1E6103DC0033C01B /* StringsTests.swift in Sources */,
 				DDF573241E6103DC0033C01B /* ColorsJSONFileTests.swift in Sources */,
 				DDF5732A1E6103DC0033C01B /* StoryboardsiOSTests.swift in Sources */,
