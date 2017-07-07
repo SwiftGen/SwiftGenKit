@@ -8,9 +8,9 @@ import Foundation
 import PathKit
 
 public struct CommandInfo {
-  var name: String
-  var description: String
-  var pathDescription: String
+  public var name: String
+  public var description: String
+  public var pathDescription: String
 }
 
 public protocol Parser {
