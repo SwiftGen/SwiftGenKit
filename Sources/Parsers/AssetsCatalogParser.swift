@@ -33,7 +33,7 @@ public final class AssetsCatalogParser: Parser {
   public var warningHandler: Parser.MessageHandler?
 
   public static let commandInfo = CommandInfo(
-    name: "assets",
+    name: "xcassets",
     description: "generate code for items in your Assets Catalog(s)",
     pathDescription: "Asset Catalog file(s)."
   )

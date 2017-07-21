@@ -13,14 +13,14 @@ class AssetCatalogTests: XCTestCase {
     let parser = AssetsCatalogParser()
 
     let result = parser.stencilContext()
-    XCTDiffContexts(result, expected: "empty.plist", sub: .images)
+    XCTDiffContexts(result, expected: "empty.plist", sub: .xcassets)
   }
 
   func testDefaults() throws {
     let parser = AssetsCatalogParser()
-    try parser.parse(path: Fixtures.path(for: "Images.xcassets", sub: .images))
+    try parser.parse(path: Fixtures.path(for: "Images.xcassets", sub: .xcassets))
 
     let result = parser.stencilContext()
-    XCTDiffContexts(result, expected: "defaults.plist", sub: .images)
+    XCTDiffContexts(result, expected: "defaults.plist", sub: .xcassets)
   }
 }
