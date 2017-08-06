@@ -4,6 +4,8 @@ If you're migrating from SwiftGenKit 1.x to SwiftGenKit 2.0 — which is the cas
 
 ## Changes for template writers
 
+As a reminder, you can find all the documentation for the context structures provided as variables to your templates [in the Documentation folder of this repository](https://github.com/SwiftGen/SwiftGenKit/tre/master/Documentation/) — one MarkDown file for each SwiftGen subcommand / SwiftGenKit parser.
+
 ### Common changes and the new `--param` flags
 
 One common changes across all templates is that the `enumName` variable (or `sceneEnumName` & `segueEnumName` for storyboards) have been replaced by their `param.enumName` counterparts. Those are variables provided by the user via the `--param enumName=…` flag during SwiftGen's command line invocation.
@@ -14,6 +16,8 @@ You can also take advantage of that new `--param` feature to make your own templ
 
 ### Colors
 
+_📖 see the full context structure [in the documentation here](https://github.com/SwiftGen/SwiftGenKit/blob/master/Documentation/Colors.md)._
+
 - `enumName`: This variable has been replaced by `param.enumName` — see above.
 - `colors`: this key has been replaced by the `palettes` array, each entry having a `name` and a `colors` property.
 - for each `color`:
@@ -21,16 +25,22 @@ You can also take advantage of that new `--param` feature to make your own templ
 
 ### Fonts
 
+_📖 see the full context structure [in the documentation here](https://github.com/SwiftGen/SwiftGenKit/blob/master/Documentation/Fonts.md)._
+
 - `enumName`: This variable has been replaced by `param.enumName` — see above.
 - for each `font`:
   - `fontName`: this key has been replaced by the `name` property.
 
 ### XCAssets (formerly Images)
 
+_📖 see the full context structure [in the documentation here](https://github.com/SwiftGen/SwiftGenKit/blob/master/Documentation/Assets.md)._
+
 - `enumName`: This variable has been replaced by `param.enumName` — see above.
 - `images`: this key is deprecated. The new root key is named `catalogs` and contains the structured information.
 
 ### Storyboards
+
+_📖 see the full context structure [in the documentation here](https://github.com/SwiftGen/SwiftGenKit/blob/master/Documentation/Storyboards.md)._
 
 - `extraImports`: this key has been renamed `modules` (see [SwiftGen/SwftGen#243](https://github.com/AliSoftware/SwiftGen/pull/243))
 - `sceneEnumName`: this variable has been replaced by `param.sceneEnumName` — see above.
@@ -39,6 +49,8 @@ You can also take advantage of that new `--param` feature to make your own templ
   - `isBaseViewController`: this key has been removed. You can replace it with a test for `baseType == "ViewController"` as Stencil now implements the `==` test operator.
 
 ### Strings
+
+_📖 see the full context structure [in the documentation here](https://github.com/SwiftGen/SwiftGenKit/blob/master/Documentation/Strings.md)._
 
 - `enumName`: This variable has been replaced by `param.enumName` — see above.
 - `strings` and `structuredStrings`: those keys have been replaced by the `tables` array, where each table has a structured `levels` property.
