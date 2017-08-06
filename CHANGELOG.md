@@ -20,8 +20,8 @@ Due to the removal of legacy code, there are a few breaking changes in this new 
 
 * Removed deprecated variables. See [SwiftGenKit#5](https://github.com/SwiftGen/SwiftGenKit/issues/5) for more information.   
   [David Jennes](https://github.com/djbe)
-  [#35](https://github.com/SwiftGen/templates/issues/35)
-  [#42](https://github.com/SwiftGen/templates/issues/42)
+  [#35](https://github.com/SwiftGen/SwiftGenKit/issues/35)
+  [#42](https://github.com/SwiftGen/SwiftGenKit/issues/42)
 
 ### New Features
 
@@ -30,13 +30,13 @@ Due to the removal of legacy code, there are a few breaking changes in this new 
   [#44](https://github.com/SwiftGen/SwiftGenKit/issues/44)
 * Added support for multiple string tables.   
   [David Jennes](https://github.com/djbe)
-  [#41](https://github.com/SwiftGen/templates/issues/41)
+  [#41](https://github.com/SwiftGen/SwiftGenKit/issues/41)
 * Storyboards now provide a `platform` identifier (iOS, macOS, tvOS, watchOS).  
   [David Jennes](https://github.com/djbe)
-  [#45](https://github.com/SwiftGen/templates/issues/45)
+  [#45](https://github.com/SwiftGen/SwiftGenKit/issues/45)
 * Added support for multiple color palettes.   
   [David Jennes](https://github.com/djbe)
-  [#41](https://github.com/SwiftGen/templates/issues/40)
+  [#41](https://github.com/SwiftGen/SwiftGenKit/issues/40)
 
 ### Internal Changes
 
@@ -45,17 +45,17 @@ Due to the removal of legacy code, there are a few breaking changes in this new 
   [#31](https://github.com/SwiftGen/SwiftGenKit/issues/31)
 * Switch to a DOM-based XML parser.  
   [David Jennes](https://github.com/djbe)
-  [#18](https://github.com/SwiftGen/templates/issues/18)
-  [#38](https://github.com/SwiftGen/templates/issues/38)
+  [#18](https://github.com/SwiftGen/SwiftGenKit/issues/18)
+  [#38](https://github.com/SwiftGen/SwiftGenKit/issues/38)
 * Images: switch back from `actool` to an internal parser to fix numerous issues with the former.  
   [David Jennes](https://github.com/djbe)
-  [#43](https://github.com/SwiftGen/templates/issues/43)
+  [#43](https://github.com/SwiftGen/SwiftGenKit/issues/43)
 * Refactor the colors parser into a generic parser that will invoke the correct type-specific parser based on the file extension. This allows us to support multiple input files.  
   [David Jennes](https://github.com/djbe)
-  [#40](https://github.com/SwiftGen/templates/issues/40)
+  [#40](https://github.com/SwiftGen/SwiftGenKit/issues/40)
 * Refactor all parsers to conform to a `Parser` protocol to unify the interfaces.  
   [David Jennes](https://github.com/djbe)
-  [#46](https://github.com/SwiftGen/templates/issues/46)
+  [#46](https://github.com/SwiftGen/SwiftGenKit/issues/46)
 
 ## 1.1.0
 
