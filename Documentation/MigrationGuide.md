@@ -4,7 +4,7 @@ If you're migrating from SwiftGenKit 1.x to SwiftGenKit 2.0 — which is the cas
 
 ## Changes for template writers
 
-As a reminder, you can find all the documentation for the context structures provided as variables to your templates [in the Documentation folder of this repository](https://github.com/SwiftGen/SwiftGenKit/tre/master/Documentation/) — one MarkDown file for each SwiftGen subcommand / SwiftGenKit parser.
+As a reminder, you can find all the documentation for the context structures provided as variables to your templates [in the Documentation folder of this repository](https://github.com/SwiftGen/SwiftGenKit/tree/master/Documentation/) — one MarkDown file for each SwiftGen subcommand / SwiftGenKit parser.
 
 ### Common changes and the new `--param` flags
 
@@ -18,7 +18,7 @@ You can also take advantage of that new `--param` feature to make your own templ
 
 _📖 see the full context structure [in the documentation here](https://github.com/SwiftGen/SwiftGenKit/blob/master/Documentation/Colors.md)._
 
-- `enumName`: This variable has been replaced by `param.enumName` — see above.
+- `enumName`: This variable has been replaced by `param.enumName` — [see above](#common-changes-and-the-new---param-flags).
 - `colors`: this key has been replaced by the `palettes` array, each entry having a `name` and a `colors` property.
 - for each `color`:
   - `rgb` and `rgba`: these keys have been removed, as they can be composed from the other components (e.g. `#{{color.red}}{{color.green}}{{color.blue}}{{color.alpha}}`).
@@ -27,7 +27,7 @@ _📖 see the full context structure [in the documentation here](https://github.
 
 _📖 see the full context structure [in the documentation here](https://github.com/SwiftGen/SwiftGenKit/blob/master/Documentation/Fonts.md)._
 
-- `enumName`: This variable has been replaced by `param.enumName` — see above.
+- `enumName`: This variable has been replaced by `param.enumName` — [see above](#common-changes-and-the-new---param-flags).
 - for each `font`:
   - `fontName`: this key has been replaced by the `name` property.
 
@@ -42,9 +42,9 @@ _📖 see the full context structure [in the documentation here](https://github.
 
 _📖 see the full context structure [in the documentation here](https://github.com/SwiftGen/SwiftGenKit/blob/master/Documentation/Storyboards.md)._
 
-- `extraImports`: this key has been renamed `modules` (see [SwiftGen/SwftGen#243](https://github.com/AliSoftware/SwiftGen/pull/243))
-- `sceneEnumName`: this variable has been replaced by `param.sceneEnumName` — see above.
-- `segueEnumName`: this variable has been replaced by `param.segueEnumName` — see above.
+- `extraImports`: this key has been renamed `modules` (see [SwiftGen/SwftGen#243](https://github.com/SwiftGen/SwiftGen/pull/243))
+- `sceneEnumName`: this variable has been replaced by `param.sceneEnumName` — [see above](#common-changes-and-the-new---param-flags).
+- `segueEnumName`: this variable has been replaced by `param.segueEnumName` — [see above](#common-changes-and-the-new---param-flags).
 - for each `scene`:
   - `isBaseViewController`: this key has been removed. You can replace it with a test for `baseType == "ViewController"` as Stencil now implements the `==` test operator.
 
@@ -52,7 +52,7 @@ _📖 see the full context structure [in the documentation here](https://github.
 
 _📖 see the full context structure [in the documentation here](https://github.com/SwiftGen/SwiftGenKit/blob/master/Documentation/Strings.md)._
 
-- `enumName`: This variable has been replaced by `param.enumName` — see above.
+- `enumName`: This variable has been replaced by `param.enumName` — [see above](#common-changes-and-the-new---param-flags).
 - `strings` and `structuredStrings`: those keys have been replaced by the `tables` array, where each table has a structured `levels` property.
 - `tableName`: superseded by `tables` array, where each table has a `name` property.
 - for each `level`:
