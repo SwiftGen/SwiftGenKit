@@ -36,7 +36,7 @@ Due to the removal of legacy code, there are a few breaking changes in this new 
   [#45](https://github.com/SwiftGen/SwiftGenKit/issues/45)
 * Added support for multiple color palettes.   
   [David Jennes](https://github.com/djbe)
-  [#41](https://github.com/SwiftGen/SwiftGenKit/issues/40)
+  [#40](https://github.com/SwiftGen/SwiftGenKit/issues/40)
 
 ### Internal Changes
 
