@@ -18,49 +18,48 @@ You can also take advantage of that new `--param` feature to make your own templ
 
 _📖 see the full context structure [in the documentation here](https://github.com/SwiftGen/SwiftGenKit/blob/master/Documentation/Colors.md)._
 
-- `enumName`: This variable has been replaced by `param.enumName` — [see above](#common-changes-and-the-new---param-flags).
-- `colors`: this key has been replaced by the `palettes` array, each entry having a `name` and a `colors` property.
+- `enumName` has been replaced by `param.enumName` — [see above](#common-changes-and-the-new---param-flags).
+- `colors` has been replaced by the `palettes` array, each entry having a `name` and a `colors` property.
 - for each `color`:
-  - `rgb` and `rgba`: these keys have been removed, as they can be composed from the other components (e.g. `#{{color.red}}{{color.green}}{{color.blue}}{{color.alpha}}`).
+  - `rgb` and `rgba` have been removed, as they can be composed from the other components (e.g. `#{{color.red}}{{color.green}}{{color.blue}}{{color.alpha}}`).
 
 ### Fonts
 
 _📖 see the full context structure [in the documentation here](https://github.com/SwiftGen/SwiftGenKit/blob/master/Documentation/Fonts.md)._
 
-- `enumName`: This variable has been replaced by `param.enumName` — [see above](#common-changes-and-the-new---param-flags).
+- `enumName` has been replaced by `param.enumName` — [see above](#common-changes-and-the-new---param-flags).
 - for each `font`:
-  - `fontName`: this key has been replaced by the `name` property.
+  - `fontName` has been replaced by the `name` property.
 
 ### XCAssets (formerly Images)
 
 _📖 see the full context structure [in the documentation here](https://github.com/SwiftGen/SwiftGenKit/blob/master/Documentation/Assets.md)._
 
-- `enumName`: This variable has been replaced by `param.enumName` — see above.
-- `images`: this key is deprecated. The new root key is named `catalogs` and contains the structured information.
+- `enumName` has been replaced by `param.enumName` — [see above](#common-changes-and-the-new---param-flags).
+- `images` is deprecated. The new root key is named `catalogs` and contains the structured information.
 
 ### Storyboards
 
 _📖 see the full context structure [in the documentation here](https://github.com/SwiftGen/SwiftGenKit/blob/master/Documentation/Storyboards.md)._
 
-- `extraImports`: this key has been renamed `modules` (see [SwiftGen/SwftGen#243](https://github.com/SwiftGen/SwiftGen/pull/243))
-- `sceneEnumName`: this variable has been replaced by `param.sceneEnumName` — [see above](#common-changes-and-the-new---param-flags).
-- `segueEnumName`: this variable has been replaced by `param.segueEnumName` — [see above](#common-changes-and-the-new---param-flags).
+- `extraImports` has been renamed `modules` (see [SwiftGen/SwftGen#243](https://github.com/SwiftGen/SwiftGen/pull/243))
+- `sceneEnumName` has been replaced by `param.sceneEnumName` — [see above](#common-changes-and-the-new---param-flags).
+- `segueEnumName` has been replaced by `param.segueEnumName` — [see above](#common-changes-and-the-new---param-flags).
 - for each `scene`:
-  - `isBaseViewController`: this key has been removed. You can replace it with a test for `baseType == "ViewController"` as Stencil now implements the `==` test operator.
+  - `isBaseViewController` has been removed. You can replace it with a test for `baseType == "ViewController"` as Stencil now implements the `==` test operator.
 
 ### Strings
 
 _📖 see the full context structure [in the documentation here](https://github.com/SwiftGen/SwiftGenKit/blob/master/Documentation/Strings.md)._
 
-- `enumName`: This variable has been replaced by `param.enumName` — [see above](#common-changes-and-the-new---param-flags).
-- `strings` and `structuredStrings`: those keys have been replaced by the `tables` array, where each table has a structured `levels` property.
-- `tableName`: superseded by `tables` array, where each table has a `name` property.
+- `enumName` has been replaced by `param.enumName` — [see above](#common-changes-and-the-new---param-flags).
+- `strings` and `structuredStrings` have been replaced by the `tables` array, where each table has a structured `levels` property.
+- `tableName` has been superseded by `tables` array, where each table has a `name` property.
 - for each `level`:
-  - `subenums`: has been renamed to `children`.
+  - `subenums` has been renamed to `children`.
 - for each `string`:
-  - `keytail`: has been renamed to `name`.
-  - the `params` structure with the `names`, `typednames`, `types`, `count` and `declarations` arrays have been removed. These have been replaced by `types` which is an array of types. The previous variables
- can now be reconstructed using template tags now that Stencil has become more powerful.
+  - `keytail` has been renamed to `name`.
+  - the `params` structure with the `names`, `typednames`, `types`, `count` and `declarations` arrays have been removed. These have been replaced by `types` which is an array of types. The previous variables can now be reconstructed using template tags now that Stencil has become more powerful.
 
 ## Changes for developers using SwiftGenKit as a dependency
 
