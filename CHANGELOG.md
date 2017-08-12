@@ -2,6 +2,24 @@
 
 ---
 
+## Master
+
+### Bug Fixes
+
+_None_
+
+### Breaking Changes
+
+_None_
+
+### New Features
+
+_None_
+
+### Internal Changes
+
+_None_
+
 ## 2.0.0
 
 Due to the removal of legacy code, there are a few breaking changes in this new version that affect both template writers as well as developers. We've provided a migration guide to help you through these changes, which you can find here:
