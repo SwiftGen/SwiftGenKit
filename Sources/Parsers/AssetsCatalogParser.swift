@@ -10,6 +10,7 @@ import PathKit
 struct Catalog {
   enum Entry {
     case group(name: String, items: [Entry])
+    case color(name: String, value: String)
     case image(name: String, value: String)
   }
 
@@ -60,15 +61,16 @@ private enum AssetCatalog {
   }
 
   enum Item {
+    static let colorSet = "colorset"
     static let imageSet = "imageset"
 
     /**
      * This is a list of supported asset catalog item types, for now we just
-     * support `image set`s. If you want to add support for new types, just add
-     * it to this whitelist, and add the necessary code to the
-     * `process(items:withPrefix:)` method.
+     * support `image set`s and `color set`s. If you want to add support for
+     * new types, just add it to this whitelist, and add the necessary code to
+     * the `process(items:withPrefix:)` method.
      */
-    static let supported = [imageSet]
+    static let supported = [colorSet, imageSet]
   }
 }
 
@@ -84,6 +86,7 @@ extension AssetsCatalogParser {
 
   /**
    Each node in an asset catalog is either (there are more types, but we ignore those):
+     - A colorset, which is essentially a group containing a list of colors (the latter is ignored).
      - An imageset, which is essentially a group containing a list of files (the latter is ignored).
    
      - A group, containing sub items such as imagesets or groups. A group can provide a namespaced,
@@ -104,6 +107,9 @@ extension AssetsCatalogParser {
     let type = item.extension ?? ""
 
     switch (type, AssetCatalog.Item.supported.contains(type)) {
+    case (AssetCatalog.Item.colorSet, _):
+      let name = item.lastComponentWithoutExtension
+      return .color(name: name, value: "\(prefix)\(name)")
     case (AssetCatalog.Item.imageSet, _):
       let name = item.lastComponentWithoutExtension
       return .image(name: name, value: "\(prefix)\(name)")

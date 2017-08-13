@@ -38,11 +38,19 @@ extension AssetsCatalogParser {
       switch entry {
       case let .group(name: name, items: items):
         return [
+          "type": "group",
           "name": name,
           "items": structure(entries: items)
         ]
+      case let .color(name: name, value: value):
+        return [
+          "type": "color",
+          "name": name,
+          "value": value
+        ]
       case let .image(name: name, value: value):
         return [
+          "type": "image",
           "name": name,
           "value": value
         ]
