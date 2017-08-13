@@ -16,11 +16,30 @@ class AssetCatalogTests: XCTestCase {
     XCTDiffContexts(result, expected: "empty.plist", sub: .xcassets)
   }
 
-  func testDefaults() throws {
+  func testImages() throws {
     let parser = AssetsCatalogParser()
     try parser.parse(path: Fixtures.path(for: "Images.xcassets", sub: .xcassets))
 
     let result = parser.stencilContext()
-    XCTDiffContexts(result, expected: "defaults.plist", sub: .xcassets)
+    XCTDiffContexts(result, expected: "images.plist", sub: .xcassets)
+  }
+
+  func testColors() throws {
+    let parser = AssetsCatalogParser()
+    try parser.parse(path: Fixtures.path(for: "Colors.xcassets", sub: .xcassets))
+
+    let result = parser.stencilContext()
+    XCTDiffContexts(result, expected: "colors.plist", sub: .xcassets)
+  }
+
+  func testAll() throws {
+    let parser = AssetsCatalogParser()
+    try parser.parse(paths: [
+      Fixtures.path(for: "Images.xcassets", sub: .xcassets),
+      Fixtures.path(for: "Colors.xcassets", sub: .xcassets)
+    ])
+
+    let result = parser.stencilContext()
+    XCTDiffContexts(result, expected: "all.plist", sub: .xcassets)
   }
 }
