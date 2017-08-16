@@ -84,6 +84,8 @@ public final class FontsParser: Parser {
 
   public func parse(path: Path) {
     let dirChildren = path.iterateChildren(options: [.skipsHiddenFiles, .skipsPackageDescendants])
+    let parentDir = path.absolute().parent()
+
     for file in dirChildren {
       var value: AnyObject? = nil
       let url = file.url as NSURL
@@ -93,7 +95,7 @@ public final class FontsParser: Parser {
         continue
       }
       guard UTTypeConformsTo(uti as CFString, "public.font" as CFString) else { continue }
-      let fonts = CTFont.parse(file: file, relativeTo: path)
+      let fonts = CTFont.parse(file: file, relativeTo: parentDir)
       fonts.forEach { addFont($0) }
     }
   }
