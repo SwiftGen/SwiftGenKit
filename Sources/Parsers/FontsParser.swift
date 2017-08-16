@@ -42,8 +42,8 @@ extension PathKit.Path {
   /// - Parameter parent: The parent Path to get the relative path against
   /// - Returns: The relative Path, or nil if parent was not a parent dir of self
   func relative(to parent: Path) -> Path? {
-    let pc = parent.components
-    let fc = self.components
+    let pc = parent.absolute().components
+    let fc = self.absolute().components
     return fc.starts(with: pc) ? Path(components: fc.dropFirst(pc.count)) : nil
   }
 }
