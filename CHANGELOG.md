@@ -6,7 +6,9 @@
 
 ### Bug Fixes
 
-_None_
+* Fonts: fix an issue where SwiftGen would fallback to the full font file path instead of using the relative path to the search location.  
+  [David Jennes](https://github.com/djbe) 
+  [#52](https://github.com/SwiftGen/SwiftGenKit/pull/52)
 
 ### Breaking Changes
 
