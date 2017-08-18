@@ -14,7 +14,9 @@ _None_
 
 ### New Features
 
-_None_
+* XCAssets: Added support for named colors.  
+  [David Jennes](https://github.com/djbe) 
+  [#51](https://github.com/SwiftGen/SwiftGenKit/pull/51)
 
 ### Internal Changes
 
