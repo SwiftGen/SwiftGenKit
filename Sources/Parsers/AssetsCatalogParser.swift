@@ -60,9 +60,9 @@ private enum AssetCatalog {
     static let providesNamespace = "provides-namespace"
   }
 
-  enum Item {
-    static let colorSet = "colorset"
-    static let imageSet = "imageset"
+  enum Item: String {
+    case colorSet = "colorset"
+    case imageSet = "imageset"
 
     /**
      * This is a list of supported asset catalog item types, for now we just
@@ -70,7 +70,7 @@ private enum AssetCatalog {
      * new types, just add it to this whitelist, and add the necessary code to
      * the `process(items:withPrefix:)` method.
      */
-    static let supported = [colorSet, imageSet]
+	static let supported: [Item] = [.colorSet, .imageSet]
   }
 }
 
@@ -106,14 +106,15 @@ extension AssetsCatalogParser {
     guard item.isDirectory else { return nil }
     let type = item.extension ?? ""
 
-    switch (type, AssetCatalog.Item.supported.contains(type)) {
-    case (AssetCatalog.Item.colorSet, _):
+    switch AssetCatalog.Item(rawValue: type) {
+    case .colorSet?:
       let name = item.lastComponentWithoutExtension
       return .color(name: name, value: "\(prefix)\(name)")
-    case (AssetCatalog.Item.imageSet, _):
+    case .imageSet?:
       let name = item.lastComponentWithoutExtension
       return .image(name: name, value: "\(prefix)\(name)")
-    case ("", _), (_, true):
+    default:
+      guard type == "" else { return nil }
       let filename = item.lastComponent
       let subPrefix = isNamespaced(path: item) ? "\(prefix)\(filename)/" : prefix
 
@@ -121,8 +122,6 @@ extension AssetsCatalogParser {
         name: filename,
         items: process(folder: item, withPrefix: subPrefix)
       )
-    default:
-      return nil
     }
   }
 
