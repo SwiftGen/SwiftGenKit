@@ -2,7 +2,7 @@
 
 ---
 
-## Master
+## 2.1.0
 
 ### Bug Fixes
 
@@ -10,19 +10,11 @@
   [David Jennes](https://github.com/djbe) 
   [#52](https://github.com/SwiftGen/SwiftGenKit/pull/52)
 
-### Breaking Changes
-
-_None_
-
 ### New Features
 
 * XCAssets: Added support for named colors.  
   [David Jennes](https://github.com/djbe) 
   [#51](https://github.com/SwiftGen/SwiftGenKit/pull/51)
-
-### Internal Changes
-
-_None_
 
 ## 2.0.0
 

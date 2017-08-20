@@ -1,7 +1,7 @@
 PODS:
   - Kanna (2.2.1)
   - PathKit (0.8.0)
-  - SwiftGenKit (2.0.0):
+  - SwiftGenKit (2.1.0):
     - Kanna
     - PathKit (~> 0.8.0)
 
@@ -15,7 +15,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Kanna: 182789ab065e8f9a6ccc2a74ce6283d3401c0c4a
   PathKit: dcab05d701474011aae0e40cf892298a831f63d6
-  SwiftGenKit: 4d9749fbf0deb618641376711a72de44bdc54762
+  SwiftGenKit: e20708d0faeea39bd99c025aab5f99c452737767
 
 PODFILE CHECKSUM: c30ec8de82eda04587ffe005a6ce7372509b1340
 
