@@ -60,20 +60,18 @@ private enum AssetCatalog {
     static let providesNamespace = "provides-namespace"
   }
 
+  /**
+   * This is a list of supported asset catalog item types, for now we just
+   * support `image set`s and `color set`s. If you want to add support for
+   * new types, just add it to this whitelist, and add the necessary code to
+   * the `process(items:withPrefix:)` method.
+   *
+   * Use as reference:
+   * https://developer.apple.com/library/content/documentation/Xcode/Reference/xcode_ref-Asset_Catalog_Format
+   */
   enum Item: String {
     case colorSet = "colorset"
     case imageSet = "imageset"
-
-    /**
-     * This is a list of supported asset catalog item types, for now we just
-     * support `image set`s and `color set`s. If you want to add support for
-     * new types, just add it to this whitelist, and add the necessary code to
-     * the `process(items:withPrefix:)` method.
-     *
-     * Use as reference:
-     * https://developer.apple.com/library/content/documentation/Xcode/Reference/xcode_ref-Asset_Catalog_Format
-     */
-	static let supported: [Item] = [.colorSet, .imageSet]
   }
 }
 
@@ -116,7 +114,7 @@ extension AssetsCatalogParser {
     case .imageSet?:
       let name = item.lastComponentWithoutExtension
       return .image(name: name, value: "\(prefix)\(name)")
-    default:
+    case nil:
       guard type == "" else { return nil }
       let filename = item.lastComponent
       let subPrefix = isNamespaced(path: item) ? "\(prefix)\(filename)/" : prefix
