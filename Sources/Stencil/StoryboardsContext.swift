@@ -48,40 +48,55 @@ extension StoryboardParser {
       "name": storyboard.name,
       "scenes": storyboard.scenes
         .sorted { $0.identifier < $1.identifier }
-        .map(map(scene:)),
+        .map { map(scene: $0, in: storyboard) },
       "segues": storyboard.segues
         .sorted { $0.identifier < $1.identifier }
-        .map(map(segue:)),
+        .map { map(segue: $0, in: storyboard) },
       "platform": storyboard.platform
     ]
 
     if let scene = storyboard.initialScene {
-      result["initialScene"] = map(scene: scene)
+      result["initialScene"] = map(scene: scene, in: storyboard)
     }
 
     return result
   }
 
-  private func map(scene: Storyboard.Scene) -> [String: Any] {
-    if let customClass = scene.customClass {
-      return [
+  private func map(scene: Storyboard.Scene, in storyboard: Storyboard, shallow: Bool = false) -> [String: Any] {
+    var result: [String: Any]
+
+    if !shallow {
+      result = [
         "identifier": scene.identifier,
-        "customClass": customClass,
-        "customModule": scene.customModule ?? ""
+        "segues": scene.segues
+          .sorted { $0.identifier < $1.identifier }
+          .map { map(segue: $0, in: storyboard) }
       ]
     } else {
-      return [
-        "identifier": scene.identifier,
-        "baseType": uppercaseFirst(scene.tag)
-      ]
+      result = [:]
     }
+
+    if let customClass = scene.customClass {
+      result["customClass"] = customClass
+      result["customModule"] = scene.customModule ?? ""
+    } else {
+      result["baseType"] = uppercaseFirst(scene.tag)
+    }
+
+    return result
   }
 
-  private func map(segue: Storyboard.Segue) -> [String: Any] {
-    return [
+  private func map(segue: Storyboard.Segue, in storyboard: Storyboard) -> [String: Any] {
+    var result: [String: Any] = [
       "identifier": segue.identifier,
       "customClass": segue.customClass ?? "",
       "customModule": segue.customModule ?? ""
     ]
+
+    if let scene = destination(for: segue.destination, in: storyboard) {
+      result["destination"] = map(scene: scene, in: storyboard, shallow: true)
+    }
+
+    return result
   }
 }

@@ -15,35 +15,55 @@ private enum XML {
     static func initialSceneXPath(identifier: String) -> String {
       return "/document/scenes/scene/objects/*[@sceneMemberID=\"viewController\" and @id=\"\(identifier)\"]"
     }
-    static func sceneXPath(initial: String) -> String {
-      return "/document/scenes/scene/objects/*[@sceneMemberID=\"viewController\" and " +
-        "string-length(@storyboardIdentifier) > 0]"
-    }
+    static let sceneXPath = "/document/scenes/scene/objects/*[@sceneMemberID=\"viewController\"]"
+    static let sceneSegueXPath = "//connections/segue"
     static let placeholderTag = "viewControllerPlaceholder"
+    static let sceneIDAttribute = "id"
     static let customClassAttribute = "customClass"
     static let customModuleAttribute = "customModule"
     static let storyboardIdentifierAttribute = "storyboardIdentifier"
+    static let storyboardNameAttribute = "storyboardName"
+    static let referencedIdentifierAttribute = "referencedIdentifier"
   }
   enum Segue {
     static let segueXPath = "/document/scenes/scene//connections/segue[string(@identifier)]"
     static let identifierAttribute = "identifier"
     static let customClassAttribute = "customClass"
     static let customModuleAttribute = "customModule"
+    static let destinationAttribute = "destination"
   }
 }
 
 struct Storyboard {
   struct Scene {
+    let sceneID: String
     let identifier: String
     let tag: String
     let customClass: String?
     let customModule: String?
+    let segues: Set<Segue>
 
     init(with object: Kanna.XMLElement) {
+      sceneID = object[XML.Scene.sceneIDAttribute] ?? ""
       identifier = object[XML.Scene.storyboardIdentifierAttribute] ?? ""
       tag = object.tagName ?? ""
       customClass = object[XML.Scene.customClassAttribute]
       customModule = object[XML.Scene.customModuleAttribute]
+      segues = Set(object.xpath(XML.Scene.sceneSegueXPath).map {
+        Segue(with: $0)
+      })
+    }
+  }
+
+  struct ScenePlaceholder {
+    let sceneID: String
+    let storyboardName: String
+    let referencedIdentifier: String?
+
+    init(with object: Kanna.XMLElement, storyboard: String) {
+      sceneID = object[XML.Scene.sceneIDAttribute] ?? ""
+      storyboardName = object[XML.Scene.storyboardNameAttribute] ?? storyboard
+      referencedIdentifier = object[XML.Scene.referencedIdentifierAttribute]
     }
   }
 
@@ -51,11 +71,13 @@ struct Storyboard {
     let identifier: String
     let customClass: String?
     let customModule: String?
+    let destination: String
 
     init(with object: Kanna.XMLElement) {
       identifier = object[XML.Segue.identifierAttribute] ?? ""
       customClass = object[XML.Segue.customClassAttribute]
       customModule = object[XML.Segue.customModuleAttribute]
+      destination = object[XML.Segue.destinationAttribute] ?? ""
     }
   }
 
@@ -64,6 +86,7 @@ struct Storyboard {
   let initialScene: Scene?
   let scenes: Set<Scene>
   let segues: Set<Segue>
+  let placeholders: Set<ScenePlaceholder>
 }
 
 public final class StoryboardParser: Parser {
@@ -90,6 +113,7 @@ public final class StoryboardParser: Parser {
     guard let document = Kanna.XML(xml: try path.read(), encoding: .utf8) else {
       throw ColorsParserError.invalidFile(path: path, reason: "Unknown XML parser error.")
     }
+    let name = path.lastComponentWithoutExtension
 
     // Initial VC
     let initialSceneID = document.at_xpath(XML.Scene.initialVCXPath)?.text ?? ""
@@ -99,10 +123,15 @@ public final class StoryboardParser: Parser {
     }
 
     // Scenes
-    let scenes = Set<Storyboard.Scene>(document.xpath(XML.Scene.sceneXPath(initial: initialSceneID)).flatMap {
-      guard $0.tagName != XML.Scene.placeholderTag else { return nil }
-      return Storyboard.Scene(with: $0)
-    })
+    var scenes = Set<Storyboard.Scene>()
+    var placeholders = Set<Storyboard.ScenePlaceholder>()
+    for node in document.xpath(XML.Scene.sceneXPath) {
+      if node.tagName != XML.Scene.placeholderTag {
+        scenes.insert(Storyboard.Scene(with: node))
+      } else {
+        placeholders.insert(Storyboard.ScenePlaceholder(with: node, storyboard: name))
+      }
+    }
 
     // Segues
     let segues = Set<Storyboard.Segue>(document.xpath(XML.Segue.segueXPath).map {
@@ -119,11 +148,12 @@ public final class StoryboardParser: Parser {
     let targetRuntime = document.at_xpath(XML.Scene.targetRuntimeXPath)?.text ?? ""
     let platform = mapping[targetRuntime] ?? targetRuntime
 
-    storyboards += [Storyboard(name: path.lastComponentWithoutExtension,
+    storyboards += [Storyboard(name: name,
                                platform: platform,
                                initialScene: initialScene,
                                scenes: scenes,
-                               segues: segues)]
+                               segues: segues,
+                               placeholders: placeholders)]
   }
 
   var modules: Set<String> {
@@ -150,19 +180,49 @@ public final class StoryboardParser: Parser {
       return platforms.first
     }
   }
+
+  func destination(for sceneID: String, in storyboard: Storyboard) -> Storyboard.Scene? {
+	// directly to a scene
+    if let scene = storyboard.scenes.first(where: { $0.sceneID == sceneID }) {
+      return scene
+    }
+
+    // to a scene placeholder
+    if let placeholder = storyboard.placeholders.first(where: { $0.sceneID == sceneID }),
+      let storyboard = storyboards.first(where: { $0.name == placeholder.storyboardName }) {
+
+      // can be either a scene by identifier, or the initial scene
+      if let referencedIdentifier = placeholder.referencedIdentifier,
+        let scene = storyboard.scenes.first(where: { $0.identifier == referencedIdentifier }) {
+        return scene
+      } else if placeholder.referencedIdentifier == nil {
+        return storyboard.initialScene
+      }
+    }
+
+    return nil
+  }
 }
 
 extension Storyboard.Scene: Equatable { }
 func == (lhs: Storyboard.Scene, rhs: Storyboard.Scene) -> Bool {
-  return lhs.identifier == rhs.identifier &&
-    lhs.tag == rhs.tag &&
-    lhs.customClass == rhs.customClass &&
-    lhs.customModule == rhs.customModule
+  return lhs.sceneID == rhs.sceneID
 }
 
 extension Storyboard.Scene: Hashable {
   var hashValue: Int {
-    return identifier.hashValue ^ tag.hashValue ^ (customModule?.hashValue ?? 0) ^ (customClass?.hashValue ?? 0)
+    return sceneID.hashValue
+  }
+}
+
+extension Storyboard.ScenePlaceholder: Equatable { }
+func == (lhs: Storyboard.ScenePlaceholder, rhs: Storyboard.ScenePlaceholder) -> Bool {
+  return lhs.sceneID == rhs.sceneID
+}
+
+extension Storyboard.ScenePlaceholder: Hashable {
+  var hashValue: Int {
+    return sceneID.hashValue
   }
 }
 
