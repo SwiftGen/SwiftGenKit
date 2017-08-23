@@ -25,9 +25,10 @@ extension Storyboard {
       if let destination = destination {
         if let current = destinations[segue] {
           if !areEqual(current, destination) {
-            warningHandler?("warning: The segue with identifier '\(segue.identifier)' in \(module).\(type) has " +
+            let message = "warning: The segue with identifier '\(segue.identifier)' in \(module).\(type) has " +
               "multiple destination types: \(destination.customModule ?? "").\(destination.customClass ?? "") and " +
-              "\(destination.customModule ?? "").\(destination.customClass ?? "").", #file, #line)
+              "\(destination.customModule ?? "").\(destination.customClass ?? "")."
+            warningHandler?(message, #file, #line)
           }
         } else {
           destinations[segue] = destination
@@ -45,7 +46,7 @@ extension Storyboard {
 
 extension StoryboardParser {
   var customSceneTypes: [Storyboard.CustomType] {
-    var result = [String: Storyboard.CustomType]()
+	var result: [String: Storyboard.CustomType] = [:]
 
     // collect scenes by custom type
     for storyboard in storyboards {
