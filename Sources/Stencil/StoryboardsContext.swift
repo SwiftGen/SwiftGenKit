@@ -36,9 +36,12 @@ extension StoryboardParser {
     let storyboards = self.storyboards
       .sorted { (lhs, rhs) in lhs.name < rhs.name }
       .map(map(storyboard:))
+
     return [
       "modules": modules.sorted(),
       "storyboards": storyboards,
+      "customSceneTypes": customSceneTypes
+        .map { map(customType: $0) },
       "platform": platform ?? ""
     ]
   }
@@ -47,11 +50,13 @@ extension StoryboardParser {
     var result: [String: Any] = [
       "name": storyboard.name,
       "scenes": storyboard.scenes
+        .filter { $0.identifier != "" }
         .sorted { $0.identifier < $1.identifier }
-        .map(map(scene:)),
+        .map { map(scene: $0) },
       "segues": storyboard.segues
+        .filter { $0.identifier != "" }
         .sorted { $0.identifier < $1.identifier }
-        .map(map(segue:)),
+        .map { map(segue: $0, in: storyboard) },
       "platform": storyboard.platform
     ]
 
@@ -62,26 +67,48 @@ extension StoryboardParser {
     return result
   }
 
-  private func map(scene: Storyboard.Scene) -> [String: Any] {
+  private func map(scene: Storyboard.Scene, shallow: Bool = false) -> [String: Any] {
+    var result: [String: Any] = shallow ? [:] : ["identifier": scene.identifier]
+
     if let customClass = scene.customClass {
-      return [
-        "identifier": scene.identifier,
-        "customClass": customClass,
-        "customModule": scene.customModule ?? ""
-      ]
+      result["customClass"] = customClass
+      result["customModule"] = scene.customModule ?? ""
     } else {
-      return [
-        "identifier": scene.identifier,
-        "baseType": uppercaseFirst(scene.tag)
-      ]
+      result["baseType"] = uppercaseFirst(scene.tag)
     }
+
+    return result
   }
 
-  private func map(segue: Storyboard.Segue) -> [String: Any] {
-    return [
+  private func map(segue: Storyboard.Segue, in storyboard: Storyboard) -> [String: Any] {
+    let scene = destination(for: segue.destination, in: storyboard)
+    return map(segue: segue, destination: scene)
+  }
+
+  private func map(segue: Storyboard.Segue, destination: Storyboard.Scene?) -> [String: Any] {
+    var result: [String: Any] = [
       "identifier": segue.identifier,
       "customClass": segue.customClass ?? "",
       "customModule": segue.customModule ?? ""
+    ]
+
+    if let destination = destination {
+      result["destination"] = map(scene: destination, shallow: true)
+    }
+
+    return result
+  }
+
+  private func map(customType: Storyboard.CustomType) -> [String: Any] {
+    return [
+      "customClass": customType.type,
+      "customModule": customType.module,
+      "segues": customType.segues
+        .sorted { $0.identifier < $1.identifier }
+        .map { (segue) -> Any in
+          let destination = customType.destinations[segue]
+          return map(segue: segue, destination: destination)
+        }
     ]
   }
 }
