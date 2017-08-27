@@ -2,9 +2,9 @@ platform :osx, '10.9'
 use_frameworks!
 
 def common_pods
-  pod 'SwiftGenKit', :path => '.'
+  pod 'SwiftGenKit', path: '.'
 end
 
 target 'Tests' do
-  common_pods()
+  common_pods
 end
