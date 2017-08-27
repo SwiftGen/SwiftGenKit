@@ -6,7 +6,7 @@ WORKSPACE = 'SwiftGenKit'.freeze
 SCHEME_NAME = 'Tests'.freeze
 CONFIGURATION = 'Debug'.freeze
 POD_NAME = 'SwiftGenKit'.freeze
-MIN_XCODE_VERSION = 8.3.freeze
+MIN_XCODE_VERSION = 8.3
 
 desc 'Generate Test Contexts'
 task :generate_contexts => 'xcode:build' do |task|
