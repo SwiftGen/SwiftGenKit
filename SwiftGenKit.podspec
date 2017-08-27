@@ -1,7 +1,8 @@
 Pod::Spec.new do |s|
   s.name         = 'SwiftGenKit'
   s.version      = '2.1.0'
-  s.summary      = 'The SwiftGen framework responsible for parsing assets and turn them in a dictionary representation suitable for Stencil templates'
+  s.summary      = 'The SwiftGen framework responsible for parsing assets and turn them ' \
+                   'in a dictionary representation suitable for Stencil templates'
 
   s.description  = <<-DESC
                    This pod contains asset parsers for
