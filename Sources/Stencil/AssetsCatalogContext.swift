@@ -28,9 +28,21 @@ extension AssetsCatalogParser {
     let catalogs = self.catalogs
       .sorted { lhs, rhs in lhs.name < rhs.name }
       .map { catalog -> [String: Any] in
+        let entries = catalog.entries.sorted { lhs, rhs in
+            if case let .group(lhsName, _) = lhs, case let .group(rhsName, _) = rhs {
+                return lhsName < rhsName
+            }
+            if case let .color(lhsName, _) = lhs, case let .color(rhsName, _) = rhs {
+                return lhsName < rhsName
+            }
+            if case let .image(lhsName, _) = lhs, case let .image(rhsName, _) = rhs {
+                return lhsName < rhsName
+            }
+            return false
+        }
         return [
           "name": catalog.name,
-          "assets": structure(entries: catalog.entries)
+          "assets": structure(entries: entries)
         ]
     }
 
