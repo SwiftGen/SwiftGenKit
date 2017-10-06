@@ -6,7 +6,10 @@
 
 ### Bug Fixes
 
-_None_
+* Fixes an issue in High Sierra where the output of the processed Catalog Entries was not ordered alphabetically.
+  [Yusuke Kuroiwa](https://github.com/wakinchan)
+  [Francisco Diaz](https://github.com/fdiaz)
+  [#57](https://github.com/SwiftGen/SwiftGenKit/pull/57)
 
 ### Breaking Changes
 
@@ -25,13 +28,13 @@ _None_
 ### Bug Fixes
 
 * Fonts: fix an issue where SwiftGen would fallback to the full font file path instead of using the relative path to the search location.  
-  [David Jennes](https://github.com/djbe) 
+  [David Jennes](https://github.com/djbe)
   [#52](https://github.com/SwiftGen/SwiftGenKit/pull/52)
 
 ### New Features
 
 * XCAssets: Added support for named colors.  
-  [David Jennes](https://github.com/djbe) 
+  [David Jennes](https://github.com/djbe)
   [#51](https://github.com/SwiftGen/SwiftGenKit/pull/51)
 
 ## 2.0.0
@@ -111,7 +114,7 @@ Due to the removal of legacy code, there are a few breaking changes in this new 
 * Added the `path` variable to the fonts context (so that we can use it to genrate `Info.plist` entries and such).  
   [Olivier Halligon](https://github.com/AliGator)
   [#25](https://github.com/SwiftGen/SwiftGenKit/pull/25)
-  
+
 ### Internal Changes
 
 * Switch from Travis CI to Circle CI, clean up the Rakefile in the process.  
