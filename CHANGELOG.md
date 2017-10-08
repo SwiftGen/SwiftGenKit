@@ -6,7 +6,7 @@
 
 ### Bug Fixes
 
-* Fixes an issue in High Sierra where the output of the processed Catalog Entries was not ordered alphabetically.
+* Fixes an issue in High Sierra where the output of the processed Catalog Entries was not ordered alphabetically.  
   [Yusuke Kuroiwa](https://github.com/wakinchan)
   [Francisco Diaz](https://github.com/fdiaz)
   [#57](https://github.com/SwiftGen/SwiftGenKit/pull/57)
