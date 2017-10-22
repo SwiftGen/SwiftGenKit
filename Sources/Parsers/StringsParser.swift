@@ -90,7 +90,7 @@ public final class StringsParser: Parser {
     }
 
     public static func placeholders(fromFormat str: String) throws -> [PlaceholderType] {
-      return try StringsParser.placeholders(fromFormat:  str)
+      return try StringsParser.placeholders(fromFormat: str)
     }
   }
 

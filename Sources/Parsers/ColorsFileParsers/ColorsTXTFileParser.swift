@@ -20,7 +20,7 @@ final class ColorsTextFileParser: ColorsFileTypeParser {
     colors[name] = value
   }
 
-  public func keyValueDict(from path: Path, withSeperator seperator: String = ":") throws -> [String:String] {
+  public func keyValueDict(from path: Path, withSeperator seperator: String = ":") throws -> [String: String] {
     let content = try path.read(.utf8)
     let lines = content.components(separatedBy: CharacterSet.newlines)
 
