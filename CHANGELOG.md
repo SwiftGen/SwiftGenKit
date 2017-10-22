@@ -2,7 +2,7 @@
 
 ---
 
-## Master
+## 2.1.1
 
 ### Bug Fixes
 
@@ -10,18 +10,6 @@
   [Yusuke Kuroiwa](https://github.com/wakinchan)
   [Francisco Diaz](https://github.com/fdiaz)
   [#57](https://github.com/SwiftGen/SwiftGenKit/pull/57)
-
-### Breaking Changes
-
-_None_
-
-### New Features
-
-_None_
-
-### Internal Changes
-
-_None_
 
 ## 2.1.0
 
